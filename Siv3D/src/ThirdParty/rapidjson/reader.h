@@ -32,7 +32,14 @@
 #ifdef RAPIDJSON_SSE42
 #include <nmmintrin.h>
 #elif defined(RAPIDJSON_SSE2)
+
+#if SIV3D_PLATFORM(WEB)
+#define SIMDE_ENABLE_NATIVE_ALIASES
+#include <simde/x86/sse2.h>
+#else
 #include <emmintrin.h>
+#endif
+
 #elif defined(RAPIDJSON_NEON)
 #include <arm_neon.h>
 #endif
