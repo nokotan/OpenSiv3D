@@ -14,7 +14,7 @@
 # include <sys/stat.h>
 # include <stdlib.h>
 # include <string>
-# include <boost/filesystem.hpp>
+# include <filesystem>
 
 # include <Siv3D/FileSystem.hpp>
 # include <Siv3D/String.hpp>
@@ -32,7 +32,7 @@ using namespace s3d;
 
 namespace s3d
 {
-	namespace fs = boost::filesystem;
+	namespace fs = std::filesystem;
 	
 	namespace detail
 	{
@@ -199,7 +199,7 @@ namespace s3d
 				{
 					fs::path current(file->path());
 
-					if (boost::filesystem::is_directory(current))
+					if (fs::is_directory(current))
 					{
 						if (!CopyDirectory(current, destination / current.filename()))
 						{
@@ -208,7 +208,7 @@ namespace s3d
 					}
 					else
 					{
-						fs::copy_file(current, destination / current.filename(), fs::copy_option::overwrite_if_exists);
+						fs::copy_file(current, destination / current.filename(), fs::copy_options::overwrite_existing);
 					}
 				}
 				catch (const fs::filesystem_error&)
@@ -281,7 +281,7 @@ namespace s3d
 
 			if (detail::IsNotFound(path))
 			{
-				return detail::NormalizePath(Unicode::Widen(fs::weakly_canonical(fs::system_complete(fs::path(Unicode::ToWString(path)))).string()));
+				return detail::NormalizePath(Unicode::Widen(fs::weakly_canonical(fs::absolute(fs::path(Unicode::ToWString(path)))).string()));
 			}
 			else
 			{
@@ -667,9 +667,9 @@ namespace s3d
 
 			if (IsFile(from))
 			{
-				const fs::copy_option option =
-					copyOption == CopyOption::OverwriteExisting ? fs::copy_option::overwrite_if_exists
-					: fs::copy_option::fail_if_exists;
+				const fs::copy_options option =
+					copyOption == CopyOption::OverwriteExisting ? fs::copy_options::overwrite_existing
+					: fs::copy_options::none;
 
 				try
 				{
@@ -732,7 +732,7 @@ namespace s3d
 				return false;
 			}
 
-			boost::system::error_code ec;
+			std::error_code ec;
 			fs::rename(fs::path(Unicode::ToWString(from)), fs::path(Unicode::ToWString(to)), ec);
 
 			return (ec.value() == 0);

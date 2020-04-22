@@ -9,7 +9,7 @@
 //
 //-----------------------------------------------
 
-# include <boost/filesystem.hpp>
+# include <filesystem>
 # include <unistd.h>
 # include <sys/select.h>
 
@@ -17,7 +17,7 @@
 # include <Siv3D/EngineLog.hpp>
 # include "DirectoryWatcherDetail.hpp"
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 namespace s3d
 {
@@ -98,7 +98,7 @@ namespace s3d
 		watched_directory_paths.push_back(m_directory);
 
 		// サブディレクトリも監視対象に追加する
-		boost::system::error_code error_code, no_error;
+		std::error_code error_code, no_error;
 		fs::recursive_directory_iterator end;
 		for (fs::recursive_directory_iterator itr(Unicode::Narrow(m_directory)); itr != end; itr.increment(error_code))
 		{
