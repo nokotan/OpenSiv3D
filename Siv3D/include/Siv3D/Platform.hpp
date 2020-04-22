@@ -56,6 +56,17 @@
 	# undef SIV3D_PLATFORM_PRIVATE_DEFINITION_LINUX
 	# define SIV3D_PLATFORM_PRIVATE_DEFINITION_LINUX() 1
 
+# elif defined(__EMSCRIPTEN__)
+
+	/// <summary>
+	/// ターゲットプラットフォームの名前
+	/// Name of the Target Platform
+	/// </summary>
+	# define SIV3D_PLATFORM_NAME	U"Web"
+
+	# undef SIV3D_PLATFORM_PRIVATE_DEFINITION_WEB
+	# define SIV3D_PLATFORM_PRIVATE_DEFINITION_WEB() 1
+
 # else
 
 	# error Unsupported platform
@@ -87,6 +98,11 @@
 
 	# undef SIV3D_WITH_FEATURE_PRIVATE_DEFINITION_SSE2
 	# define SIV3D_WITH_FEATURE_PRIVATE_DEFINITION_SSE2() 1
+
+# elif SIV3D_PLATFORM(WEB)
+
+	# undef SIV3D_WITH_FEATURE_PRIVATE_DEFINITION_SSE2
+	# define SIV3D_WITH_FEATURE_PRIVATE_DEFINITION_SSE2() 0
 
 # else
 
@@ -137,7 +153,7 @@ namespace s3d
 
 	# define SIV3D_VECTOR_CALL __vectorcall
 
-# elif SIV3D_PLATFORM(MACOS) || SIV3D_PLATFORM(LINUX)
+# elif SIV3D_PLATFORM(MACOS) || SIV3D_PLATFORM(LINUX) || SIV3D_PLATFORM(WEB)
 
 	# define SIV3D_VECTOR_CALL
 
