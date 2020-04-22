@@ -177,13 +177,13 @@ namespace s3d
 		}
 		m_skipClearScene = false;
 		
-		::glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		::glClearColor(
-					   static_cast<float>(m_letterboxColor.r),
-					   static_cast<float>(m_letterboxColor.g),
-					   static_cast<float>(m_letterboxColor.b),
-					   1.0f);
-		::glClear(GL_COLOR_BUFFER_BIT);
+		// ::glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		// ::glClearColor(
+		// 			   static_cast<float>(m_letterboxColor.r),
+		// 			   static_cast<float>(m_letterboxColor.g),
+		// 			   static_cast<float>(m_letterboxColor.b),
+		// 			   1.0f);
+		// ::glClear(GL_COLOR_BUFFER_BIT);
 	}
 
 	void CGraphics_GL::flush()
