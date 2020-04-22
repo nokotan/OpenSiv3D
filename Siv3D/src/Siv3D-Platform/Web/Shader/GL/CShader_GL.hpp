@@ -56,8 +56,10 @@ namespace s3d
 		// エンジン PS を取得
 		const PixelShader& getEnginePS(const EnginePS ps) const override;
 		
-		GLuint getVSProgram(VertexShaderID handleID);
-		GLuint getPSProgram(PixelShaderID handleID);
+		GLuint getVS(VertexShaderID handleID);
+		GLuint getPS(PixelShaderID handleID);
 		void setPSSamplerUniform(PixelShaderID handleID);
+		void setVSParameters(VertexShaderID handleID);
+		void setPSParameters(PixelShaderID handleID);
 	};
 }

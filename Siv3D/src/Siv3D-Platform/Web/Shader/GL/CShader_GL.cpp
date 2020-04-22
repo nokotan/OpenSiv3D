@@ -186,18 +186,28 @@ namespace s3d
 		return m_enginePSs[FromEnum(ps)];
 	}
 
-	GLuint CShader_GL::getVSProgram(const VertexShaderID handleID)
+	GLuint CShader_GL::getVS(const VertexShaderID handleID)
 	{
-		return m_vertexShaders[handleID]->getProgram();
+		return m_vertexShaders[handleID]->getShader();
 	}
 	
-	GLuint CShader_GL::getPSProgram(const PixelShaderID handleID)
+	GLuint CShader_GL::getPS(const PixelShaderID handleID)
 	{
-		return m_pixelShaders[handleID]->getProgram();
+		return m_pixelShaders[handleID]->getShader();
 	}
 	
 	void CShader_GL::setPSSamplerUniform(const PixelShaderID handleID)
 	{
 		m_pixelShaders[handleID]->setPSSamplerUniform();
+	}
+	
+	void CShader_GL::setVSParameters(const VertexShaderID handleID)
+	{
+		m_vertexShaders[handleID]->setVSParameters();
+	}
+
+	void CShader_GL::setPSParameters(const PixelShaderID handleID)
+	{
+		m_pixelShaders[handleID]->setPSParameters();
 	}
 }

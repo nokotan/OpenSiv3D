@@ -80,10 +80,10 @@ namespace s3d
 		::glSamplerParameteri(sampler, GL_TEXTURE_WRAP_S, wraps[static_cast<int32>(state.addressU)]);
 		::glSamplerParameteri(sampler, GL_TEXTURE_WRAP_T, wraps[static_cast<int32>(state.addressV)]);
 		::glSamplerParameteri(sampler, GL_TEXTURE_WRAP_R, wraps[static_cast<int32>(state.addressW)]);
-		::glSamplerParameterf(sampler, GL_TEXTURE_LOD_BIAS, state.lodBias);
+		// ::glSamplerParameterf(sampler, GL_TEXTURE_LOD_BIAS, state.lodBias);
 		::glSamplerParameteri(sampler, GL_TEXTURE_COMPARE_MODE, GL_NONE);
 		::glSamplerParameterf(sampler, GL_TEXTURE_MAX_ANISOTROPY_EXT, state.maxAnisotropy);
-		::glSamplerParameterfv(sampler, GL_TEXTURE_BORDER_COLOR, border);
+		// ::glSamplerParameterfv(sampler, GL_TEXTURE_BORDER_COLOR, border);
 		::glSamplerParameterf(sampler, GL_TEXTURE_MIN_LOD, -1000.0f);
 		::glSamplerParameterf(sampler, GL_TEXTURE_MAX_LOD, 1000.0f);
 		

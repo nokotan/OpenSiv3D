@@ -150,6 +150,8 @@ namespace s3d
 		
 		m_vertexArrayWritePos	= 0;
 		m_indexArrayWritePos	= 0;
+
+		m_vertexBufferWritePos	= 0;
 	}
 	
 	/*
@@ -190,7 +192,8 @@ namespace s3d
 			}
 			
 			void* pDst = ::glMapBufferRange(GL_ARRAY_BUFFER, sizeof(Vertex2D) * m_vertexBufferWritePos, sizeof(Vertex2D) * vertexSize,
-											GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+											GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+											// GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
 			std::memcpy(pDst, pSrc, sizeof(Vertex2D) * vertexSize);
 			::glUnmapBuffer(GL_ARRAY_BUFFER);
 			
@@ -210,7 +213,8 @@ namespace s3d
 			}
 			
 			void* pDst = ::glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, sizeof(IndexType) * m_indexBufferWritePos, sizeof(IndexType) * indexSize,
-											GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+											GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+											// GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
 			std::memcpy(pDst, pSrc, sizeof(IndexType) * indexSize);
 			::glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 			

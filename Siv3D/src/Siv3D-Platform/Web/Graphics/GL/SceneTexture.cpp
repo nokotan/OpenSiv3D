@@ -77,7 +77,7 @@ namespace s3d
 				if (infoLogLength > 0)
 				{
 					std::string logText(infoLogLength + 1, '\0');
-					::glGetProgramInfoLog(pixelShader, infoLogLength, nullptr, logText.data());
+					::glGetProgramInfoLog(program, infoLogLength, nullptr, logText.data());
 					LOG_FAIL(U"LINK: {0}"_fmt(Unicode::Widen(logText)));
 				}
 			}
@@ -371,7 +371,11 @@ namespace s3d
 			m_image.resize(m_size);
 		}
 		
+# if defined(SIV3D_USE_MULTISAMPLE)
 		::glBindFramebuffer(GL_FRAMEBUFFER, m_resolvedFrameBuffer);
+# else
+		::glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
+# endif
 		{
 			::glReadPixels(0, 0, m_size.x, m_size.y, GL_RGBA, GL_UNSIGNED_BYTE, m_image.data());
 		}

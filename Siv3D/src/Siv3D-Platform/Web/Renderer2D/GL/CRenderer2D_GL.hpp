@@ -30,40 +30,51 @@ namespace s3d
 	{
 	private:
 		
-		GLuint m_pipeline = 0;
-		
+		GLuint m_program = 0;
+		GLuint m_currentVS = 0;
+		GLuint m_currentPS = 0;
+
 	public:
 		
 		~ShaderPipeline()
 		{
-			if (m_pipeline)
+			if (m_program)
 			{
-				::glDeleteProgramPipelines(1, &m_pipeline);
-				m_pipeline = 0;
+				::glDeleteProgram(m_program);
+				m_program = 0;
 			}
 		}
 		
 		bool init()
 		{
-			::glGenProgramPipelines(1, &m_pipeline);
+			m_program = ::glCreateProgram();
 			
-			return m_pipeline != 0;
+			return m_program != 0;
 		}
 		
 		void setVS(GLuint vsProgramHandle)
-		{
-			::glUseProgramStages(m_pipeline, GL_VERTEX_SHADER_BIT, vsProgramHandle);
+		{	
+
 		}
 		
 		void setPS(GLuint psProgramHandle)
 		{
-			::glUseProgramStages(m_pipeline, GL_FRAGMENT_SHADER_BIT, psProgramHandle);
+
+		}
+
+		void setShaders(GLuint vsProgramHandle, GLuint psProgramHandle) {
+			::glAttachShader(m_program, vsProgramHandle);
+			::glAttachShader(m_program, psProgramHandle);
+
+			::glLinkProgram(m_program);
+
+			::glDetachShader(m_program, psProgramHandle);
+			::glDetachShader(m_program, vsProgramHandle);
 		}
 		
 		void use()
 		{
-			::glUseProgram(0);
-			::glBindProgramPipeline(m_pipeline);
+			::glUseProgram(m_program);
 		}
 	};
 	

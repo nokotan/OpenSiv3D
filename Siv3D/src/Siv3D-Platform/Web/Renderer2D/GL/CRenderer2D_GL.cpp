@@ -168,9 +168,17 @@ namespace s3d
 		CShader_GL* const pShader = dynamic_cast<CShader_GL* const>(Siv3DEngine::Get<ISiv3DShader>());
 		CTexture_GL* const pTexture = dynamic_cast<CTexture_GL* const>(Siv3DEngine::Get<ISiv3DTexture>());
 
-		m_pipeline.setVS(pShader->getVSProgram(m_standardVS->sprite.id()));
-		m_pipeline.setPS(pShader->getPSProgram(m_standardPS->shape.id()));
+		m_pipeline.setShaders(
+			pShader->getVS(m_standardVS->sprite.id()),
+			pShader->getPS(m_standardPS->shape.id())
+		);
+		// m_pipeline.setVS(pShader->getVSProgram(m_standardVS->sprite.id()));
+		// m_pipeline.setPS(pShader->getPSProgram(m_standardPS->shape.id()));
 		m_pipeline.use();
+
+		pShader->setVSParameters(m_standardVS->sprite.id());
+		pShader->setPSParameters(m_standardPS->shape.id());
+		pShader->setPSSamplerUniform(m_standardPS->shape.id());
 		
 		Size currentRenderTargetSize = pGraphics->getSceneSize();
 		Mat3x2 transform = Mat3x2::Identity();
@@ -213,7 +221,8 @@ namespace s3d
 					const uint32 startIndexLocation = batchInfo.startIndexLocation;
 					const uint32 baseVertexLocation = batchInfo.baseVertexLocation;
 					
-					::glDrawElementsBaseVertex(GL_TRIANGLES, indexCount, GL_UNSIGNED_SHORT, (IndexType*)(nullptr) + startIndexLocation, baseVertexLocation);
+					// ::glDrawElementsBaseVertex(GL_TRIANGLES, indexCount, GL_UNSIGNED_SHORT, (IndexType*)(nullptr) + startIndexLocation, baseVertexLocation);
+					::glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_SHORT, (IndexType*)(nullptr) + startIndexLocation);
 					batchInfo.startIndexLocation += indexCount;
 					
 					++profile_drawcalls;
@@ -285,8 +294,8 @@ namespace s3d
 					}
 					else
 					{
-						m_pipeline.setPS(pShader->getPSProgram(psID));
-						pShader->setPSSamplerUniform(psID);
+						// m_pipeline.setPS(pShader->getPS(psID));
+						// pShader->setPSSamplerUniform(psID);
 					}
 					
 					LOG_COMMAND(U"SetPS[{}]"_fmt(index));

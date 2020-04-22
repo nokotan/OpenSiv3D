@@ -21,10 +21,11 @@ namespace s3d
 	{
 	private:
 
-		GLuint m_psProgram = 0;
+		GLuint m_pixelShader = 0;
 		
 		Array<std::pair<uint32, GLint>> m_textureIndices;
-		
+		Array<ConstantBufferBinding> m_constantBufferBindings;
+
 		bool m_initialized = false;
 		
 	public:
@@ -41,9 +42,11 @@ namespace s3d
 		
 		bool isInitialized() const noexcept;
 		
-		GLint getProgram() const;
+		GLint getShader() const;
 		
 		void setPSSamplerUniform();
+
+		void setPSParameters();
 
 		void setUniformBlockBinding(const String& name, GLuint index);
 		

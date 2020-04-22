@@ -23,7 +23,7 @@
 # include <GL/glew.h>
 # include <GLFW/glfw3.h>
 
-# define SIV3D_USE_MULTISAMPLE
+// # define SIV3D_USE_MULTISAMPLE
 
 namespace s3d
 {	

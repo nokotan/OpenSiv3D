@@ -21,42 +21,49 @@ namespace s3d
 	
 	VertexShader_GL::~VertexShader_GL()
 	{
-		if (m_vsProgram)
+		if (m_vertexShader)
 		{
-			::glDeleteProgram(m_vsProgram);
+			::glDeleteShader(m_vertexShader);
 		}
 	}
 	
 	VertexShader_GL::VertexShader_GL(const String& source)
 	{
-		// 頂点シェーダプログラムを作成
+		m_vertexShader = ::glCreateShader(GL_VERTEX_SHADER);
+
+		if (!m_vertexShader) {
+			LOG_FAIL(U"❌ Vertex shader compilation failed: failed to create shader.");
+		}
+
+        // シェーダのコンパイル
 		{
 			const std::string sourceUTF8 = source.toUTF8();
 			const char* pSource = sourceUTF8.c_str();
-			m_vsProgram = ::glCreateShaderProgramv(GL_VERTEX_SHADER, 1, &pSource);
+
+			::glShaderSource(m_vertexShader, 1, &pSource, NULL);
+			::glCompileShader(m_vertexShader);
+
+			GLint status = GL_FALSE;
+			::glGetShaderiv(m_vertexShader, GL_COMPILE_STATUS, &status);
+			
+			GLint logLen = 0;
+			::glGetShaderiv(m_vertexShader, GL_INFO_LOG_LENGTH, &logLen);	
+
+			// ログメッセージ
+			if (logLen > 4)
+			{
+				std::string log(logLen + 1, '\0');
+				::glGetShaderInfoLog(m_vertexShader, logLen, &logLen, &log[0]);
+				LOG_FAIL(U"❌ Vertex shader compilation failed: {0}"_fmt(Unicode::Widen(log)));
+			}	
+
+            if (status == GL_FALSE) {
+                ::glDeleteShader(m_vertexShader);
+                m_vertexShader = 0;
+            }
 		}
 		
-		GLint status = GL_FALSE;
-		::glGetProgramiv(m_vsProgram, GL_LINK_STATUS, &status);
-		
-		GLint logLen = 0;
-		::glGetProgramiv(m_vsProgram, GL_INFO_LOG_LENGTH, &logLen);
-		
-		// ログメッセージ
-		if (logLen > 4)
-		{
-			std::string log(logLen + 1, '\0');
-			::glGetProgramInfoLog(m_vsProgram, logLen, &logLen, &log[0]);
-			LOG_FAIL(U"❌ Vertex shader compilation failed: {0}"_fmt(Unicode::Widen(log)));
-		}
-		
-		if (status == GL_FALSE) // もしリンクに失敗していたら
-		{
-			::glDeleteProgram(m_vsProgram);
-			m_vsProgram = 0;
-		}
-		
-		m_initialized = (m_vsProgram != 0);
+		m_initialized = (m_vertexShader != 0);
 	}
 	
 	bool VertexShader_GL::isInitialized() const noexcept
@@ -64,26 +71,48 @@ namespace s3d
 		return m_initialized;
 	}
 	
-	GLint VertexShader_GL::getProgram() const
+	GLint VertexShader_GL::getShader() const
 	{
-		return m_vsProgram;
+		return m_vertexShader;
 	}
 	
-	void VertexShader_GL::setUniformBlockBinding(const String& name, const GLuint index)
-	{
-		const GLuint blockIndex = ::glGetUniformBlockIndex(m_vsProgram, name.narrow().c_str());
+	void VertexShader_GL::setVSParameters() {
+		GLint m_vsProgram;
 
-		if (blockIndex == GL_INVALID_INDEX)
+		glGetIntegerv(GL_CURRENT_PROGRAM, &m_vsProgram);
+
+		if (!m_vsProgram)
 		{
-			LOG_FAIL(U"Uniform block `{}` not found"_fmt(name));
+			LOG_FAIL(U"Current program is null!");
 			return;
 		}
 
+		for (auto[name, index] : m_constantBufferBindings)
+		{
+			const GLuint blockIndex = ::glGetUniformBlockIndex(m_vsProgram, name.narrow().c_str());
+		
+			if (blockIndex == GL_INVALID_INDEX)
+			{
+				LOG_FAIL(U"Uniform block `{}` not found"_fmt(name));
+				return;
+			}
+
+			::glUniformBlockBinding(m_vsProgram, blockIndex, index);
+		}
+	}
+
+	void VertexShader_GL::setUniformBlockBinding(const String& name, const GLuint index)
+	{
 		const GLuint uniformBlockBinding = Shader::Internal::MakeUniformBlockBinding(ShaderStage::Vertex, index);
 		
 		LOG_DEBUG(U"Uniform block `{}`: binding = VS_{} ({})"_fmt(name, index,uniformBlockBinding));
 		
-		::glUniformBlockBinding(m_vsProgram, blockIndex, uniformBlockBinding);
+		ConstantBufferBinding cbBinding;
+
+		cbBinding.name = name;
+		cbBinding.index = uniformBlockBinding;
+
+		m_constantBufferBindings << cbBinding;
 	}
 	
 	void VertexShader_GL::setUniformBlockBindings(const Array<ConstantBufferBinding>& bindings)

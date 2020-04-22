@@ -343,9 +343,10 @@ namespace s3d
 				|| format == TextureFormat::R32G32B32A32_Float)
 			{
 				::glGenTextures(1, &m_multiSampledTexture);
-				::glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, m_multiSampledTexture);
-				::glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, format.GLInternalFormat(), size.x, size.y, GL_FALSE);
-				//::glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MAX_LEVEL, 0);
+				::glBindTexture(GL_TEXTURE_2D, m_multiSampledTexture);
+				// ::glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, m_multiSampledTexture);
+				// ::glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, format.GLInternalFormat(), size.x, size.y, GL_FALSE);
+				// ::glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MAX_LEVEL, 0);
 			}
 			else
 			{

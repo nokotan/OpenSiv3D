@@ -21,8 +21,9 @@ namespace s3d
 	{
 	private:
 		
-		GLuint m_vsProgram = 0;
-		
+		GLuint m_vertexShader = 0;
+		Array<ConstantBufferBinding> m_constantBufferBindings;
+
 		bool m_initialized = false;
 		
 	public:
@@ -39,7 +40,9 @@ namespace s3d
 		
 		bool isInitialized() const noexcept;
 		
-		GLint getProgram() const;
+		GLint getShader() const;
+
+		void setVSParameters();
 
 		void setUniformBlockBinding(const String& name, GLuint index);
 		

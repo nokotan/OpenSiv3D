@@ -22,42 +22,74 @@ namespace s3d
 	
 	PixelShader_GL::~PixelShader_GL()
 	{
-		if (m_psProgram)
+		if (m_pixelShader)
 		{
-			::glDeleteProgram(m_psProgram);
+			::glDeleteShader(m_pixelShader);
 		}
 	}
 	
 	PixelShader_GL::PixelShader_GL(const String& source)
 	{
-		// ピクセルシェーダプログラムを作成
+		m_pixelShader = ::glCreateShader(GL_FRAGMENT_SHADER);
+
+		if (!m_pixelShader) {
+			LOG_FAIL(U"❌ Pixel shader compilation failed: failed to create shader.");
+		}
+
+        // シェーダのコンパイル
 		{
 			const std::string sourceUTF8 = source.toUTF8();
 			const char* pSource = sourceUTF8.c_str();
-			m_psProgram = ::glCreateShaderProgramv(GL_FRAGMENT_SHADER, 1, &pSource);
+
+			::glShaderSource(m_pixelShader, 1, &pSource, NULL);
+			::glCompileShader(m_pixelShader);
+
+			GLint status = GL_FALSE;
+			::glGetShaderiv(m_pixelShader, GL_COMPILE_STATUS, &status);
+			
+			GLint logLen = 0;
+			::glGetShaderiv(m_pixelShader, GL_INFO_LOG_LENGTH, &logLen);	
+
+			// ログメッセージ
+			if (logLen > 4)
+			{
+				std::string log(logLen + 1, '\0');
+				::glGetShaderInfoLog(m_pixelShader, logLen, &logLen, &log[0]);
+				LOG_FAIL(U"❌ Pixel shader compilation failed: {0}"_fmt(Unicode::Widen(log)));
+			}	
+
+            if (status == GL_FALSE) {
+                ::glDeleteShader(m_pixelShader);
+                m_pixelShader = 0;
+            }
 		}
-		
-		GLint status = GL_FALSE;
-		::glGetProgramiv(m_psProgram, GL_LINK_STATUS, &status);
-		
-		GLint logLen = 0;
-		::glGetProgramiv(m_psProgram, GL_INFO_LOG_LENGTH, &logLen);
-		
-		// ログメッセージ
-		if (logLen > 4)
+	
+		m_initialized = (m_pixelShader != 0);
+	}
+	
+	bool PixelShader_GL::isInitialized() const noexcept
+	{
+		return m_initialized;
+	}
+	
+	GLint PixelShader_GL::getShader() const
+	{
+		return m_pixelShader;
+	}
+	
+	void PixelShader_GL::setPSSamplerUniform()
+	{
+		GLint m_psProgram;
+
+		glGetIntegerv(GL_CURRENT_PROGRAM, &m_psProgram);
+
+		if (!m_psProgram)
 		{
-			std::string log(logLen + 1, '\0');
-			::glGetProgramInfoLog(m_psProgram, logLen, &logLen, &log[0]);
-			LOG_FAIL(U"❌ Pixel shader compilation failed: {0}"_fmt(Unicode::Widen(log)));
+			LOG_FAIL(U"Current program is null!");
+			return;
 		}
-		
-		if (status == GL_FALSE) // もしリンクに失敗していたら
-		{
-			::glDeleteProgram(m_psProgram);
-			m_psProgram = 0;
-		}
-		
-		if (m_psProgram)
+
+		if (!m_textureIndices)
 		{
 			for (uint32 slot = 0; slot < SamplerState::MaxSamplerCount; ++slot)
 			{
@@ -72,50 +104,51 @@ namespace s3d
 				}
 			}
 		}
-		
-		m_initialized = (m_psProgram != 0);
-	}
-	
-	bool PixelShader_GL::isInitialized() const noexcept
-	{
-		return m_initialized;
-	}
-	
-	GLint PixelShader_GL::getProgram() const
-	{
-		return m_psProgram;
-	}
-	
-	void PixelShader_GL::setPSSamplerUniform()
-	{
-		if (m_textureIndices)
+
+		for (auto[slot, location] : m_textureIndices)
 		{
-			::glUseProgram(m_psProgram);
-			
-			for (auto[slot, location] : m_textureIndices)
+			::glUniform1i(location, slot);
+		}
+	}
+
+	void PixelShader_GL::setPSParameters()
+	{
+		GLint m_psProgram;
+
+		glGetIntegerv(GL_CURRENT_PROGRAM, &m_psProgram);
+
+		if (!m_psProgram)
+		{
+			LOG_FAIL(U"Current program is null!");
+			return;
+		}
+
+		for (auto[name, index] : m_constantBufferBindings)
+		{
+			const GLuint blockIndex = ::glGetUniformBlockIndex(m_psProgram, name.narrow().c_str());
+		
+			if (blockIndex == GL_INVALID_INDEX)
 			{
-				::glUniform1i(location, slot);
+				LOG_FAIL(U"Uniform block `{}` not found"_fmt(name));
+				return;
 			}
-			
-			::glUseProgram(0);
+
+			::glUniformBlockBinding(m_psProgram, blockIndex, index);
 		}
 	}
 	
 	void PixelShader_GL::setUniformBlockBinding(const String& name, const GLuint index)
 	{
-		const GLuint blockIndex = ::glGetUniformBlockIndex(m_psProgram, name.narrow().c_str());
-		
-		if (blockIndex == GL_INVALID_INDEX)
-		{
-			LOG_FAIL(U"Uniform block `{}` not found"_fmt(name));
-			return;
-		}
-
 		const GLuint uniformBlockBinding = Shader::Internal::MakeUniformBlockBinding(ShaderStage::Pixel, index);
 
 		LOG_DEBUG(U"Uniform block `{}`: binding = PS_{} ({})"_fmt(name, index,uniformBlockBinding));
 
-		::glUniformBlockBinding(m_psProgram, blockIndex, uniformBlockBinding);
+		ConstantBufferBinding cbBinding;
+
+		cbBinding.name = name;
+		cbBinding.index = uniformBlockBinding;
+
+		m_constantBufferBindings << cbBinding;
 	}
 	
 	void PixelShader_GL::setUniformBlockBindings(const Array<ConstantBufferBinding>& bindings)
