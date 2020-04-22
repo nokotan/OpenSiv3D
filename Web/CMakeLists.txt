@@ -3,13 +3,13 @@ cmake_minimum_required (VERSION 3.0)
 project(OpenSiv3D_Web CXX)
 enable_language(C)
 
-set(CMAKE_CXX_FLAGS "-std=c++17 -Wall -Wextra -Wno-unknown-pragmas -s SIDE_MODULE=1 -msimd128 -D_GLFW_X11")
+set(CMAKE_CXX_FLAGS "-std=c++17 -Wall -Wextra -Wno-unknown-pragmas -s SIDE_MODULE=1 -D_GLFW_X11")
 set(CMAKE_CXX_FLAGS_DEBUG "-g3 -O0 -pg -DDEBUG")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG -march=x86-64")
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-g3 -Og -pg")
 set(CMAKE_CXX_FLAGS_MINSIZEREL "-Os -DNDEBUG -march=x86-64")
 
-set(CMAKE_C_FLAGS "-Wall -Wextra -Wno-unknown-pragmas -s SIDE_MODULE=1 -msimd128 -D_GLFW_X11")
+set(CMAKE_C_FLAGS "-Wall -Wextra -Wno-unknown-pragmas -s SIDE_MODULE=1 -D_GLFW_X11")
 set(CMAKE_C_FLAGS_DEBUG "-g3 -O0 -pg -DDEBUG")
 set(CMAKE_C_FLAGS_RELEASE "-O2 -DNDEBUG -march=x86-64")
 set(CMAKE_C_FLAGS_RELWITHDEBINFO "-g3 -Og -pg")
@@ -25,9 +25,12 @@ include_directories(
 	"../Siv3D/include/ThirdParty"
 	"../Siv3D/src/ThirdParty"
 
+	"../Dependencies/boost_1_72_0"
+
 	"../Siv3D/src/ThirdParty/asio"
 	"../Siv3D/src/ThirdParty/zstd"
 	"../Siv3D/src/ThirdParty/zstd/common"
+	"../Siv3D/src/ThirdParty/freetype"
 
 	${LIBSIV3D_INCLUDE_DIRS}
 )
@@ -422,8 +425,8 @@ set(SOURCE_FILES
 
 	"../Siv3D/src/Siv3D-Platform/Web/Audio/AL/CAudio_AL.cpp"
 	"../Siv3D/src/Siv3D-Platform/Web/Audio/AudioFactory.cpp"
-	"../Siv3D/src/Siv3D-Platform/Web/AudioFormat/AAC/AudioFormat_AAC.cpp"
-	"../Siv3D/src/Siv3D-Platform/Web/AudioFormat/MP3/AudioFormat_MP3.cpp"
+	# "../Siv3D/src/Siv3D-Platform/Web/AudioFormat/AAC/AudioFormat_AAC.cpp"
+	# "../Siv3D/src/Siv3D-Platform/Web/AudioFormat/MP3/AudioFormat_MP3.cpp"
 	"../Siv3D/src/Siv3D-Platform/Web/BinaryReader/BinaryReaderDetail.cpp"
 	"../Siv3D/src/Siv3D-Platform/Web/BinaryWriter/BinaryWriterDetail.cpp"
 	"../Siv3D/src/Siv3D-Platform/Web/ByteArray/ByteArrayDetail_Platform.cpp"
@@ -566,14 +569,14 @@ set(SOURCE_FILES
 	"../Siv3D/src/ThirdParty/Box2D/Dynamics/b2WorldCallbacks.cpp"
 	"../Siv3D/src/ThirdParty/Box2D/Rope/b2Rope.cpp"
 	"../Siv3D/src/ThirdParty/FID/FID.cpp"
-	"../Siv3D/src/ThirdParty/FastNoiseSIMD/FastNoiseSIMD.cpp"
-	"../Siv3D/src/ThirdParty/FastNoiseSIMD/FastNoiseSIMD_avx2.cpp"
-	"../Siv3D/src/ThirdParty/FastNoiseSIMD/FastNoiseSIMD_avx512.cpp"
-	"../Siv3D/src/ThirdParty/FastNoiseSIMD/FastNoiseSIMD_internal.cpp"
-	"../Siv3D/src/ThirdParty/FastNoiseSIMD/FastNoiseSIMD_neon.cpp"
-	"../Siv3D/src/ThirdParty/FastNoiseSIMD/FastNoiseSIMD_sse2.cpp"
-	"../Siv3D/src/ThirdParty/FastNoiseSIMD/FastNoiseSIMD_sse41.cpp"
-	"../Siv3D/src/ThirdParty/FeatureDetector/cpu_x86.cpp"
+	# "../Siv3D/src/ThirdParty/FastNoiseSIMD/FastNoiseSIMD.cpp"
+	# "../Siv3D/src/ThirdParty/FastNoiseSIMD/FastNoiseSIMD_avx2.cpp"
+	# "../Siv3D/src/ThirdParty/FastNoiseSIMD/FastNoiseSIMD_avx512.cpp"
+	# "../Siv3D/src/ThirdParty/FastNoiseSIMD/FastNoiseSIMD_internal.cpp"
+	# "../Siv3D/src/ThirdParty/FastNoiseSIMD/FastNoiseSIMD_neon.cpp"
+	# "../Siv3D/src/ThirdParty/FastNoiseSIMD/FastNoiseSIMD_sse2.cpp"
+	# "../Siv3D/src/ThirdParty/FastNoiseSIMD/FastNoiseSIMD_sse41.cpp"
+	# "../Siv3D/src/ThirdParty/FeatureDetector/cpu_x86.cpp"
 	"../Siv3D/src/ThirdParty/QRCode/qrcode.cpp"
 	"../Siv3D/src/ThirdParty/RecastDetour/DetourAlloc.cpp"
 	"../Siv3D/src/ThirdParty/RecastDetour/DetourAssert.cpp"
@@ -603,14 +606,14 @@ set(SOURCE_FILES
 	"../Siv3D/src/ThirdParty/double-conversion/strtod.cc"
 	"../Siv3D/src/ThirdParty/easyexif/exif.cpp"
 	"../Siv3D/src/ThirdParty/fmt/format.cc"
-	#"../Siv3D/src/ThirdParty/giflib/dgif_lib.c"
-	#"../Siv3D/src/ThirdParty/giflib/egif_lib.c"
-	#"../Siv3D/src/ThirdParty/giflib/gif_err.c"
-	#"../Siv3D/src/ThirdParty/giflib/gif_font.c"
-	#"../Siv3D/src/ThirdParty/giflib/gif_hash.c"
-	#"../Siv3D/src/ThirdParty/giflib/gif_quantize.c"
-	#"../Siv3D/src/ThirdParty/giflib/gifalloc.c"
-	#"../Siv3D/src/ThirdParty/giflib/openbsd-reallocarray.c"
+	# "../Siv3D/src/ThirdParty/giflib/dgif_lib.c"
+	# "../Siv3D/src/ThirdParty/giflib/egif_lib.c"
+	# "../Siv3D/src/ThirdParty/giflib/gif_err.c"
+	# "../Siv3D/src/ThirdParty/giflib/gif_font.c"
+	# "../Siv3D/src/ThirdParty/giflib/gif_hash.c"
+	# "../Siv3D/src/ThirdParty/giflib/gif_quantize.c"
+	# "../Siv3D/src/ThirdParty/giflib/gifalloc.c"
+	# "../Siv3D/src/ThirdParty/giflib/openbsd-reallocarray.c"
 	"../Siv3D/src/ThirdParty/libsvm/svm.cpp"
 	"../Siv3D/src/ThirdParty/minizip/aescrypt.c"
 	"../Siv3D/src/ThirdParty/minizip/aeskey.c"
@@ -693,22 +696,22 @@ set(SOURCE_FILES
 	"../Siv3D/src/ThirdParty/zstd/dictBuilder/divsufsort.c"
 	"../Siv3D/src/ThirdParty/zstd/dictBuilder/fastcover.c"
 	"../Siv3D/src/ThirdParty/zstd/dictBuilder/zdict.c"
-	"../Siv3D/src/ThirdParty/GLFW/context.c"
-	"../Siv3D/src/ThirdParty/GLFW/egl_context.c"
-	"../Siv3D/src/ThirdParty/GLFW/init.c"
-	"../Siv3D/src/ThirdParty/GLFW/input.c"
-	"../Siv3D/src/ThirdParty/GLFW/monitor.c"
-	"../Siv3D/src/ThirdParty/GLFW/posix_thread.c"
-	"../Siv3D/src/ThirdParty/GLFW/vulkan.c"
-	"../Siv3D/src/ThirdParty/GLFW/window.c"
-	"../Siv3D/src/ThirdParty/GLFW/glx_context.c"
-	"../Siv3D/src/ThirdParty/GLFW/osmesa_context.c"
-	"../Siv3D/src/ThirdParty/GLFW/linux_joystick.c"
-	"../Siv3D/src/ThirdParty/GLFW/posix_time.c"
-	"../Siv3D/src/ThirdParty/GLFW/x11_init.c"
-	"../Siv3D/src/ThirdParty/GLFW/x11_monitor.c"
-	"../Siv3D/src/ThirdParty/GLFW/x11_window.c"
-	"../Siv3D/src/ThirdParty/GLFW/xkb_unicode.c"
+	# "../Siv3D/src/ThirdParty/GLFW/context.c"
+	# "../Siv3D/src/ThirdParty/GLFW/egl_context.c"
+	# "../Siv3D/src/ThirdParty/GLFW/init.c"
+	# "../Siv3D/src/ThirdParty/GLFW/input.c"
+	# "../Siv3D/src/ThirdParty/GLFW/monitor.c"
+	# "../Siv3D/src/ThirdParty/GLFW/posix_thread.c"
+	# "../Siv3D/src/ThirdParty/GLFW/vulkan.c"
+	# "../Siv3D/src/ThirdParty/GLFW/window.c"
+	# "../Siv3D/src/ThirdParty/GLFW/glx_context.c"
+	# "../Siv3D/src/ThirdParty/GLFW/osmesa_context.c"
+	# "../Siv3D/src/ThirdParty/GLFW/linux_joystick.c"
+	# "../Siv3D/src/ThirdParty/GLFW/posix_time.c"
+	# "../Siv3D/src/ThirdParty/GLFW/x11_init.c"
+	# "../Siv3D/src/ThirdParty/GLFW/x11_monitor.c"
+	# "../Siv3D/src/ThirdParty/GLFW/x11_window.c"
+	# "../Siv3D/src/ThirdParty/GLFW/xkb_unicode.c"
 	"../Siv3D/src/ThirdParty/RtAudio/RtAudio.cpp"
 )
 
