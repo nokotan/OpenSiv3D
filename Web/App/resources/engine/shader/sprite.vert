@@ -1,4 +1,4 @@
-﻿#version 410
+﻿#version 300 es
 				
 layout(std140) uniform VSConstants2D
 {

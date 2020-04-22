@@ -1,5 +1,6 @@
 #version 300 es
 
+precision mediump float;
 uniform sampler2D Texture0;
 
 layout(std140) uniform PSConstants2D
@@ -28,7 +29,7 @@ float median(float r, float g, float b)
 void main()
 {
 	float pxRange = g_sdfParam.x;
-	vec2 size = textureSize(Texture0, 0);
+	vec2 size = vec2(textureSize(Texture0, 0));
 	vec2 msdfUnit = pxRange / size;
 	vec3 s = texture(Texture0, UV).rgb;
 	float sigDist = median(s.r, s.g, s.b) - 0.5 + g_sdfParam.y;

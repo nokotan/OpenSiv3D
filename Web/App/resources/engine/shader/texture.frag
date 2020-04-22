@@ -1,5 +1,6 @@
 #version 300 es
 
+precision mediump float;
 uniform sampler2D Texture0;
 
 layout(std140) uniform PSConstants2D
