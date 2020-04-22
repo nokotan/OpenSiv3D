@@ -71,7 +71,7 @@ namespace s3d
 	{
 		LOG_TRACE(U"CWindow::init()");
 		
-		::glfwInitHint(GLFW_COCOA_CHDIR_RESOURCES, GLFW_FALSE);
+		// ::glfwInitHint(GLFW_COCOA_CHDIR_RESOURCES, GLFW_FALSE);
 		
 		if (!::glfwInit())
 		{
@@ -107,9 +107,9 @@ namespace s3d
 		::glfwGetWindowSize(m_window, &windowSizeX, &windowSizeY);
 		m_state.bounds.size.set(windowSizeX, windowSizeY);
 		
-		float xScale, yScale;
-		::glfwGetWindowContentScale(m_window, &xScale, &yScale);
-		m_state.contentScale = std::max(xScale, yScale);
+		// float xScale, yScale;
+		// ::glfwGetWindowContentScale(m_window, &xScale, &yScale);
+		// m_state.contentScale = std::max(xScale, yScale);
 		
 		int frameBufferWidth, frameBufferHeight;
 		::glfwGetFramebufferSize(m_window, &frameBufferWidth, &frameBufferHeight);
@@ -170,9 +170,9 @@ namespace s3d
 			::glfwSetWindowShouldClose(m_window, GLFW_FALSE);
 		}
 		
-		float xScale, yScale;
-		::glfwGetWindowContentScale(m_window, &xScale, &yScale);
-		m_state.contentScale = std::max(xScale, yScale);
+		// float xScale, yScale;
+		// ::glfwGetWindowContentScale(m_window, &xScale, &yScale);
+		// m_state.contentScale = std::max(xScale, yScale);
 		
 		if ((m_scaleMode == ScaleMode::ResizeFill)
 			&& (m_state.bounds.size != Siv3DEngine::Get<ISiv3DGraphics>()->getSceneSize()))
@@ -240,21 +240,21 @@ namespace s3d
 			return;
 		}
 
-		if (style == WindowStyle::Fixed)
-		{
-			::glfwSetWindowAttrib(m_window, GLFW_RESIZABLE, GLFW_FALSE);
-			::glfwSetWindowAttrib(m_window, GLFW_DECORATED, GLFW_TRUE);
-		}
-		else if (style == WindowStyle::Sizable)
-		{
-			::glfwSetWindowAttrib(m_window, GLFW_RESIZABLE, GLFW_TRUE);
-			::glfwSetWindowAttrib(m_window, GLFW_DECORATED, GLFW_TRUE);
-		}
-		else if (style == WindowStyle::Frameless)
-		{
-			::glfwSetWindowAttrib(m_window, GLFW_RESIZABLE, GLFW_FALSE);
-			::glfwSetWindowAttrib(m_window, GLFW_DECORATED, GLFW_FALSE);
-		}
+		// if (style == WindowStyle::Fixed)
+		// {
+		// 	::glfwSetWindowAttrib(m_window, GLFW_RESIZABLE, GLFW_FALSE);
+		// 	::glfwSetWindowAttrib(m_window, GLFW_DECORATED, GLFW_TRUE);
+		// }
+		// else if (style == WindowStyle::Sizable)
+		// {
+		// 	::glfwSetWindowAttrib(m_window, GLFW_RESIZABLE, GLFW_TRUE);
+		// 	::glfwSetWindowAttrib(m_window, GLFW_DECORATED, GLFW_TRUE);
+		// }
+		// else if (style == WindowStyle::Frameless)
+		// {
+		// 	::glfwSetWindowAttrib(m_window, GLFW_RESIZABLE, GLFW_FALSE);
+		// 	::glfwSetWindowAttrib(m_window, GLFW_DECORATED, GLFW_FALSE);
+		// }
 		
 		m_state.style = style;
 	}

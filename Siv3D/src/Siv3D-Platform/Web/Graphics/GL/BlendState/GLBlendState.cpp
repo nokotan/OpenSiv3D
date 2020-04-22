@@ -9,9 +9,10 @@
 //
 //-----------------------------------------------
 
-# include "GLBlendState.hpp"
+# include <Siv3D/Platform.hpp>
 # include <GL/glew.h>
 # include <GLFW/glfw3.h>
+# include "GLBlendState.hpp"
 
 namespace s3d
 {
