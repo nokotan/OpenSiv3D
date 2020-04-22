@@ -448,6 +448,10 @@ namespace s3d
 		const FilePath path = detail::GetEngineFontDirectory()
 			+ detail::StandardFontNames[FromEnum(detail::StandardFont::NotoColorEmoji)];
 
+# if SIV3D_PLATFORM(WEB)
+		return false;
+# endif
+
 		if (!FileSystem::Exists(path))
 		{
 			return false;

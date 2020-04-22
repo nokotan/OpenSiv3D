@@ -14,7 +14,9 @@
 namespace s3d
 {
 	FontFace::FontFace()
+# if SIV3D_PLATFORM(WEB)
 		: buffer(::hb_buffer_create())
+# endif
 	{
 
 	}
@@ -31,6 +33,7 @@ namespace s3d
 
 	std::pair<const hb_glyph_info_t*, size_t> FontFace::get(const StringView view)
 	{
+# if SIV3D_PLATFORM(WEB)
 		::hb_buffer_reset(buffer);
 		::hb_buffer_add_utf32(buffer, reinterpret_cast<const uint32*>(view.data()), static_cast<int32>(view.length()), 0, static_cast<int32>(view.length()));
 		::hb_buffer_guess_segment_properties(buffer);
@@ -40,19 +43,26 @@ namespace s3d
 		const hb_glyph_info_t* glyphInfo = ::hb_buffer_get_glyph_infos(buffer, &glyphCount);
 
 		return{ glyphInfo, glyphCount };
+# else
+		return {};
+# endif
 	}
 
 	void FontFace::destroy()
 	{
 		if (hbFont)
 		{
+# if SIV3D_PLATFORM(WEB)
 			::hb_font_destroy(hbFont);
+# endif
 			hbFont = nullptr;
 		}
 
 		if (buffer)
 		{
+# if SIV3D_PLATFORM(WEB)
 			::hb_buffer_destroy(buffer);
+# endif
 			buffer = nullptr;
 		}
 
