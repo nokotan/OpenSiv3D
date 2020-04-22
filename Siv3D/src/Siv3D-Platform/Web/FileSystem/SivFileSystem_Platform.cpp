@@ -9,18 +9,24 @@
 //
 //-----------------------------------------------
 
+# define SIV3D_WITH_FEATURE_PRIVATE_DEFINITION_GTKPLUS() 0
+
 # include <sys/stat.h>
 # include <stdlib.h>
 # include <string>
 # include <boost/filesystem.hpp>
-# include <glib-2.0/glib.h>
-# include <glib-2.0/gio/gio.h>
+
 # include <Siv3D/FileSystem.hpp>
 # include <Siv3D/String.hpp>
 # include <Siv3D/Time.hpp>
 # include <Siv3D/FormatUtility.hpp>
 # include <Siv3D/Distribution.hpp>
 # include <Siv3D/HardwareRNG.hpp>
+
+# if SIV3D_WITH_FEATURE(GTKPLUS)
+	# include <glib-2.0/glib.h>
+	# include <glib-2.0/gio/gio.h>
+# endif
 
 using namespace s3d;
 
@@ -32,6 +38,7 @@ namespace s3d
 	{
 		std::string Linux_SpecialFolder(const int folder)
 		{
+# if SIV3D_WITH_FEATURE(GTKPLUS)
 			const GUserDirectory folders[] =
 			{
 				G_USER_DIRECTORY_DESKTOP,
@@ -65,10 +72,14 @@ namespace s3d
 			}
 
 			return sf_path;
+# else
+			return "";
+# endif
 		}
 
 		bool Linux_TrashFile(const char* path)
 		{
+# if SIV3D_WITH_FEATURE(GTKPLUS)
 			GFile* gf = g_file_new_for_path(path);
 			GError* ge;
 
@@ -84,7 +95,7 @@ namespace s3d
 			{
 				return false;
 			}
-
+# endif
 			return true;
 		}
 

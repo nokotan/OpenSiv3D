@@ -9,16 +9,22 @@
 //
 //-----------------------------------------------
 
+# define SIV3D_WITH_FEATURE_PRIVATE_DEFINITION_GIO() 0
+
 # include <algorithm>
 # include <string>
 # include <vector>
-# include <gio/gio.h>
 # include <Siv3D/EngineLog.hpp>
 # include <Siv3D/Unicode.hpp>
 # include <Siv3D/PowerStatus.hpp>
 
+# if SIV3D_WITH_FEATURE(GIO)
+	# include <gio/gio.h>
+# endif
+
 namespace s3d
 {
+# if SIV3D_WITH_FEATURE(GIO)
 	namespace detail
 	{
 		const char* NAME_UPower = "org.freedesktop.UPower";
@@ -162,15 +168,16 @@ namespace s3d
 			g_object_unref(conn);
 		}
 	}
+# endif
 
 	namespace System
 	{
 		PowerStatus GetPowerStatus()
 		{
 			PowerStatus status;
-
+# if SIV3D_WITH_FEATURE(GIO)
 			detail::GetPowerStatus_Linux(status);
-
+# endif
 			return status;
 		}
 	}

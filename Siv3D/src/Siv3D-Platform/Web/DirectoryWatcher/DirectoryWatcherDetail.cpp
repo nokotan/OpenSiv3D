@@ -10,6 +10,8 @@
 //-----------------------------------------------
 
 # include <boost/filesystem.hpp>
+# include <unistd.h>
+# include <sys/select.h>
 
 # include <Siv3D/FileSystem.hpp>
 # include <Siv3D/EngineLog.hpp>
