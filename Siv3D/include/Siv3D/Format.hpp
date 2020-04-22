@@ -10,7 +10,6 @@
 //-----------------------------------------------
 
 # pragma once
-# include <xmmintrin.h>
 # include <sstream>
 # if  __has_include(<compare>)
 #	include <compare>
@@ -23,6 +22,13 @@
 # include "String.hpp"
 # include "Optional.hpp"
 # include "Unicode.hpp"
+
+# if SIV3D_PLATFORM(WEB)
+	# define SIMDE_ENABLE_NATIVE_ALIASES
+	# include <simde/x86/sse.h>
+# else
+	# include <xmmintrin.h>
+# endif
 
 namespace s3d
 {

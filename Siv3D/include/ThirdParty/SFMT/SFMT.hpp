@@ -125,7 +125,12 @@ the parameters of SFMT
 
 # elif defined(HAVE_SSE2)
 
-	# include <emmintrin.h>
+	# if SIV3D_PLATFORM(WEB)
+		# define SIMDE_ENABLE_NATIVE_ALIASES
+		# include <simde/x86/sse2.h>
+	# else
+		# include <emmintrin.h>
+	# endif
 
 # endif
 
