@@ -16,12 +16,8 @@ layout(location = 2) in vec4 VertexColor;
 //
 // VSOutput
 //
-layout(location = 0) out vec4 Color;
-layout(location = 1) out vec2 UV;
-out gl_PerVertex
-{
-	vec4 gl_Position;
-};
+out vec4 Color;
+out vec2 UV;
 
 vec4 StandardTransform(const vec2 pos)
 {

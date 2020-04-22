@@ -10,8 +10,8 @@ layout(std140) uniform PSConstants2D
 //
 // PSInput
 //
-layout(location = 0) in vec4 Color;
-layout(location = 1) in vec2 UV;
+in vec4 Color;
+in vec2 UV;
 
 //
 // PSOutput

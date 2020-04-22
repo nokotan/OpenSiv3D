@@ -1,11 +1,11 @@
-#version 410
+#version 300 es
 
 uniform sampler2D Texture0;
 
 //
 // PSInput
 //
-layout(location = 0) in vec2 UV;
+in vec2 UV;
 		
 //
 // PSOutput

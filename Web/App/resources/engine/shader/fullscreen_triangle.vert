@@ -1,9 +1,9 @@
-﻿#version 410
+﻿#version 300 es
 
 //
 // VSOutput
 //
-layout(location = 0) out vec2 UV;
+out vec2 UV;
 				
 void main()
 {
