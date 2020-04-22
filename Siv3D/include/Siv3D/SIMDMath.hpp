@@ -11,16 +11,27 @@
 
 # pragma once
 # include <cassert>
-# include <xmmintrin.h>
-# include <emmintrin.h>
 # include <utility>
 # include "Fwd.hpp"
 # include "PointVector.hpp"
 
+# if SIV3D_PLATFORM(WEB)
+	# define SIMDE_ENABLE_NATIVE_ALIASES
+	# include <simde/x86/sse.h>
+	# include <simde/x86/sse2.h>
+# else
+	# include <xmmintrin.h>
+	# include <emmintrin.h>
+# endif
+
 # define SIV3D_USE_SSE3
 
 # ifdef SIV3D_USE_SSE3
-#	include <pmmintrin.h>
+	# if SIV3D_PLATFORM(WEB)
+		# include <simde/x86/sse3.h>
+	# else
+		# include <pmmintrin.h>
+	# endif
 # endif
 
 # define SIV3D_PERMUTE_PS(v, c) _mm_shuffle_ps(v, v, c)
@@ -72,10 +83,12 @@ namespace s3d
 				return vec;
 			}
 
+# if !SIV3D_PLATFORM(WEB)
 			[[nodiscard]] operator __m128i() const noexcept
 			{
 				return _mm_castps_si128(vec);
 			}
+# endif
 		};
 
 		struct alignas(16) Float4A

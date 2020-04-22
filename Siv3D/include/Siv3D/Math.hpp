@@ -11,11 +11,17 @@
 
 # pragma once
 # include <cfloat>
-# include <emmintrin.h>
 # include <numeric>
 # include "Utility.hpp"
 # include "PointVector.hpp"
 # include "MathConstants.hpp"
+
+# if SIV3D_PLATFORM(WEB)
+	# define SIMDE_ENABLE_NATIVE_ALIASES
+	# include <simde/x86/sse2.h>
+# else
+	# include <emmintrin.h>
+# endif
 
 namespace s3d
 {

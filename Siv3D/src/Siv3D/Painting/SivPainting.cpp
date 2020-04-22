@@ -9,7 +9,6 @@
 //
 //-----------------------------------------------
 
-# include <smmintrin.h>
 # include <Siv3D/Fwd.hpp>
 SIV3D_DISABLE_MSVC_WARNINGS_PUSH(5054)
 # include <opencv2/imgproc.hpp>
@@ -26,6 +25,13 @@ SIV3D_DISABLE_MSVC_WARNINGS_POP()
 # include <Siv3D/Polygon.hpp>
 # include <Siv3D/CPU.hpp>
 # include "PaintShape.hpp"
+
+# if SIV3D_PLATFORM(WEB)
+	# define SIMDE_ENABLE_NATIVE_ALIASES
+	# include <simde/x86/sse4.1.h>
+# else
+	# include <smmintrin.h>
+# endif
 
 namespace s3d
 {

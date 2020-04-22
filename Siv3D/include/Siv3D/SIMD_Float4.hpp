@@ -10,10 +10,16 @@
 //-----------------------------------------------
 
 # pragma once
-# include <xmmintrin.h>
 # include "Fwd.hpp"
 # include "PointVector.hpp"
 # include "SIMDMath.hpp"
+
+# if SIV3D_PLATFORM(WEB)
+	# define SIMDE_ENABLE_NATIVE_ALIASES
+	# include <simde/x86/sse.h>
+# else
+	# include <xmmintrin.h>
+# endif
 
 namespace s3d
 {

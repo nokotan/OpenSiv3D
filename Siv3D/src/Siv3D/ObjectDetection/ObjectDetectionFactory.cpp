@@ -15,7 +15,11 @@ namespace s3d
 {
 	ISiv3DObjectDetection* ISiv3DObjectDetection::Create()
 	{
+# if SIV3D_PLATFORM(WEB)
+		return nullptr;
+# else
 		return new CObjectDetection;
+# endif
 	}
 }
 
