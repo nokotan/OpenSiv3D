@@ -294,8 +294,9 @@ namespace s3d
 					}
 					else
 					{
-						// m_pipeline.setPS(pShader->getPS(psID));
-						// pShader->setPSSamplerUniform(psID);
+						m_pipeline.setPS(pShader->getPS(psID));
+						pShader->setPSSamplerUniform(psID);
+						pShader->setPSParameters(psID);
 					}
 					
 					LOG_COMMAND(U"SetPS[{}]"_fmt(index));
