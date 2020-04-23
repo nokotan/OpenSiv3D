@@ -54,9 +54,10 @@ namespace s3d
 
 		double clientX, clientY, rootX, rootY;
 		::glfwGetCursorPos(m_window, &clientX, &clientY);
-		::siv3dGetRootCursorPos(m_window, &rootX, &rootY);
+		// ::siv3dGetRootCursorPos(m_window, &rootX, &rootY);
 
-		m_screen.update(rootX, rootY);
+		// m_screen.update(rootX, rootY);
+		m_screen.update(clientX, clientY);
 		m_client_raw.update(clientX, clientY);
 
 		{
