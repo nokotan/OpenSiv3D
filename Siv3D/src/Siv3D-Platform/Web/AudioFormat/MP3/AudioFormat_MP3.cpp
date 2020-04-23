@@ -10,6 +10,8 @@
 //-----------------------------------------------
 
 
+# define SIV3D_WITH_FEATURE_PRIVATE_DEFINITION_AUDIOFORMAT_MP3() 0
+
 # include <Siv3DEngine.hpp>
 # include <Siv3D/EngineLog.hpp>
 # include <Siv3D/DLL.hpp>
@@ -82,6 +84,7 @@ namespace s3d
 	
 	AudioFormat_MP3::AudioFormat_MP3()
 	{
+# if SIV3D_WITH_FEATURE(AUDIOFORMAT_MP3)
 		const FilePath libPath = Resource(U"engine/lib/mpg123/libmpg123.so.0.44.8");
 		
 		m_mpg123 = DLL::LoadLibrary(libPath.narrow().c_str());
@@ -129,6 +132,7 @@ namespace s3d
 		}
 		
 		m_libmpg123Available = true;
+# endif
 	}
 	
 	AudioFormat_MP3::~AudioFormat_MP3()
