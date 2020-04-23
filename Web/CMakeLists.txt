@@ -425,8 +425,8 @@ set(SOURCE_FILES
 
 	"../Siv3D/src/Siv3D-Platform/Web/Audio/AL/CAudio_AL.cpp"
 	"../Siv3D/src/Siv3D-Platform/Web/Audio/AudioFactory.cpp"
-	# "../Siv3D/src/Siv3D-Platform/Web/AudioFormat/AAC/AudioFormat_AAC.cpp"
-	# "../Siv3D/src/Siv3D-Platform/Web/AudioFormat/MP3/AudioFormat_MP3.cpp"
+	"../Siv3D/src/Siv3D-Platform/Web/AudioFormat/AAC/AudioFormat_AAC.cpp"
+	"../Siv3D/src/Siv3D-Platform/Web/AudioFormat/MP3/AudioFormat_MP3.cpp"
 	"../Siv3D/src/Siv3D-Platform/Web/BinaryReader/BinaryReaderDetail.cpp"
 	"../Siv3D/src/Siv3D-Platform/Web/BinaryWriter/BinaryWriterDetail.cpp"
 	"../Siv3D/src/Siv3D-Platform/Web/ByteArray/ByteArrayDetail_Platform.cpp"
