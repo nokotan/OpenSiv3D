@@ -1,55 +1,54 @@
-# OpenSiv3D Linux版
-
+# OpenSiv3D Web版
 
 ## ビルド要件
-ビルドには CMake, GCC や Clang などの C++ コンパイラが必要です。
+
+ビルドには CMake と emscripten が必要です。
 
 依存しているライブラリは以下の通りです。
-- X11, Xi, Xinerama, Xcursor, Xrandr
-- OpenGL
-- OpenCV4
-- libpng, libjpeg-turbo, giflib, libwebp
-- FreeType2, HarfBuzz
+
+- OpenGLES 3.0 (`-s FULL_ES3`)
+- libpng (`-s USE_LIBPNG=1`)
+- FreeType2, HarfBuzz (`-s USE_FREETYPE=1, -s USE_HARFBUZZ=1`)
 - OpenAL
-- libogg, libvorbis
-- Boost
-- GLib2
-- udev
-- libdl
-- libavcode, libavformat, libavutil, libswresample
-- zlib
+- libogg, libvorbis (`-s USE_OGG=1, -s USE_VORBIS=1`)
+- Boost (`-s USE_BOOST_HEADERS=1`)
+- zlib (`-s USE_ZLIB=1`)
 
-ディスプレイサーバには X11 のみをサポートしています。
-Wayland 及び Mir はサポートしていません。
+現在サポートしていないが、将来依存関係に追加される予定のライブラリは以下の通りです。
 
+- OpenCV4
 
 ## OpenSiv3D のビルド
+
 1. ソースコードのクローンとブランチ変更。
-	1. `git clone https://github.com/Siv3D/OpenSiv3D.git`
-	1. `cd OpenSiv3D`
-1. ビルド用のディレクトリを作ります。ここでは `Linux/Build` とします。
-	1. `mkdir Linux/Build`
-	1. `cd Linux/Build`
+    1. `git clone https://github.com/Siv3D/OpenSiv3D.git`
+    1. `cd OpenSiv3D`
+1. ビルド用のディレクトリを作ります。ここでは `Web/Build` とします。
+    1. `mkdir Web/Build`
+    1. `cd Web/Build`
 1. ビルドを行います。ビルドに成功すると `libSiv3D.a` が得られます。
-	1. `cmake -DCMAKE_BUILD_TYPE=Release -GNinja ..`
-	1. `ninja`
+    1. `emcmake cmake -DCMAKE_BUILD_TYPE=Release ..`
+    1. `emmake make`
 
 ### 補足
+
 - `-DCMAKE_BUILD_TYPE=Debug` とすると、`-g3 -O0` オプションでコンパイルされます。
-- 上記の例では `ninja` を使っていますが、`make` でもコンパイルできます。
+- 上記の例では `make` を使っていますが、`ninja` でもコンパイルできます。
 - コンパイラを指定する場合は `cmake` を実行する前に環境変数 `CC` と `CXX` を設定してください。
 
-
 ## アプリケーションのビルド
-`Linux/App` ディレクトリにアプリケーションに必要なファイルの例があります。
+
+`Web/App` ディレクトリにアプリケーションに必要なファイルの例があります。
 OpenSiv3Dと同様に `cmake` を使ってビルドできます。
+
 - `Main.cpp`
-	- アプリケーションのソースコードのサンプル。
+  - アプリケーションのソースコードのサンプル。
 - `CMakeLists.txt`
-	- アプリケーションビルド用の `CMakeLists.txt` のサンプル。
+  - アプリケーションビルド用の `CMakeLists.txt` のサンプル。
 - `resources/` ディレクトリ
-	- アプリケーションの実行に必要なリソースを配置したディレクトリ。
+  - アプリケーションの実行に必要なリソースを配置したディレクトリ。
 
 ### 注意点
+
 - `App` ディレクトリを移動やコピーする場合は `CMakeLists.txt` 内に書かれている `libSiv3D.a`のパスとインクルードディレクトリのパスを適切なパスに書き換えてください。
 - アプリケーションの実行時には `resources/` ディレクトリが実行ファイルと同階層のディレクトリにあるようにしてください。
