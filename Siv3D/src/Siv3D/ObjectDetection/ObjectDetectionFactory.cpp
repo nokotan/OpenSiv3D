@@ -11,14 +11,16 @@
 
 # include "CObjectDetection.hpp"
 
+# define SIV3D_WITH_FEATURE_PRIVATE_DEFINITION_OPENCV() 0
+
 namespace s3d
 {
 	ISiv3DObjectDetection* ISiv3DObjectDetection::Create()
 	{
-# if SIV3D_PLATFORM(WEB)
-		return nullptr;
-# else
+# if SIV3D_WITH_FEATURE(OPENCV)
 		return new CObjectDetection;
+# else
+		return nullptr;
 # endif
 	}
 }

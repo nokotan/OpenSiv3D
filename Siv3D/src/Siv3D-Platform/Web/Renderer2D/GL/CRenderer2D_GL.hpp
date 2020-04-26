@@ -34,6 +34,20 @@ namespace s3d
 		GLuint m_currentVS = 0;
 		GLuint m_currentPS = 0;
 
+		void linkShaders() {
+			if (m_currentVS == 0 || m_currentPS == 0) {
+				return;
+			}
+
+			::glAttachShader(m_program, m_currentVS);
+			::glAttachShader(m_program, m_currentPS);
+
+			::glLinkProgram(m_program);
+
+			::glDetachShader(m_program, m_currentVS);
+			::glDetachShader(m_program, m_currentPS);
+		}
+
 	public:
 		
 		~ShaderPipeline()
@@ -54,22 +68,27 @@ namespace s3d
 		
 		void setVS(GLuint vsProgramHandle)
 		{	
-
+			if (m_currentVS != vsProgramHandle) {
+				m_currentVS = vsProgramHandle;
+				linkShaders();
+			}
 		}
 		
 		void setPS(GLuint psProgramHandle)
 		{
-
+			if (m_currentPS != psProgramHandle) {
+				m_currentPS = psProgramHandle;
+				linkShaders();
+			}
 		}
 
-		void setShaders(GLuint vsProgramHandle, GLuint psProgramHandle) {
-			::glAttachShader(m_program, vsProgramHandle);
-			::glAttachShader(m_program, psProgramHandle);
-
-			::glLinkProgram(m_program);
-
-			::glDetachShader(m_program, psProgramHandle);
-			::glDetachShader(m_program, vsProgramHandle);
+		void setShaders(GLuint vsProgramHandle, GLuint psProgramHandle)
+		{
+			if (m_currentVS != vsProgramHandle || m_currentPS != psProgramHandle) {
+				m_currentVS = vsProgramHandle;
+				m_currentPS = psProgramHandle;
+				linkShaders();
+			}
 		}
 		
 		void use()

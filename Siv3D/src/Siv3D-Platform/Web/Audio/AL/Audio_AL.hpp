@@ -16,6 +16,7 @@
 
 # include <thread>
 # include <atomic>
+# include <emscripten/html5.h>
 # include <Audio/AudioControlManager.hpp>
 # include <Siv3D/Optional.hpp>
 # include <Siv3D/Audio.hpp>
@@ -40,7 +41,7 @@ namespace s3d
 		bool m_isEnd = false;
 		
 
-		std::thread m_thread;
+		// std::thread m_thread;
 		
 		std::atomic<bool> m_abort = false;
 		
@@ -125,37 +126,40 @@ namespace s3d
 			//LOG_TEST(U"End of Stream");
 		}
 		
-		void onUpdate()
-		{
-			for (;;)
+		bool onUpdate()
+		{	
+			if (!m_source)
 			{
-				if (!m_source)
-				{
-					continue;
-				}
+				return true;
+			}
+			
+			if (m_isActive)
+			{
+				feed();
 				
-				if (m_isActive)
-				{
-					feed();
-					
-					ALint sampleOffset = 0;
-					::alGetSourcei(m_source, AL_SAMPLE_OFFSET, &sampleOffset);
-				}
-				
-				ALint currentState = 0;
-				::alGetSourcei(m_source, AL_SOURCE_STATE, &currentState);
-				
-				if (!m_isEnd && m_isActive && currentState == AL_STOPPED)
-				{
-					onStreamEnd();
-				}
-				
-				if (m_abort)
-				{
-					break;
-				}
-				
-				::usleep(5 * 1000);
+				ALint sampleOffset = 0;
+				::alGetSourcei(m_source, AL_SAMPLE_OFFSET, &sampleOffset);
+			}
+			
+			ALint currentState = 0;
+			::alGetSourcei(m_source, AL_SOURCE_STATE, &currentState);
+			
+			if (!m_isEnd && m_isActive && currentState == AL_STOPPED)
+			{
+				onStreamEnd();
+			}
+			
+			if (m_abort)
+			{
+				return false;
+			}
+			
+			return true;
+		}
+
+		static void onUpdateHelper(void *userData) {
+			if (static_cast<SimpleVoice_AL*>(userData)->onUpdate()) {
+				::emscripten_set_timeout(&SimpleVoice_AL::onUpdateHelper, 10.0, userData);
 			}
 		}
 		
@@ -179,7 +183,8 @@ namespace s3d
 			
 			feed();
 
-			m_thread = std::thread(&SimpleVoice_AL::onUpdate, this);
+			// m_thread = std::thread(&SimpleVoice_AL::onUpdate, this);
+			::emscripten_set_timeout(&SimpleVoice_AL::onUpdateHelper, 10.0, this);
 
 			::alSourcePlay(m_source);
 			
@@ -194,10 +199,10 @@ namespace s3d
 				m_abort = true;
 			}
 			
-			if (m_thread.joinable())
-			{
-				m_thread.join();
-			}
+			// if (m_thread.joinable())
+			// {
+			// 	m_thread.join();
+			// }
 			
 			if (m_source)
 			{
@@ -412,39 +417,36 @@ namespace s3d
 			//LOG_TEST(U"End of Stream");
 		}
 		
-		void onUpdate()
-		{
-			for (;;)
+		bool onUpdate()
+		{			
+			if (!m_source)
 			{
-				if (!m_source)
-				{
-					continue;
-				}
-				
-				if (m_isActive)
-				{
-					feed();
-					
-					ALint sampleOffset = 0;
-					::alGetSourcei(m_source, AL_SAMPLE_OFFSET, &sampleOffset);
-					m_posSampleCurrentStream = sampleOffset;
-				}
-	
-				ALint currentState = 0;
-				::alGetSourcei(m_source, AL_SOURCE_STATE, &currentState);
-				
-				if (!m_isEnd && m_isActive && currentState == AL_STOPPED)
-				{
-					onStreamEnd();
-				}
-				
-				if (m_abort)
-				{
-					break;
-				}
-
-				::usleep(5 * 1000);
+				return true;
 			}
+			
+			if (m_isActive)
+			{
+				feed();
+				
+				ALint sampleOffset = 0;
+				::alGetSourcei(m_source, AL_SAMPLE_OFFSET, &sampleOffset);
+				m_posSampleCurrentStream = sampleOffset;
+			}
+
+			ALint currentState = 0;
+			::alGetSourcei(m_source, AL_SOURCE_STATE, &currentState);
+			
+			if (!m_isEnd && m_isActive && currentState == AL_STOPPED)
+			{
+				onStreamEnd();
+			}
+			
+			if (m_abort)
+			{
+				return false;
+			}
+
+			return true;			
 		}
 		
 		void updateVolume()
@@ -458,6 +460,12 @@ namespace s3d
 		void updateSpeed()
 		{
 			::alSourcef(m_source, AL_PITCH, static_cast<float>(m_speed));
+		}
+
+		static void onUpdateHelper(void *userData) {
+			if (static_cast<VoiceStream_AL*>(userData)->onUpdate()) {
+				::emscripten_set_timeout(&VoiceStream_AL::onUpdateHelper, 10.0, userData);
+			}
 		}
 		
 	public:
@@ -486,10 +494,10 @@ namespace s3d
 				m_abort = true;
 			}
 			
-			if (m_thread.joinable())
-			{
-				m_thread.join();
-			}
+			// if (m_thread.joinable())
+			// {
+			// 	m_thread.join();
+			// }
 			
 			if (m_source)
 			{
@@ -597,8 +605,8 @@ namespace s3d
 			
 			if (!m_hasThread)
 			{
-				m_thread = std::thread(&VoiceStream_AL::onUpdate, this);
-				
+				// m_thread = std::thread(&VoiceStream_AL::onUpdate, this);
+				::emscripten_set_timeout(&VoiceStream_AL::onUpdateHelper, 10.0, this);
 				m_hasThread = true;
 			}
 

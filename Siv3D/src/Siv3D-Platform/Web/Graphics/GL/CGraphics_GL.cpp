@@ -25,6 +25,8 @@
 # include <Renderer2D/GL/CRenderer2D_GL.hpp>
 # include "CGraphics_GL.hpp"
 
+# define SIV3D_WITH_FEATURE_PRIVATE_DEFINITION_CUSTOM_FPS() 0
+
 namespace s3d
 {
 	static void GLDebugMessageARB(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const GLvoid* userParam)
@@ -124,8 +126,9 @@ namespace s3d
 
 	bool CGraphics_GL::present()
 	{
+# if SIV3D_WITH_FEATURE(CUSTOM_FPS)		
 		const bool vSync = !m_targetFrameRateHz.has_value();
-		
+
 		if (vSync)
 		{
 			::glfwSwapBuffers(m_window);
@@ -155,6 +158,9 @@ namespace s3d
 			
 			m_lastFlipTimeMillisec = countMillisec;
 		}
+# else
+		::glfwSwapBuffers(m_window);
+# endif
 		
 		if (m_sceneTexture.hasCaptureRequest())
 		{

@@ -37,7 +37,7 @@ namespace s3d
 				::glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &status);
 				::glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &infoLogLength);
 				
-				if (infoLogLength > 0)
+				if (infoLogLength > 4)
 				{
 					std::string logText(infoLogLength + 1, '\0');
 					::glGetShaderInfoLog(vertexShader, infoLogLength, nullptr, logText.data());
@@ -56,7 +56,7 @@ namespace s3d
 				::glGetShaderiv(pixelShader, GL_COMPILE_STATUS, &status);
 				::glGetShaderiv(pixelShader, GL_INFO_LOG_LENGTH, &infoLogLength);
 				
-				if (infoLogLength > 0)
+				if (infoLogLength > 4)
 				{
 					std::string logText(infoLogLength + 1, '\0');
 					::glGetShaderInfoLog(pixelShader, infoLogLength, nullptr, logText.data());
@@ -74,7 +74,7 @@ namespace s3d
 				::glGetProgramiv(program, GL_LINK_STATUS, &status);
 				::glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
 				
-				if (infoLogLength > 0)
+				if (infoLogLength > 4)
 				{
 					std::string logText(infoLogLength + 1, '\0');
 					::glGetProgramInfoLog(program, infoLogLength, nullptr, logText.data());

@@ -9,7 +9,12 @@
 //
 //-----------------------------------------------
 
+# define SIV3D_WITH_FEATURE_PRIVATE_DEFINITION_AUDIOFORMAT_AAC() 0
+
 # include <string>
+# include <Siv3D/Platform.hpp>
+
+# if SIV3D_WITH_FEATURE(AUDIOFORMAT_AAC)
 
 # define __STDC_CONSTANT_MACROS
 extern "C"
@@ -24,12 +29,15 @@ extern "C"
 #undef av_err2str
 #define av_err2str(errnum) av_make_error_string((char*)__builtin_alloca(AV_ERROR_MAX_STRING_SIZE), AV_ERROR_MAX_STRING_SIZE, errnum)
 
+# endif
+
 # include <Siv3D/EngineLog.hpp>
 
 # include "AudioFormat_AAC.hpp"
 
 namespace s3d
 {
+# if SIV3D_WITH_FEATURE(AUDIOFORMAT_AAC)
 	namespace detail
 	{
 		class AACDecoder
@@ -252,7 +260,7 @@ namespace s3d
 			}
 		};
 	}
-
+# endif
 	AudioFormat_AAC::AudioFormat_AAC()
 	{
 
@@ -293,6 +301,7 @@ namespace s3d
 
 	Wave AudioFormat_AAC::decodeFromFile(const FilePath& path) const
 	{
+# if SIV3D_WITH_FEATURE(AUDIOFORMAT_AAC)
 		detail::AACDecoder decoder;
 
 		if (!decoder.init(path))
@@ -302,6 +311,9 @@ namespace s3d
 		}
 
 		return decoder.load();
+# else
+		return Wave();
+# endif
 	}
 
 	Wave AudioFormat_AAC::decode(IReader&) const
