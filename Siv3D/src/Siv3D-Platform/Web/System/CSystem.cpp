@@ -73,10 +73,10 @@ namespace s3d
 		Siv3DEngine::Get<ISiv3DMouse>()->init();
 		// Siv3DEngine::Get<ISiv3DGamepad>()->init();
 		// Siv3DEngine::Get<ISiv3DXInput>()->init();
-		// Siv3DEngine::Get<ISiv3DTextInput>()->init();
-		// Siv3DEngine::Get<ISiv3DTextToSpeech>()->init();
-		// Siv3DEngine::Get<ISiv3DClipboard>()->init();
-		// Siv3DEngine::Get<ISiv3DDragDrop>()->init();
+		Siv3DEngine::Get<ISiv3DTextInput>()->init();
+		Siv3DEngine::Get<ISiv3DTextToSpeech>()->init();
+		Siv3DEngine::Get<ISiv3DClipboard>()->init();
+		Siv3DEngine::Get<ISiv3DDragDrop>()->init();
 		Siv3DEngine::Get<ISiv3DCodec>()->init();
 		Siv3DEngine::Get<ISiv3DAudioFormat>()->init();
 		Siv3DEngine::Get<ISiv3DAudio>()->init();
@@ -114,7 +114,7 @@ namespace s3d
 
 			m_setupState = SetupState::Displayed;
 
-			// Siv3DEngine::Get<ISiv3DCursor>()->applyStyleImmediately(CursorStyle::Default);
+			Siv3DEngine::Get<ISiv3DCursor>()->applyStyleImmediately(CursorStyle::Default);
 		}
 
 		Siv3DEngine::Get<ISiv3DPrint>()->draw();/*
@@ -153,9 +153,9 @@ namespace s3d
 		// Siv3DEngine::Get<ISiv3DXInput>()->update(onDeviceChange);
 		Siv3DEngine::Get<ISiv3DKeyboard>()->update();
 		Siv3DEngine::Get<ISiv3DMouse>()->update();
-		// */Siv3DEngine::Get<ISiv3DTextInput>()->update();
-		// Siv3DEngine::Get<ISiv3DDragDrop>()->update();
-		// Siv3DEngine::Get<ISiv3DLicenseManager>()->update();
+		Siv3DEngine::Get<ISiv3DTextInput>()->update();
+		Siv3DEngine::Get<ISiv3DDragDrop>()->update();
+		Siv3DEngine::Get<ISiv3DLicenseManager>()->update();
 		Siv3DEngine::Get<ISiv3DScreenCapture>()->update();
 		Siv3DEngine::Get<ISiv3DEffect>()->update();
 
