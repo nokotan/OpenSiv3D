@@ -11,7 +11,7 @@
 
 # include "CObjectDetection.hpp"
 
-# define SIV3D_WITH_FEATURE_PRIVATE_DEFINITION_OPENCV() 0
+# define SIV3D_WITH_FEATURE_PRIVATE_DEFINITION_OPENCV() 1
 
 namespace s3d
 {
