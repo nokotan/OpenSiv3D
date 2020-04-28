@@ -30,70 +30,92 @@ namespace s3d
 	{
 	private:
 		
-		GLuint m_program = 0;
+		HashTable<Vec2, GLuint> m_programs;
+		GLuint m_currentProgram = 0;
 		GLuint m_currentVS = 0;
 		GLuint m_currentPS = 0;
 
-		void linkShaders() {
-			if (m_currentVS == 0 || m_currentPS == 0) {
-				return;
+		GLuint linkShaders()
+		{
+			if (m_currentVS == 0 || m_currentPS == 0)
+			{
+				return 0;
 			}
 
-			::glAttachShader(m_program, m_currentVS);
-			::glAttachShader(m_program, m_currentPS);
+			GLuint program = ::glCreateProgram();
 
-			::glLinkProgram(m_program);
+			::glAttachShader(program, m_currentVS);
+			::glAttachShader(program, m_currentPS);
 
-			::glDetachShader(m_program, m_currentVS);
-			::glDetachShader(m_program, m_currentPS);
+			::glLinkProgram(program);
+
+			::glDetachShader(program, m_currentVS);
+			::glDetachShader(program, m_currentPS);
+
+			return program;
+		}
+
+		void setCurrentProgram()
+		{
+			Vec2 shaderSet { m_currentVS, m_currentPS };
+
+			if (m_programs.contains(shaderSet))
+			{
+				m_currentProgram = m_programs[shaderSet];
+			} 
+			else 
+			{
+				m_currentProgram = linkShaders();
+				m_programs.emplace(shaderSet, m_currentProgram);
+			}
 		}
 
 	public:
 		
 		~ShaderPipeline()
 		{
-			if (m_program)
+			for (auto [shaderSet, program] : m_programs)
 			{
-				::glDeleteProgram(m_program);
-				m_program = 0;
+				::glDeleteProgram(program);
 			}
 		}
 		
 		bool init()
 		{
-			m_program = ::glCreateProgram();
-			
-			return m_program != 0;
+			return true;
 		}
 		
 		void setVS(GLuint vsProgramHandle)
 		{	
-			if (m_currentVS != vsProgramHandle) {
+			if (m_currentVS != vsProgramHandle)
+			{
 				m_currentVS = vsProgramHandle;
-				linkShaders();
+				setCurrentProgram();
 			}
 		}
 		
 		void setPS(GLuint psProgramHandle)
 		{
-			if (m_currentPS != psProgramHandle) {
+			if (m_currentPS != psProgramHandle) 
+			{
 				m_currentPS = psProgramHandle;
-				linkShaders();
+				setCurrentProgram();
 			}
 		}
 
 		void setShaders(GLuint vsProgramHandle, GLuint psProgramHandle)
 		{
-			if (m_currentVS != vsProgramHandle || m_currentPS != psProgramHandle) {
+			if (m_currentVS != vsProgramHandle || m_currentPS != psProgramHandle)
+			{
 				m_currentVS = vsProgramHandle;
 				m_currentPS = psProgramHandle;
-				linkShaders();
+				setCurrentProgram();
 			}
 		}
 		
 		void use()
 		{
-			::glUseProgram(m_program);
+			::glUseProgram(m_currentProgram);
 		}
 	};
 	

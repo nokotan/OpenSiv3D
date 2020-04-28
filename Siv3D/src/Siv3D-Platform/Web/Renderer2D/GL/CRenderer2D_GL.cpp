@@ -295,8 +295,10 @@ namespace s3d
 					else
 					{
 						m_pipeline.setPS(pShader->getPS(psID));
-						pShader->setPSSamplerUniform(psID);
+						m_pipeline.use();
+						pShader->setVSParameters(m_standardVS->sprite.id());
 						pShader->setPSParameters(psID);
+						pShader->setPSSamplerUniform(psID);
 					}
 					
 					LOG_COMMAND(U"SetPS[{}]"_fmt(index));
