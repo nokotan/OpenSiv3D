@@ -1,0 +1,29 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ web ]
+  pull_request:
+    branches: [ web ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: docker://trzeci/emscripten:1.39.10-upstream
+    - name: Checkout code
+      run: |
+        git clone https://github.com/nokotan/OpenSiv3D.git
+        cd OpenSiv3D
+        git checkout web
+    - name: Create build folder
+      run: |
+        cd Web
+        mkdir Build
+        cd Build
+    - name: Create project using cmake
+      run: emcmake cmake ..
+    - name: Build project
+      run: emmake make
