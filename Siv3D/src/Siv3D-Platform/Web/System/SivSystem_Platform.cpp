@@ -35,32 +35,14 @@ namespace s3d
 			
 			if (!isWebPage)
 			{
-				const String extension = FileSystem::Extension(_url);
-				
-				if (extension != U"html" && extension != U"htm")
-				{
-					return false;
-				}
-				
-				url.insert(0, U"file://");
-			}
-			
-			if (system("which xdg-open >/dev/null 2>&1"))
-			{
-				//There isn't xdg-open command.
 				return false;
 			}
+			
+			EM_ASM({
+				window.open(UTF32ToString($0), '_blank')
+			}, url.c_str());
 
-			String command = U"xdg-open ";
-			command += url;
-			command += U" >/dev/null 2>&1";
-
-			if (system(command.narrow().c_str()) == 0)
-			{
-				return true;
-			}
-
-			return false;
+			return true;
 		}
 	}
 }

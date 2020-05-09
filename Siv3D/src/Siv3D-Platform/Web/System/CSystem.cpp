@@ -65,7 +65,7 @@ namespace s3d
 		// Siv3DEngine::Get<ISiv3DCPU>()->init();
 		Siv3DEngine::Get<ISiv3DProfiler>()->init();
 		Siv3DEngine::Get<ISiv3DImageFormat>()->init();
-		// Siv3DEngine::Get<ISiv3DObjectDetection>()->init();
+		Siv3DEngine::Get<ISiv3DObjectDetection>()->init();
 		Siv3DEngine::Get<ISiv3DWindow>()->init();
 
 		Siv3DEngine::Get<ISiv3DCursor>()->init();

@@ -33,23 +33,25 @@ namespace s3d
 	}
 }
 
-int main(int, char* argv[])
+int main(int argc, char* argv[])
 {
 	using namespace s3d;
 
 	std::cout << "Siv3D for Web\n";
 
-	const FilePath path = Unicode::Widen(argv[0]);
-	FilePath modulePath = FileSystem::ParentPath(path, 0);
+	if (argc >= 1) {
+		const FilePath path = Unicode::Widen(argv[0]);
+		FilePath modulePath = FileSystem::ParentPath(path, 0);
 
-	if (modulePath.ends_with(U'/'))
-	{
-		modulePath.pop_back();
+		if (modulePath.ends_with(U'/'))
+		{
+			modulePath.pop_back();
+		}
+
+		detail::init::SetModulePath(modulePath);
+
+		chdir(FileSystem::ParentPath(path, 0).narrow().c_str());
 	}
-
-	detail::init::SetModulePath(modulePath);
-
-	chdir(FileSystem::ParentPath(path, 0).narrow().c_str());
 
 	Siv3DEngine engine;
 
