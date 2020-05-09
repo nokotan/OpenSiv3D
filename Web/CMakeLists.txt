@@ -3,17 +3,22 @@ cmake_minimum_required (VERSION 3.0)
 project(OpenSiv3D_Web CXX)
 enable_language(C)
 
-set(CMAKE_CXX_FLAGS "-std=c++17 -Wall -Wextra -Wno-unknown-pragmas -s SIDE_MODULE=1 -D_GLFW_X11")
+set(CMAKE_CXX_FLAGS "-std=c++17 -Wall -Wextra -Wno-unknown-pragmas -D_GLFW_X11")
 set(CMAKE_CXX_FLAGS_DEBUG "-g3 -O0 -pg -DDEBUG")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-g3 -Og -pg")
 set(CMAKE_CXX_FLAGS_MINSIZEREL "-Os -DNDEBUG")
 
-set(CMAKE_C_FLAGS "-Wall -Wextra -Wno-unknown-pragmas -s SIDE_MODULE=1 -D_GLFW_X11")
+set(CMAKE_C_FLAGS "-Wall -Wextra -Wno-unknown-pragmas -D_GLFW_X11")
 set(CMAKE_C_FLAGS_DEBUG "-g3 -O0 -pg -DDEBUG")
 set(CMAKE_C_FLAGS_RELEASE "-O2 -DNDEBUG")
 set(CMAKE_C_FLAGS_RELWITHDEBINFO "-g3 -Og -pg")
 set(CMAKE_C_FLAGS_MINSIZEREL "-Os -DNDEBUG")
+
+if (SIV3D_ENABLE_FPIC)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s SIDE_MODULE=1")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s SIDE_MODULE=1")
+endif()
 
 #set(CMAKE_BUILD_TYPE Release)
 
