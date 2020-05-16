@@ -37,7 +37,7 @@
 //
 //-----------------------------------------------
 
-# if SIV3D_PLATFORM(WEB)
+# if defined(EMSCRIPTEN) || defined(__EMSCRIPTEN__)
     # include_next <GLFW/glfw3.h>
 # endif
 
