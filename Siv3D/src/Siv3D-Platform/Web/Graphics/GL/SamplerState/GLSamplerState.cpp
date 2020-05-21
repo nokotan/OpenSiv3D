@@ -75,6 +75,11 @@ namespace s3d
 		static const GLfloat border[] = { state.borderColor[0], state.borderColor[1], state.borderColor[2], state.borderColor[3] };
 		static const GLuint wraps[] = { GL_REPEAT, GL_MIRRORED_REPEAT, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_BORDER };
 		
+		if (!sampler)
+		{
+			return m_states.end();
+		}
+
 		::glSamplerParameteri(sampler, GL_TEXTURE_MIN_FILTER,
 							  detail::minmipTable[(static_cast<int32>(state.min) << 1) | (static_cast<int32>(state.mip))]);
 		::glSamplerParameteri(sampler, GL_TEXTURE_MAG_FILTER, static_cast<bool>(state.mag) ? GL_LINEAR : GL_NEAREST);

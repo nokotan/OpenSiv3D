@@ -220,10 +220,12 @@ namespace s3d
 		::glGenVertexArrays(1, &m_vertexArray);
 		::glBindVertexArray(m_vertexArray);
 		
+	# if defined(SIV3D_USE_MULTISAMPLE)		
 		::glGenSamplers(1, &m_sampler);
 		::glSamplerParameteri(m_sampler, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		::glSamplerParameteri(m_sampler, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		::glSamplerParameteri(m_sampler, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	# endif
 
 		return true;
 	}
