@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------
+//-----------------------------------------------
 //
 //	This file is part of the Siv3D Engine.
 //
@@ -22,6 +22,7 @@
 # define SIV3D_PLATFORM_PRIVATE_DEFINITION_WINDOWS() 0
 # define SIV3D_PLATFORM_PRIVATE_DEFINITION_MACOS() 0
 # define SIV3D_PLATFORM_PRIVATE_DEFINITION_LINUX() 0
+# define SIV3D_PLATFORM_PRIVATE_DEFINITION_WEB() 0
 
 # if defined(_WIN32)
 

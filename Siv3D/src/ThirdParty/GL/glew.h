@@ -77,7 +77,7 @@
 ** MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
 */
 
-# if SIV3D_PLATFORM(WEB)
+# if defined(EMSCRIPTEN) || defined(__EMSCRIPTEN__)
     # include_next <GL/glew.h>
 # endif
 
