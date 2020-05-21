@@ -35,10 +35,8 @@ jobs:
         if: ${{ !steps.cache_boost.outputs.cache-hit }}
         working-directory: Dependencies
         run: |
-          git clone --recursive https://github.com/boostorg/boost.git
+          git clone --recursive https://github.com/boostorg/boost.git --branch boost-1.72.0
           mv boost boost_1_72_0
-          cd boost_1_72_0
-          git checkout refs/tags/boost-1.72.0
       - name: Place boost
         if: ${{ !steps.cache_boost.outputs.cache-hit }}
         working-directory: Dependencies/boost_1_72_0
