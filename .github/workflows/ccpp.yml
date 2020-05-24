@@ -65,7 +65,7 @@ jobs:
           embuilder.py build harfbuzz
       - name: Build project
         working-directory: Web/build
-        run: emmake make 
+        run: cmake --build . --parallel 4 
       - name: Bundle output
         run: |
           mkdir Package
