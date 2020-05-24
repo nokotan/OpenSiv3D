@@ -71,8 +71,8 @@ jobs:
           mkdir Package
           cp -r Siv3D/include Package
           cp Web/build/libSiv3D.a Package
-          cp Web/App/resources Package
-          cp Web/App/example Package
+          cp -r Web/App/resources Package
+          cp -r Web/App/example Package
           cp Web/App/Siv3D.js Package
           zip -r OpenSiv3D.zip Package
           tar -cvzf OpenSiv3D.tgz Package/*
