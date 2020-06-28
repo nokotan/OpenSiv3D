@@ -23,6 +23,10 @@
 extern "C"
 {
 	GLFWAPI void siv3dGetRootCursorPos(GLFWwindow* window, double* root_x, double* root_y);
+
+	extern void s3dRegisterTouchCallback();
+	extern void s3dUnregisterTouchCallback();
+	extern int s3dGetPrimaryTouchPoint(double* posX, double* posY);
 }
 
 namespace s3d
@@ -34,6 +38,8 @@ namespace s3d
 	CCursor::~CCursor()
 	{
 		LOG_TRACE(U"CCursor::~CCursor()");
+
+		::s3dUnregisterTouchCallback();
 	}
 
 	void CCursor::init()
@@ -41,6 +47,7 @@ namespace s3d
 		LOG_TRACE(U"CCursor::init()");
 
 		m_window = static_cast<GLFWwindow*>(Siv3DEngine::Get<ISiv3DWindow>()->getHandle());
+		::s3dRegisterTouchCallback();
 
 		LOG_INFO(U"ℹ️ CCursor initialized");
 	}
@@ -53,7 +60,11 @@ namespace s3d
 		}
 
 		double clientX, clientY, rootX, rootY;
-		::glfwGetCursorPos(m_window, &clientX, &clientY);
+
+		if (::s3dGetPrimaryTouchPoint(&clientX, &clientY) == 0) 
+		{
+			::glfwGetCursorPos(m_window, &clientX, &clientY);
+		}
 		// ::siv3dGetRootCursorPos(m_window, &rootX, &rootY);
 
 		// m_screen.update(rootX, rootY);

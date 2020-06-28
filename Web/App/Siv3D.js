@@ -1,6 +1,6 @@
 mergeInto(LibraryManager.library, {
     glfwGetKeysSiv3D: function (windowid) {
-        var window = GLFW.WindowFromId(windowid);
+        const window = GLFW.WindowFromId(windowid);
         if (!window) return 0;
         if (!window.keysBuffer) {
             window.keysBuffer = Module._malloc(349 /* GLFW_KEY_LAST + 1 */)
@@ -22,10 +22,10 @@ mergeInto(LibraryManager.library, {
             stream => {
                 const video = document.createElement("video");
 
-                video.addEventListener('canplay', function() {
+                video.addEventListener('loadedmetadata', function() {
                     const idx = GL.getNewId(videoElements);
 
-                    video.removeEventListener('canplay', arguments.callee);
+                    video.removeEventListener('loadedmetadata', arguments.callee);
                     videoElements[idx] = video;
 
                     if (callback) dynCall_vii(callback, callbackArg, idx);
@@ -69,5 +69,44 @@ mergeInto(LibraryManager.library, {
         });
     },
     s3dStopVideo__sig: "vi",
-    s3dStopVideo__deps: ["$videoElements"]
+    s3dStopVideo__deps: ["$videoElements"],
+
+    $activeTouches: [],
+    
+    $s3dOnTouchMove: function(e) {
+        activeTouches = Array.from(e.touches);
+    },
+    s3dRegisterTouchCallback: function() {
+        Module["canvas"].addEventListener("touchmove", s3dOnTouchMove);
+    },
+    s3dRegisterTouchCallback__deps: [ "$s3dOnTouchMove", "$activeTouches" ],
+    s3dUnregisterTouchCallback: function() {
+        Module["canvas"].removeEventListener("touchmove", s3dOnTouchMove);
+    },
+    s3dUnregisterTouchCallback__deps: [ "$s3dOnTouchMove" ],
+    s3dGetPrimaryTouchPoint: function(pX, pY) {
+        if (activeTouches.length > 0) {
+            const touch = activeTouches[0];
+
+            const rect = Module["canvas"].getBoundingClientRect();
+            const cw = Module["canvas"].width;
+            const ch = Module["canvas"].height;
+
+            const scrollX = ((typeof window.scrollX !== 'undefined') ? window.scrollX : window.pageXOffset);
+            const scrollY = ((typeof window.scrollY !== 'undefined') ? window.scrollY : window.pageYOffset);
+
+            let adjustedX = touch.pageX - (scrollX + rect.left);
+            let adjustedY = touch.pageY - (scrollY + rect.top);
+  
+            adjustedX = adjustedX * (cw / rect.width);
+            adjustedY = adjustedY * (ch / rect.height);
+            
+            setValue(pX, adjustedX, 'double');
+            setValue(pY, adjustedY, 'double');
+            return 1;
+        } else {
+            return 0;
+        }
+    },
+    s3dGetPrimaryTouchPoint__sig: "iii"
 });
