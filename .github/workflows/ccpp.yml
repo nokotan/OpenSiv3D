@@ -11,7 +11,7 @@ jobs:
   build:
     if: ${{ !contains(github.event.head_commit.message, '[ci skip]') }}
     container: 
-      image: trzeci/emscripten:1.39.10-upstream
+      image: trzeci/emscripten:1.39.13-upstream
     runs-on: ubuntu-latest
 
     steps:
