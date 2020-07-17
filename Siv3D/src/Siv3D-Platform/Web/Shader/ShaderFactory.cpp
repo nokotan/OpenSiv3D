@@ -9,7 +9,7 @@
 //
 //-----------------------------------------------
 
-# include <Shader/GL/CShader_GL.hpp>
+# include <Shader/GLES2/CShader_GL.hpp>
 
 namespace s3d
 {

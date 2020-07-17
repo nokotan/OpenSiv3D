@@ -9,7 +9,7 @@
 //
 //-----------------------------------------------
 
-# include <Texture/GL/CTexture_GL.hpp>
+# include <Texture/GLES2/CTexture_GL.hpp>
 
 namespace s3d
 {

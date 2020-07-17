@@ -9,7 +9,8 @@
 //
 //-----------------------------------------------
 
-# include <Renderer2D/GL/CRenderer2D_GL.hpp>
+// # include <Renderer2D/GL/CRenderer2D_GL.hpp>
+# include <Renderer2D/GLES2/CRenderer2D_GL.hpp>
 
 namespace s3d
 {

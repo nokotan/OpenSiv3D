@@ -9,7 +9,7 @@
 //
 //-----------------------------------------------
 
-# include <Graphics/GL/CGraphics_GL.hpp>
+# include <Graphics/GLES2/CGraphics_GL.hpp>
 
 namespace s3d
 {

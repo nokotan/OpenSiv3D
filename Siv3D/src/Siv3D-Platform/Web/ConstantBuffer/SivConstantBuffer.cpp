@@ -10,7 +10,7 @@
 //-----------------------------------------------
 
 # include <Siv3D/ConstantBuffer.hpp>
-# include "GL/GLConstantBuffer.hpp"
+# include "GLES2/GLConstantBuffer.hpp"
 
 namespace s3d
 {
