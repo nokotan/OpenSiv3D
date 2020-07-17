@@ -78,8 +78,8 @@ namespace s3d
 			throw EngineError(U"glfwInit() failed");
 		}
 
-		::glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-		::glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+		::glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+		::glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 		::glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 		::glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		::glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, SIV3D_BUILD_TYPE(DEBUG) ? GLFW_TRUE : GLFW_FALSE);
