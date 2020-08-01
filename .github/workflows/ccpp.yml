@@ -17,12 +17,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Create build folder
         working-directory: Web
         run: mkdir build
+
       - name: Create project using cmake
         working-directory: Web/build
         run: emcmake cmake -DCMAKE_BUILD_TYPE=Release ..
+
       - name: Cache boost
         id: cache_boost
         uses: actions/cache@v1
@@ -31,12 +34,14 @@ jobs:
         with:
           path: Dependencies/boost_1_72_0/boost
           key: ${{ runner.os }}-build-${{ env.cache-name }}
+
       - name: Download boost
         if: ${{ !steps.cache_boost.outputs.cache-hit }}
         working-directory: Dependencies
         run: |
           git clone --recursive https://github.com/boostorg/boost.git --branch boost-1.72.0
           mv boost boost_1_72_0
+
       - name: Place boost
         if: ${{ !steps.cache_boost.outputs.cache-hit }}
         working-directory: Dependencies/boost_1_72_0
@@ -47,6 +52,7 @@ jobs:
           cp -L -r boost boost_tmp
           rm -r boost
           mv boost_tmp/boost boost
+
       - name: Cache emscripten ports
         id: cache_emscripten_ports
         uses: actions/cache@v1
@@ -55,6 +61,7 @@ jobs:
         with:
           path: /emsdk_portable/.data/cache
           key: ${{ runner.os }}-build-${{ env.cache-name }}
+
       - name: Prebuild emscripten ports
         if: ${{ !steps.cache_emscripten_ports.outputs.cache-hit }}
         run: |
@@ -63,9 +70,11 @@ jobs:
           embuilder.py build libpng
           embuilder.py build freetype
           embuilder.py build harfbuzz
+
       - name: Build project
         working-directory: Web/build
         run: cmake --build . --parallel 4 
+
       - name: Bundle output
         run: |
           mkdir Package
@@ -78,6 +87,7 @@ jobs:
           cp Web/App/Siv3D.js Package/lib
           zip -r OpenSiv3D.zip Package
           tar -cvzf OpenSiv3D.tgz Package/*
+
       - name: Save Bundles
         uses: actions/upload-artifact@v2
         with:
@@ -89,12 +99,15 @@ jobs:
     container: 
       image: trzeci/emscripten:1.39.13-upstream
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Create build folder
         working-directory: Web/App
         run: mkdir build
+
       - name: Restore emscripten ports
         id: cache_emscripten_ports
         uses: actions/cache@v1
@@ -103,32 +116,39 @@ jobs:
         with:
           path: /emsdk_portable/.data/cache
           key: ${{ runner.os }}-build-${{ env.cache-name }}
+
       - name: Restore Bundles
         uses: actions/download-artifact@v2
         with:
           name: OpenSiv3D-Bundles
           path: .
+
       - name: Restore Siv3D library
         run: |
           tar -xvf OpenSiv3D.tgz
           mkdir Web/Build
           cp Package/lib/libSiv3D.a Web/Build
+
       - name: Create project using cmake
         working-directory: Web/App/build
         run: emcmake cmake ..
+
       - name: Build Siv3d App
         working-directory: Web/App/build
         run: cmake --build .
+
   deploy:
     if: ${{ contains(github.ref, 'tags/v') }}
     needs: build
     runs-on: ubuntu-latest
+
     steps:
       - name: Restore Bundles
         uses: actions/download-artifact@v2
         with:
           name: OpenSiv3D-Bundles
           path: .
+
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -137,6 +157,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
+
       - name: Upload Release Asset (zip)
         id: upload-release-asset-zip
         uses: actions/upload-release-asset@v1
@@ -147,6 +168,7 @@ jobs:
           asset_path: OpenSiv3D.zip
           asset_name: OpenSiv3D.zip
           asset_content_type: application/zip
+          
       - name: Upload Release Asset (tgz)
         id: upload-release-asset-tgz
         uses: actions/upload-release-asset@v1
