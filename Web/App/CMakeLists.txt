@@ -35,10 +35,14 @@ PRIVATE
 	${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/opencv
 )
 
-target_link_libraries(Siv3D_App
-	libSiv3D.a
-	libopencv_core.a
-	libopencv_imgproc.a
-	libopencv_objdetect.a
-	libopencv_photo.a
-)
+if (SIV3D_BUILD_WITH_SHARED_WASM)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s MAIN_MODULE=1 -s RUNTIME_LINKED_LIBS=['Siv3D.wasm']")
+else ()
+	target_link_libraries(Siv3D_App
+		libSiv3D.a
+		libopencv_core.a
+		libopencv_imgproc.a
+		libopencv_objdetect.a
+		libopencv_photo.a
+	)
+endif()

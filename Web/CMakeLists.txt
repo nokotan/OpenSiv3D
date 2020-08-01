@@ -15,10 +15,12 @@ set(CMAKE_C_FLAGS_RELEASE "-O2 -DNDEBUG")
 set(CMAKE_C_FLAGS_RELWITHDEBINFO "-g3 -Og -pg")
 set(CMAKE_C_FLAGS_MINSIZEREL "-Os -DNDEBUG")
 
-if (SIV3D_ENABLE_FPIC)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s SIDE_MODULE=1")
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s SIDE_MODULE=1")
-endif()
+if (SIV3D_BUILD_SHARED_WASM)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s SIDE_MODULE=1 -s FULL_ES3=1 -s USE_GLFW=3 -s USE_LIBPNG=1 -s USE_FREETYPE=1 -s USE_HARFBUZZ=1 -s USE_OGG=1 -s USE_VORBIS=1 -s USE_ZLIB=1")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s SIDE_MODULE=1 -s FULL_ES3=1 -s USE_GLFW=3 -s USE_LIBPNG=1 -s USE_FREETYPE=1 -s USE_HARFBUZZ=1 -s USE_OGG=1 -s USE_VORBIS=1 -s USE_ZLIB=1")
+
+	set(CMAKE_EXECUTABLE_SUFFIX ".wasm")
+endif ()
 
 #set(CMAKE_BUILD_TYPE Release)
 
@@ -720,8 +722,21 @@ set(SOURCE_FILES
 	"../Siv3D/src/ThirdParty/RtAudio/RtAudio.cpp"
 )
 
-add_library(Siv3D STATIC ${SOURCE_FILES})
+if (SIV3D_BUILD_SHARED_WASM)
+	add_executable(Siv3D ${SOURCE_FILES})
 
-target_link_libraries(Siv3D
-)
+	target_link_directories(Siv3D
+	PRIVATE
+		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/opencv
+	)
+	
+	target_link_libraries(Siv3D
+		libopencv_core_pic.a
+		libopencv_imgproc_pic.a
+		libopencv_objdetect_pic.a
+		libopencv_photo_pic.a
+	)
+else ()
+	add_library(Siv3D STATIC ${SOURCE_FILES})
+endif ()
 
