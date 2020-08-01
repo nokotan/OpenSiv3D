@@ -29,11 +29,16 @@ set(SOURCE_FILES
 add_executable(Siv3D_App ${SOURCE_FILES})
 set(CMAKE_EXECUTABLE_SUFFIX ".html")
 
-target_link_libraries(Siv3D_App
-	${PROJECT_SOURCE_DIR}/../Build/libSiv3D.a
-	${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/opencv/libopencv_core.a
-	${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/opencv/libopencv_imgproc.a
-	${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/opencv/libopencv_objdetect.a
-	${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/opencv/libopencv_photo.a
+target_link_directories(Siv3D_App
+PRIVATE
+	${PROJECT_SOURCE_DIR}/../Build
+	${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/opencv
 )
 
+target_link_libraries(Siv3D_App
+	libSiv3D.a
+	libopencv_core.a
+	libopencv_imgproc.a
+	libopencv_objdetect.a
+	libopencv_photo.a
+)
