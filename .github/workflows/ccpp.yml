@@ -147,6 +147,12 @@ jobs:
         working-directory: Web/App/build
         run: cmake --build .
 
+      - name: Save Bundles
+        uses: actions/upload-artifact@v2
+        with:
+          name: Siv3D_App
+          path: Web/App/build/Siv3D_App.*
+
   deploy:
     if: ${{ contains(github.ref, 'tags/v') }}
     needs: build
