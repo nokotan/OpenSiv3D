@@ -70,10 +70,12 @@ jobs:
         run: |
           mkdir Package
           cp -r Siv3D/include Package
-          cp Web/build/libSiv3D.a Package
+          cp -r Siv3D/lib/Web Package
           cp -r Web/App/resources Package
           cp -r Web/App/example Package
-          cp Web/App/Siv3D.js Package
+          mv Package/Web Package/lib
+          cp Web/build/libSiv3D.a Package/lib
+          cp Web/App/Siv3D.js Package/lib
           zip -r OpenSiv3D.zip Package
           tar -cvzf OpenSiv3D.tgz Package/*
       - name: Save Bundles
