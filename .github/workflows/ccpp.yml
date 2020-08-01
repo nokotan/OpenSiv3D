@@ -109,7 +109,9 @@ jobs:
           name: OpenSiv3D-Bundles
           path: Package
       - name: Restore Siv3D library
-        run: cp Package/libSiv3D.a Web/Build/lib
+        run: |
+          tar -xvf OpenSiv3D.tgz
+          cp Package/libSiv3D.a Web/Build/lib
       - name: Create project using cmake
         working-directory: Web/App/build
         run: emcmake cmake ..
