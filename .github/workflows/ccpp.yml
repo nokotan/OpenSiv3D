@@ -57,9 +57,9 @@ jobs:
         id: cache_emscripten_ports
         uses: actions/cache@v1
         env:
-          cache-name: cache-emscripten-ports
+          cache-name: cache-emscripten-ports-2
         with:
-          path: /emsdk_portable/.data/cache
+          path: /emsdk_portable/.data/
           key: ${{ runner.os }}-build-${{ env.cache-name }}
 
       - name: Prebuild emscripten ports
@@ -122,9 +122,9 @@ jobs:
         id: cache_emscripten_ports
         uses: actions/cache@v1
         env:
-          cache-name: cache-emscripten-ports
+          cache-name: cache-emscripten-ports-2
         with:
-          path: /emsdk_portable/.data/cache
+          path: /emsdk_portable/.data/
           key: ${{ runner.os }}-build-${{ env.cache-name }}
 
       - name: Restore Bundles
