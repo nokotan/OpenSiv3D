@@ -107,7 +107,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: OpenSiv3D-Bundles
-          path: Package
+          path: .
       - name: Restore Siv3D library
         run: |
           tar -xvf OpenSiv3D.tgz
