@@ -84,6 +84,38 @@ jobs:
           name: OpenSiv3D-Bundles
           path: OpenSiv3D.*
 
+  build-app:
+    needs: build
+    container: 
+      image: trzeci/emscripten:1.39.13-upstream
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create build folder
+        working-directory: Web/App
+        run: mkdir build
+      - name: Restore emscripten ports
+        id: cache_emscripten_ports
+        uses: actions/cache@v1
+        env:
+          cache-name: cache-emscripten-ports
+        with:
+          path: /emsdk_portable/.data/cache
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+      - name: Restore Bundles
+        uses: actions/download-artifact@v2
+        with:
+          name: OpenSiv3D-Bundles
+          path: .
+      - name: Restore Siv3D library
+        run: cp Package/libSiv3D.a Web/Build/lib
+      - name: Create project using cmake
+        working-directory: Web/App/build
+        run: emcmake cmake ..
+      - name: Build Siv3d App
+        working-directory: Web/App/build
+        run: cmake --build .
   deploy:
     if: ${{ contains(github.ref, 'tags/v') }}
     needs: build
