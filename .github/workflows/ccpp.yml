@@ -107,7 +107,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: OpenSiv3D-Bundles
-          path: .
+          path: Package
       - name: Restore Siv3D library
         run: cp Package/libSiv3D.a Web/Build/lib
       - name: Create project using cmake
