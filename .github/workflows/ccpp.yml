@@ -71,7 +71,17 @@ jobs:
           embuilder.py build freetype
           embuilder.py build harfbuzz
 
+      - name: Cache Build result
+        id: cache_siv3d_library
+        uses: actions/cache@v1
+        env:
+          cache-name: cache-siv3d-library
+        with:
+          path: Web/build
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Siv3D/**/*.*') }}-${{ hashFiles('Web/CMakeLists.txt') }}
+
       - name: Build project
+        if: ${{ !steps.cache_siv3d_library.outputs.cache-hit }}
         working-directory: Web/build
         run: cmake --build . --parallel 4 
 
@@ -168,7 +178,7 @@ jobs:
           asset_path: OpenSiv3D.zip
           asset_name: OpenSiv3D.zip
           asset_content_type: application/zip
-          
+
       - name: Upload Release Asset (tgz)
         id: upload-release-asset-tgz
         uses: actions/upload-release-asset@v1
