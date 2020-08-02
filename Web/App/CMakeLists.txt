@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 3.0)
 project(OpenSiv3D_Web CXX)
 enable_language(C)
 
-set(CMAKE_CXX_FLAGS "-std=c++17 -Wall -Wextra -Wno-unknown-pragmas -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s ALLOW_MEMORY_GROWTH=1 -s FULL_ES3 -s USE_GLFW=3 -s USE_LIBPNG=1 -s USE_FREETYPE=1 -s USE_HARFBUZZ=1 -s USE_OGG=1 -s USE_VORBIS=1 -s USE_ZLIB=1 --js-library '${CMAKE_SOURCE_DIR}/Siv3D.js' --preload-file '${CMAKE_SOURCE_DIR}/resources@/resources'")
+set(CMAKE_CXX_FLAGS "-std=c++17 -Wall -Wextra -Wno-unknown-pragmas -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s ALLOW_MEMORY_GROWTH=1 -s FULL_ES3 -s USE_GLFW=3 -s USE_LIBPNG=1 -s USE_OGG=1 -s USE_VORBIS=1 -s USE_ZLIB=1 --js-library '${CMAKE_SOURCE_DIR}/Siv3D.js' --preload-file '${CMAKE_SOURCE_DIR}/resources@/resources'")
 set(CMAKE_CXX_FLAGS_DEBUG "-g3 -O0 -pg -DDEBUG")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-g3 -Og -pg")
@@ -33,6 +33,8 @@ target_link_directories(Siv3D_App
 PRIVATE
 	${PROJECT_SOURCE_DIR}/../Build
 	${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/opencv
+	${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/harfbuzz
+	${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/freetype
 )
 
 if (SIV3D_BUILD_WITH_SHARED_WASM)
@@ -44,5 +46,7 @@ else ()
 		libopencv_imgproc.a
 		libopencv_objdetect.a
 		libopencv_photo.a
+		libfreetype.a
+		libharfbuzz.a
 	)
 endif()

@@ -16,8 +16,8 @@ set(CMAKE_C_FLAGS_RELWITHDEBINFO "-g3 -Og -pg")
 set(CMAKE_C_FLAGS_MINSIZEREL "-Os -DNDEBUG")
 
 if (SIV3D_BUILD_SHARED_WASM)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s SIDE_MODULE=1 -s FULL_ES3=1 -s USE_GLFW=3 -s USE_LIBPNG=1 -s USE_FREETYPE=1 -s USE_HARFBUZZ=1 -s USE_OGG=1 -s USE_VORBIS=1 -s USE_ZLIB=1")
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s SIDE_MODULE=1 -s FULL_ES3=1 -s USE_GLFW=3 -s USE_LIBPNG=1 -s USE_FREETYPE=1 -s USE_HARFBUZZ=1 -s USE_OGG=1 -s USE_VORBIS=1 -s USE_ZLIB=1")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s SIDE_MODULE=1 -s FULL_ES3=1 -s USE_GLFW=3 -s USE_LIBPNG=1 -s USE_OGG=1 -s USE_VORBIS=1 -s USE_ZLIB=1")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s SIDE_MODULE=1 -s FULL_ES3=1 -s USE_GLFW=3 -s USE_LIBPNG=1 -s USE_OGG=1 -s USE_VORBIS=1 -s USE_ZLIB=1")
 
 	set(CMAKE_EXECUTABLE_SUFFIX ".wasm")
 endif ()
@@ -728,6 +728,8 @@ if (SIV3D_BUILD_SHARED_WASM)
 	target_link_directories(Siv3D
 	PRIVATE
 		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/opencv
+		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/harfbuzz
+		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/freetype
 	)
 	
 	target_link_libraries(Siv3D
@@ -735,6 +737,8 @@ if (SIV3D_BUILD_SHARED_WASM)
 		libopencv_imgproc_pic.a
 		libopencv_objdetect_pic.a
 		libopencv_photo_pic.a
+		libfreetype_pic.a
+		libharfbuzz_pic.a
 	)
 else ()
 	add_library(Siv3D STATIC ${SOURCE_FILES})
