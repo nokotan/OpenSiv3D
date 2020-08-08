@@ -33,8 +33,8 @@ target_link_directories(Siv3D_App
 PRIVATE
 	${PROJECT_SOURCE_DIR}/../Build
 	${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/opencv
-	${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/harfbuzz
-	${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/freetype
+	${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/harfbuzz
+	${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/freetype
 )
 
 if (SIV3D_BUILD_WITH_SHARED_WASM)
