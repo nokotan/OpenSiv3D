@@ -108,5 +108,90 @@ mergeInto(LibraryManager.library, {
             return 0;
         }
     },
-    s3dGetPrimaryTouchPoint__sig: "iii"
+    s3dGetPrimaryTouchPoint__sig: "iii",
+    s3dCallIndirect: function(funcPtr, funcTypes, retPtr, argsPtr) {
+        let args = [];
+        let funcTypeIndex = funcTypes;
+        let argsPtrIndex = argsPtr;
+
+        const retType = HEAPU8[funcTypeIndex++];
+
+        while (true) {
+            const funcType = HEAPU8[funcTypeIndex++];
+
+            if (funcType === 0) break;
+
+            switch (funcType) {
+                case 105: // 'i':
+                    args.push(HEAP32[argsPtrIndex >> 2]);
+                    argsPtrIndex += 4;
+                    break;
+                case 102: // 'f':
+                    args.push(HEAPF32[argsPtrIndex >> 2]);
+                    argsPtrIndex += 4;
+                    break;
+                case 100: // 'd':
+                    args.push(HEAPF64[argsPtrIndex >> 3]);
+                    argsPtrIndex += 8;
+                    break;
+                default:
+                    err("Unrecognized Function Type");
+            }
+        }
+
+        const retValue = wasmTable.get(funcPtr).apply(null, args);
+
+        switch (retType) {
+            case 105: // 'i':
+                HEAP32[retPtr >> 2] = retValue;
+                break;
+            case 102: // 'f':
+                HEAPF32[retPtr >> 2] = retValue;
+                break;
+            case 100: // 'd':
+                HEAPF64[retPtr >> 3] = retValue;
+                break;
+            case 118: // 'v':
+                break;
+            default:
+                err("Unrecognized Function Type");
+        }
+    },
+    s3dCallIndirect__sig: "viiii",
+    s3dCallIndirectReturnInMemory: function(funcPtr, funcTypes, retPtr, argsPtr) {
+        let args = [];
+        let funcTypeIndex = funcTypes;
+        let argsPtrIndex = argsPtr;
+        
+        const retType = HEAPU8[funcTypeIndex++];
+        const retValPtr = HEAP32[argsPtrIndex >> 2];
+        argsPtrIndex += 4;
+
+        while (true) {
+            const funcType = HEAPU8[funcTypeIndex++];
+
+            if (funcType === 0) break;
+
+            switch (funcType) {
+                case 105: // 'i':
+                    args.push(HEAP32[argsPtrIndex >> 2]);
+                    argsPtrIndex += 4;
+                    break;
+                case 102: // 'f':
+                    args.push(HEAPF32[argsPtrIndex >> 2]);
+                    argsPtrIndex += 4;
+                    break;
+                case 100: // 'd':
+                    args.push(HEAPF64[argsPtrIndex >> 3]);
+                    argsPtrIndex += 8;
+                    break;
+                default:
+                    err("Unrecognized Function Type");
+            }
+        }
+
+        wasmTable.get(funcPtr).apply(null, args);
+        HEAP32[retPtr >> 2] = retValPtr;
+    },
+    s3dCallIndirectReturnInMemory__sig: "viiii",
 });
