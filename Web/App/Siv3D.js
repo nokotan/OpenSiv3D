@@ -24,6 +24,14 @@ mergeInto(LibraryManager.library, {
     },
     glfwGetMonitorInfo_Siv3D__sig: "viiiiiiiiiii",
     
+    glfwGetMonitorRect_Siv3D: function(handle, xpos, ypos, w, h) {
+        setValue(xpos, 0, 'i32');
+        setValue(ypos, 0, 'i32');
+        setValue(w, 0, 'i32');
+        setValue(h, 0, 'i32');
+    },
+    glfwGetMonitorRect_Siv3D__sig: "viiiii",
+
     $videoElements: [],
 
     s3dOpenVideo: function(callback, callbackArg) {
