@@ -92,7 +92,7 @@ namespace s3d
 		Siv3DEngine::Get<ISiv3DEffect>()->init();
 		Siv3DEngine::Get<ISiv3DPrint>()->init();
 		Siv3DEngine::Get<ISiv3DAsset>()->init();
-		// Siv3DEngine::Get<ISiv3DScript>()->init();
+		Siv3DEngine::Get<ISiv3DScript>()->init();
 
 		Siv3DEngine::Get<ISiv3DCursor>()->update();
 

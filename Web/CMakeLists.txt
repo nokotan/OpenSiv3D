@@ -504,7 +504,7 @@ set(SOURCE_FILES
 	"../Siv3D/src/ThirdParty/angelscript/as_builder.cpp"
 	"../Siv3D/src/ThirdParty/angelscript/as_bytecode.cpp"
 	"../Siv3D/src/ThirdParty/angelscript/as_callfunc.cpp"
-	"../Siv3D/src/ThirdParty/angelscript/as_callfunc_x64_gcc.cpp"
+	"../Siv3D/src/ThirdParty/angelscript/as_callfunc_wasm32.cpp"
 	"../Siv3D/src/ThirdParty/angelscript/as_compiler.cpp"
 	"../Siv3D/src/ThirdParty/angelscript/as_configgroup.cpp"
 	"../Siv3D/src/ThirdParty/angelscript/as_context.cpp"
