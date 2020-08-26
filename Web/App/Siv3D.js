@@ -10,6 +10,20 @@ mergeInto(LibraryManager.library, {
     },
     glfwGetKeysSiv3D__sig: "ii",
 
+    glfwGetMonitorInfo_Siv3D: function(handle, displayID, name, xpos, ypos, w, h, wx, wy, ww, wh) {
+        setValue(displayID, 0, 'i32');
+        stringToUTF8('HTML5 WebGL Canvas', name, 20);
+        setValue(xpos, 0, 'i32');
+        setValue(ypos, 0, 'i32');
+        setValue(w, 0, 'i32');
+        setValue(h, 0, 'i32');
+        setValue(wx, 0, 'i32');
+        setValue(wy, 0, 'i32');
+        setValue(ww, 0, 'i32');
+        setValue(wh, 0, 'i32');
+    },
+    glfwGetMonitorInfo_Siv3D__sig: "viiiiiiiiiii",
+    
     $videoElements: [],
 
     s3dOpenVideo: function(callback, callbackArg) {
