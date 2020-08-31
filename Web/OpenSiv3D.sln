@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28407.52
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Siv3D", "Siv3D.vcxproj", "{1FF8AB5B-C64C-4C29-A763-A82502EE2304}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Emscripten = Debug|Emscripten
+		Release|Emscripten = Release|Emscripten
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1FF8AB5B-C64C-4C29-A763-A82502EE2304}.Debug|Emscripten.ActiveCfg = Debug|Emscripten
+		{1FF8AB5B-C64C-4C29-A763-A82502EE2304}.Debug|Emscripten.Build.0 = Debug|Emscripten
+		{1FF8AB5B-C64C-4C29-A763-A82502EE2304}.Release|Emscripten.ActiveCfg = Release|Emscripten
+		{1FF8AB5B-C64C-4C29-A763-A82502EE2304}.Release|Emscripten.Build.0 = Release|Emscripten
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0420B392-EE38-49A4-A4AE-0ACE1FE46DC8}
+	EndGlobalSection
+EndGlobal
