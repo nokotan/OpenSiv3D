@@ -12,7 +12,7 @@ mergeInto(LibraryManager.library, {
 
     glfwGetMonitorInfo_Siv3D: function(handle, displayID, name, xpos, ypos, w, h, wx, wy, ww, wh) {
         setValue(displayID, 1, 'i32');
-        setValue(name, allocate(intArrayFromString('HTML5 WebGL Canvas', 'i8', ALLOC_NORMAL)), 'i32');
+        setValue(name, allocate(intArrayFromString("HTML5 WebGL Canvas"), 'i8', ALLOC_NORMAL), 'i32');
         setValue(xpos, 0, 'i32');
         setValue(ypos, 0, 'i32');
         setValue(w, 0, 'i32');
