@@ -12,9 +12,9 @@ jobs:
     if: ${{ !contains(github.event.head_commit.message, '[ci skip]') }}
     strategy:
       matrix:
-        container: [ 'trzeci/emscripten:1.39.13-upstream', 'trzeci/emscripten:1.39.13-fastcomp' ]
+        container: [ 1.39.13-upstream, 1.39.13-fastcomp ]
     container: 
-      image: ${{ matrix.container }}
+      image: trzeci/emscripten:${{ matrix.container }}
     runs-on: ubuntu-latest
 
     steps:
@@ -133,7 +133,7 @@ jobs:
       - name: Restore Bundles
         uses: actions/download-artifact@v2
         with:
-          name: OpenSiv3D-Bundles-trzeci/emscripten:1.39.13-upstream
+          name: OpenSiv3D-Bundles-1.39.13-upstream
           path: .
 
       - name: Restore Siv3D library
@@ -165,7 +165,7 @@ jobs:
       - name: Restore Bundles
         uses: actions/download-artifact@v2
         with:
-          name: OpenSiv3D-Bundles-trzeci/emscripten:1.39.13-upstream
+          name: OpenSiv3D-Bundles-1.39.13-upstream
           path: .
 
       - name: Create release
