@@ -163,7 +163,7 @@ jobs:
         run: |
           tar -xvf OpenSiv3D.tgz
           mkdir Web/Build
-          cp Package/lib/libSiv3D.a Web/Build
+          cp -r Package/lib/* Web/Build
 
       - name: Create project using cmake
         working-directory: Web/App/build
