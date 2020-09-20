@@ -83,7 +83,7 @@ namespace s3d
 				return vec;
 			}
 
-# if !SIV3D_PLATFORM(WEB)
+# if !defined(M128_AND_M128I_ARE_SAME_DEFINITION)
 			[[nodiscard]] operator __m128i() const noexcept
 			{
 				return _mm_castps_si128(vec);
