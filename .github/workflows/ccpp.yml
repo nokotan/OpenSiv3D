@@ -17,14 +17,17 @@ jobs:
             container: 1.39.13-upstream
             cmake-config: ''
             embuilder-config: ''
+            output-file: 'libSiv3D.a'
           - name: upstream-pic
             container: 1.39.13-upstream
             cmake-config: '-DSIV3D_BUILD_SHARED_WASM=1'
             embuilder-config: '--pic'
+            output-file: 'Siv3D.wasm'
           - name: fastcomp
             container: 1.39.13-fastcomp
             cmake-config: ''
             embuilder-config: ''
+            output-file: 'libSiv3D.a'
     container: 
       image: trzeci/emscripten:${{ matrix.config.container }}
     runs-on: ubuntu-latest
@@ -104,7 +107,7 @@ jobs:
           cp -r Web/App/resources Package
           cp -r Web/App/example Package
           mv Package/Web Package/lib
-          cp Web/build/libSiv3D.a Package/lib
+          cp Web/build/${{ matrix.config.output-file }} Package/lib
           cp Web/App/Siv3D.js Package/lib
           zip -r OpenSiv3D.zip Package
           tar -cvzf OpenSiv3D.tgz Package/*
