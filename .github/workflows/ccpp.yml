@@ -167,7 +167,7 @@ jobs:
 
       - name: Create project using cmake
         working-directory: Web/App/build
-        run: emcmake cmake ${{ matrix.config.cmake-config }} ..
+        run: emcmake cmake -DCMAKE_BUILD_TYPE=Release ${{ matrix.config.cmake-config }} ..
 
       - name: Build Siv3d App
         working-directory: Web/App/build
