@@ -40,6 +40,8 @@ PRIVATE
 if (SIV3D_BUILD_WITH_SHARED_WASM)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s MAIN_MODULE=1 -s RUNTIME_LINKED_LIBS=['Siv3D.wasm']")
 elseif (SIV3D_BUILD_WITH_FASTCOMP_SUPPORT)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSIMDE_NO_VECTOR")
+
 	target_link_libraries(Siv3D_App
 		libSiv3D.a
 		libopencv_core_asmjs.a
