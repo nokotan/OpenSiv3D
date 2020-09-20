@@ -131,7 +131,7 @@ jobs:
             cmake-config: '-DSIV3D_BUILD_WITH_SHARED_WASM=1'
           - name: fastcomp
             container: 1.39.13-fastcomp
-            cmake-config: ''
+            cmake-config: '-DSIV3D_BUILD_WITH_FASTCOMP_SUPPORT=1'
     container: 
       image: trzeci/emscripten:${{ matrix.config.container }}
     runs-on: ubuntu-latest
