@@ -739,12 +739,12 @@ if (SIV3D_BUILD_SHARED_WASM)
 	)
 	
 	target_link_libraries(Siv3D
-		libopencv_core_pic.a
-		libopencv_imgproc_pic.a
 		libopencv_objdetect_pic.a
 		libopencv_photo_pic.a
-		libfreetype_pic.a
+		libopencv_imgproc_pic.a
+		libopencv_core_pic.a
 		libharfbuzz_pic.a
+		libfreetype_pic.a
 	)
 else ()
 	add_library(Siv3D STATIC ${SOURCE_FILES})

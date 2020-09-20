@@ -44,21 +44,21 @@ elseif (SIV3D_BUILD_WITH_FASTCOMP_SUPPORT)
 
 	target_link_libraries(Siv3D_App
 		libSiv3D.a
-		libopencv_core_asmjs.a
-		libopencv_imgproc_asmjs.a
 		libopencv_objdetect_asmjs.a
 		libopencv_photo_asmjs.a
-		libfreetype_asmjs.a
+		libopencv_imgproc_asmjs.a
+		libopencv_core_asmjs.a
 		libharfbuzz_asmjs.a
+		libfreetype_asmjs.a
 	)
 else ()
 	target_link_libraries(Siv3D_App
 		libSiv3D.a
-		libopencv_core.a
-		libopencv_imgproc.a
 		libopencv_objdetect.a
 		libopencv_photo.a
-		libfreetype.a
+		libopencv_imgproc.a
+		libopencv_core.a
 		libharfbuzz.a
+		libfreetype.a
 	)
 endif()
