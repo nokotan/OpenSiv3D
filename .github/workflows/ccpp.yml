@@ -14,22 +14,22 @@ jobs:
       matrix:
         config:
           - name: wasm
-            container: 1.39.13-upstream
+            container: 'emscripten/emsdk:2.0.4'
             cmake-config: ''
             embuilder-config: ''
             output-file: 'libSiv3D.a'
           - name: wasm-pic
-            container: 1.39.13-upstream
+            container: 'emscripten/emsdk:2.0.4'
             cmake-config: '-DSIV3D_BUILD_SHARED_WASM=1'
             embuilder-config: '--pic'
             output-file: 'Siv3D.wasm'
           - name: asmjs
-            container: 1.39.13-fastcomp
+            container: 'trzeci/emscripten:1.39.13-fastcomp'
             cmake-config: '-DSIV3D_BUILD_WITH_FASTCOMP_SUPPORT=1'
             embuilder-config: ''
             output-file: 'libSiv3D.a'
     container: 
-      image: trzeci/emscripten:${{ matrix.config.container }}
+      image: ${{ matrix.config.container }}
     runs-on: ubuntu-latest
 
     steps:
@@ -124,16 +124,16 @@ jobs:
       matrix:
         config:
           - name: wasm
-            container: 1.39.13-upstream
+            container: 'emscripten/emsdk:2.0.4'
             cmake-config: ''
           - name: wasm-pic
-            container: 1.39.13-upstream
+            ccontainer: 'emscripten/emsdk:2.0.4'
             cmake-config: '-DSIV3D_BUILD_WITH_SHARED_WASM=1'
           - name: asmjs
-            container: 1.39.13-fastcomp
+            container: 'trzeci/emscripten:1.39.13-fastcomp'
             cmake-config: '-DSIV3D_BUILD_WITH_FASTCOMP_SUPPORT=1'
     container: 
-      image: trzeci/emscripten:${{ matrix.config.container }}
+      image: ${{ matrix.config.container }}
     runs-on: ubuntu-latest
 
     steps:
