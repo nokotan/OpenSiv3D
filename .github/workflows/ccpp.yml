@@ -13,17 +13,17 @@ jobs:
     strategy:
       matrix:
         config:
-          - name: upstream
+          - name: wasm
             container: 1.39.13-upstream
             cmake-config: ''
             embuilder-config: ''
             output-file: 'libSiv3D.a'
-          - name: upstream-pic
+          - name: wasm-pic
             container: 1.39.13-upstream
             cmake-config: '-DSIV3D_BUILD_SHARED_WASM=1'
             embuilder-config: '--pic'
             output-file: 'Siv3D.wasm'
-          - name: fastcomp
+          - name: asmjs
             container: 1.39.13-fastcomp
             cmake-config: '-DSIV3D_BUILD_WITH_FASTCOMP_SUPPORT=1'
             embuilder-config: ''
@@ -103,7 +103,7 @@ jobs:
         run: |
           mkdir Package
           cp -r Siv3D/include Package
-          cp -r Siv3D/lib/Web Package
+          cp -r Siv3D/lib/Web/$${{ matrix.config.name }} Package
           cp -r Web/App/resources Package
           cp -r Web/App/example Package
           mv Package/Web Package/lib
@@ -123,13 +123,13 @@ jobs:
     strategy:
       matrix:
         config:
-          - name: upstream
+          - name: wasm
             container: 1.39.13-upstream
             cmake-config: ''
-          - name: upstream-pic
+          - name: wasm-pic
             container: 1.39.13-upstream
             cmake-config: '-DSIV3D_BUILD_WITH_SHARED_WASM=1'
-          - name: fastcomp
+          - name: asmjs
             container: 1.39.13-fastcomp
             cmake-config: '-DSIV3D_BUILD_WITH_FASTCOMP_SUPPORT=1'
     container: 
