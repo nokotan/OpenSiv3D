@@ -77,7 +77,7 @@ jobs:
         env:
           cache-name: cache-emscripten-ports
         with:
-          path: /emsdk_portable/.data/
+          path: ${EM_CACHE}
           key: ${{ matrix.config.name }}-${{ runner.os }}-build-${{ env.cache-name }}
 
       - name: Prebuild emscripten ports
@@ -150,7 +150,7 @@ jobs:
         env:
           cache-name: cache-emscripten-ports
         with:
-          path: /emsdk_portable/.data/
+          path: ${EM_CACHE}
           key: ${{ matrix.config.name }}-${{ runner.os }}-build-${{ env.cache-name }}
 
       - name: Restore Bundles
