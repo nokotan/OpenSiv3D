@@ -71,6 +71,11 @@ jobs:
           rm -r boost
           mv boost_tmp/boost boost
 
+      - name: Load EM_CACHE
+        run: |
+          . emsdk_env.sh
+          echo "::set-env name=EM_CACHE::${EM_CACHE}"
+
       - name: Cache emscripten ports
         id: cache_emscripten_ports
         uses: actions/cache@v1
@@ -143,6 +148,11 @@ jobs:
       - name: Create build folder
         working-directory: Web/App
         run: mkdir build
+
+      - name: Load EM_CACHE
+        run: |
+          . emsdk_env.sh
+          echo "::set-env name=EM_CACHE::${EM_CACHE}"
 
       - name: Restore emscripten ports
         id: cache_emscripten_ports
