@@ -743,6 +743,8 @@ if (SIV3D_BUILD_SHARED_WASM)
 		libopencv_photo.a
 		libopencv_imgproc.a
 		libopencv_core.a
+		libz.a
+		libpng.a
 		libharfbuzz.a
 		libfreetype.a
 	)
