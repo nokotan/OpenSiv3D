@@ -184,10 +184,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
 
-    outputs:
-      upload-url:
-        description: 'GitHub Release upload location'
-        value: ${{ steps.output-upload-url.outputs.upload-url }}
+    outputs: 
+      upload_url: ${{ steps.output-upload-url.outputs.upload-url }}
 
     steps:
       - name: Create release
