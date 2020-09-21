@@ -78,7 +78,7 @@ jobs:
           cache-name: cache-emscripten-ports
         with:
           path: ${EM_CACHE}
-          key: ${{ matrix.config.name }}-${{ runner.os }}-build-${{ env.cache-name }}
+          key: ${{ matrix.config.name }}-${{ runner.os }}-${{ env.cache-name }}
 
       - name: Prebuild emscripten ports
         if: ${{ !steps.cache_emscripten_ports.outputs.cache-hit }}
@@ -151,7 +151,7 @@ jobs:
           cache-name: cache-emscripten-ports
         with:
           path: ${EM_CACHE}
-          key: ${{ matrix.config.name }}-${{ runner.os }}-build-${{ env.cache-name }}
+          key: ${{ matrix.config.name }}-${{ runner.os }}-${{ env.cache-name }}
 
       - name: Restore Bundles
         uses: actions/download-artifact@v2
