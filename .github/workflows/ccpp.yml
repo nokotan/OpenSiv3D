@@ -179,26 +179,46 @@ jobs:
           name: Siv3D_App-${{ matrix.config.name }}
           path: Web/App/build/Siv3D_App.*
 
-  deploy:
+  pre-deploy:
     if: ${{ contains(github.ref, 'tags/v') }}
     needs: build
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Restore Bundles
-        uses: actions/download-artifact@v2
-        with:
-          name: OpenSiv3D-Bundles-1.39.13-upstream
-          path: .
+    outputs:
+      upload-url:
+        description: 'GitHub Release upload location'
+        value: ${{ steps.output-upload-url.outputs.upload-url }}
 
+    steps:
       - name: Create release
-        id: create_release
+        id: create-release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
+      
+      - name: Output upload url
+        id: output-upload-url
+        run: echo "::set-output name=upload-url::${{ steps.create-release.outputs.upload_url }}"
+
+  deploy:
+    needs: pre-deploy
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        config:
+          - name: wasm
+          - name: asmjs
+
+    steps:
+      - name: Restore Bundles
+        uses: actions/download-artifact@v2
+        with:
+          name: OpenSiv3D-Bundles-${{ matrix.config.name }}
+          path: .
 
       - name: Upload Release Asset (zip)
         id: upload-release-asset-zip
@@ -206,9 +226,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ needs.pre-deploy.outputs.upload_url }}
           asset_path: OpenSiv3D.zip
-          asset_name: OpenSiv3D.zip
+          asset_name: OpenSiv3D-${{ matrix.config.name }}.zip
           asset_content_type: application/zip
 
       - name: Upload Release Asset (tgz)
@@ -217,7 +237,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ needs.pre-deploy.outputs.upload_url }}
           asset_path: OpenSiv3D.tgz
-          asset_name: OpenSiv3D.tgz
+          asset_name: OpenSiv3D-${{ matrix.config.name }}.tgz
           asset_content_type: application/gzip
