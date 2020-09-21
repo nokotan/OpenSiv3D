@@ -239,3 +239,24 @@ jobs:
           asset_path: OpenSiv3D.tgz
           asset_name: OpenSiv3D-${{ matrix.config.name }}.tgz
           asset_content_type: application/gzip
+
+  deploy-wasm-pic:
+    # if: ${{ contains(github.ref, 'tags/v') }}
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Restore Bundles
+        uses: actions/download-artifact@v2
+        with:
+          name: OpenSiv3D-Bundles-asmjs
+          path: .
+
+      - name: Restore Siv3D library
+        run: tar -xvf OpenSiv3D.tgz
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./Package
