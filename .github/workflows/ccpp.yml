@@ -249,7 +249,7 @@ jobs:
       - name: Restore Bundles
         uses: actions/download-artifact@v2
         with:
-          name: OpenSiv3D-Bundles-asmjs
+          name: OpenSiv3D-Bundles-wasm-pic
           path: .
 
       - name: Restore Siv3D library
