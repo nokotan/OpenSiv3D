@@ -75,9 +75,9 @@ jobs:
         id: cache_emscripten_ports
         uses: actions/cache@v1
         env:
-          cache-name: cache-emscripten-ports
+          cache-name: cache-emscripten-ports-2
         with:
-          path: ${EM_CACHE}
+          path: ${{ env.EM_CACHE }}
           key: ${{ matrix.config.name }}-${{ runner.os }}-${{ env.cache-name }}
 
       - name: Prebuild emscripten ports
@@ -92,7 +92,7 @@ jobs:
           cache-name: cache-siv3d-library
         with:
           path: Web/build
-          key: ${{ matrix.config.name }}-${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('Siv3D/**/*.*', 'Web/CMakeLists.txt', '.github/workflows/**.yml') }}
+          key: ${{ matrix.config.name }}-${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('Siv3D/**/*.*', 'Web/CMakeLists.txt', 'Web/build/CMakeCache.txt') }}
 
       - name: Build project
         if: ${{ !steps.cache_siv3d_library.outputs.cache-hit }}
@@ -127,7 +127,7 @@ jobs:
             container: 'emscripten/emsdk:2.0.4'
             cmake-config: ''
           - name: wasm-pic
-            ccontainer: 'emscripten/emsdk:2.0.4'
+            container: 'emscripten/emsdk:2.0.4'
             cmake-config: '-DSIV3D_BUILD_WITH_SHARED_WASM=1'
           - name: asmjs
             container: 'trzeci/emscripten:1.39.13-fastcomp'
@@ -148,9 +148,9 @@ jobs:
         id: cache_emscripten_ports
         uses: actions/cache@v1
         env:
-          cache-name: cache-emscripten-ports
+          cache-name: cache-emscripten-ports-2
         with:
-          path: ${EM_CACHE}
+          path: ${{ env.EM_CACHE }}
           key: ${{ matrix.config.name }}-${{ runner.os }}-${{ env.cache-name }}
 
       - name: Restore Bundles
