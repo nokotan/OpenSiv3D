@@ -733,18 +733,18 @@ if (SIV3D_BUILD_SHARED_WASM)
 
 	target_link_directories(Siv3D
 	PRIVATE
-		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/opencv
-		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/harfbuzz
-		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/freetype
+		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic/opencv
+		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic/harfbuzz
+		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic/freetype
 	)
 	
 	target_link_libraries(Siv3D
-		libopencv_objdetect_pic.a
-		libopencv_photo_pic.a
-		libopencv_imgproc_pic.a
-		libopencv_core_pic.a
-		libharfbuzz_pic.a
-		libfreetype_pic.a
+		libopencv_objdetect.a
+		libopencv_photo.a
+		libopencv_imgproc.a
+		libopencv_core.a
+		libharfbuzz.a
+		libfreetype.a
 	)
 else ()
 	add_library(Siv3D STATIC ${SOURCE_FILES})

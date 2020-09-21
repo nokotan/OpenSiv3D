@@ -29,29 +29,37 @@ set(SOURCE_FILES
 add_executable(Siv3D_App ${SOURCE_FILES})
 set(CMAKE_EXECUTABLE_SUFFIX ".html")
 
-target_link_directories(Siv3D_App
-PRIVATE
-	${PROJECT_SOURCE_DIR}/../Build
-	${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/opencv
-	${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/harfbuzz
-	${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/freetype
-)
-
 if (SIV3D_BUILD_WITH_SHARED_WASM)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s MAIN_MODULE=1 -s RUNTIME_LINKED_LIBS=['Siv3D.wasm']")
 elseif (SIV3D_BUILD_WITH_FASTCOMP_SUPPORT)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSIMDE_NO_VECTOR")
 
+	target_link_directories(Siv3D_App
+	PRIVATE
+		${PROJECT_SOURCE_DIR}/../Build
+		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/asmjs/opencv
+		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/asmjs/harfbuzz
+		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/asmjs/freetype
+	)
+
 	target_link_libraries(Siv3D_App
 		libSiv3D.a
-		libopencv_objdetect_asmjs.a
-		libopencv_photo_asmjs.a
-		libopencv_imgproc_asmjs.a
-		libopencv_core_asmjs.a
-		libharfbuzz_asmjs.a
-		libfreetype_asmjs.a
+		libopencv_objdetect.a
+		libopencv_photo.a
+		libopencv_imgproc.a
+		libopencv_core.a
+		libharfbuzz.a
+		libfreetype.a
 	)
 else ()
+	target_link_directories(Siv3D_App
+	PRIVATE
+		${PROJECT_SOURCE_DIR}/../Build
+		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/opencv
+		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/harfbuzz
+		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/freetype
+	)
+
 	target_link_libraries(Siv3D_App
 		libSiv3D.a
 		libopencv_objdetect.a
