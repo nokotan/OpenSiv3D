@@ -58,6 +58,7 @@ else ()
 		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/opencv
 		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/harfbuzz
 		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/freetype
+		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/turbojpeg
 	)
 
 	target_link_libraries(Siv3D_App
@@ -68,5 +69,6 @@ else ()
 		libopencv_core.a
 		libharfbuzz.a
 		libfreetype.a
+		libturbojpeg.a
 	)
 endif()
