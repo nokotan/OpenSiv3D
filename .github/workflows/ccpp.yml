@@ -261,7 +261,7 @@ jobs:
           asset_content_type: application/gzip
 
   deploy-gh-pages:
-    needs: build
+    needs: build-app
     runs-on: ubuntu-latest
 
     steps:
