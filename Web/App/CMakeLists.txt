@@ -40,6 +40,7 @@ elseif (SIV3D_BUILD_WITH_FASTCOMP_SUPPORT)
 		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/asmjs/opencv
 		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/asmjs/harfbuzz
 		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/asmjs/freetype
+		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/asmjs/turbojpeg
 	)
 
 	target_link_libraries(Siv3D_App
@@ -50,6 +51,7 @@ elseif (SIV3D_BUILD_WITH_FASTCOMP_SUPPORT)
 		libopencv_core.a
 		libharfbuzz.a
 		libfreetype.a
+		libturbojpeg.a
 	)
 else ()
 	target_link_directories(Siv3D_App
