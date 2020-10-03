@@ -260,12 +260,19 @@ jobs:
           asset_name: OpenSiv3D-${{ matrix.config.name }}.tgz
           asset_content_type: application/gzip
 
-  deploy-wasm-pic:
-    # if: ${{ contains(github.ref, 'tags/v') }}
+  deploy-gh-pages:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
+      - name: Create Destination Folders
+        run: |
+          mkdir Dest
+          mkdir Dest/lib
+          mkdir Dest/wasm-app
+          mkdir Dest/wasm-pic-app
+          mkdir Dest/asmjs-app
+
       - name: Restore Bundles
         uses: actions/download-artifact@v2
         with:
@@ -275,9 +282,32 @@ jobs:
       - name: Restore Siv3D library
         run: tar -xvf OpenSiv3D.tgz
 
+      - name: Place Siv3D library
+        run: |
+          cp Package/lib/Siv3D.wasm Dest/lib
+          cp Package/lib/Siv3D.wasm Dest/wasm-pic-app
+
+      - name: Place Siv3D Apps (wasm)
+        uses: actions/download-artifact@v2
+        with:
+          name: Siv3D_App-wasm
+          path: Dest/wasm-app
+
+      - name: Place Siv3D Apps (wasm-pic)
+        uses: actions/download-artifact@v2
+        with:
+          name: Siv3D_App-wasm-pic
+          path: Dest/wasm-pic-app
+
+      - name: Place Siv3D Apps (asmjs)
+        uses: actions/download-artifact@v2
+        with:
+          name: Siv3D_App-asmjs
+          path: Dest/asmjs-app
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./Package
+          publish_dir: ./Dest
           keep_files: true
