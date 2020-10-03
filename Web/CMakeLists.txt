@@ -749,7 +749,6 @@ if (SIV3D_BUILD_SHARED_WASM)
 		libharfbuzz.a
 		libfreetype.a
 		libturbojpeg.a
-		libjpeg.a
 	)
 else ()
 	add_library(Siv3D STATIC ${SOURCE_FILES})
