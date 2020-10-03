@@ -70,5 +70,6 @@ else ()
 		libharfbuzz.a
 		libfreetype.a
 		libturbojpeg.a
+		libjpeg.a
 	)
 endif()
