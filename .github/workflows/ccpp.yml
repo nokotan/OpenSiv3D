@@ -6,6 +6,11 @@ on:
     tags: [ v** ]
   pull_request:
     branches: [ web, web** ]
+  workflow_dispatch:
+    inputs:
+      trigger:
+        description: 'trigger'
+        required: false
 
 jobs:
   build:
