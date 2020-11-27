@@ -76,7 +76,7 @@ namespace s3d
 		return m_vertexShader;
 	}
 	
-	void VertexShader_GL::setVSParameters() {
+	void VertexShader_GL::bindUniformBlocks() {
 		GLint m_vsProgram;
 
 		glGetIntegerv(GL_CURRENT_PROGRAM, &m_vsProgram);

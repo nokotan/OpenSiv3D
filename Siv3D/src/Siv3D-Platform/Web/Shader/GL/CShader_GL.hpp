@@ -59,7 +59,7 @@ namespace s3d
 		GLuint getVS(VertexShaderID handleID);
 		GLuint getPS(PixelShaderID handleID);
 		void setPSSamplerUniform(PixelShaderID handleID);
-		void setVSParameters(VertexShaderID handleID);
-		void setPSParameters(PixelShaderID handleID);
+		void bindUniformBlocks(VertexShaderID handleID);
+		void bindUniformBlocks(PixelShaderID handleID);
 	};
 }

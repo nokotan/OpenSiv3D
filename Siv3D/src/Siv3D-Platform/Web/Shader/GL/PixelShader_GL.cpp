@@ -111,7 +111,7 @@ namespace s3d
 		}
 	}
 
-	void PixelShader_GL::setPSParameters()
+	void PixelShader_GL::bindUniformBlocks()
 	{
 		GLint m_psProgram;
 

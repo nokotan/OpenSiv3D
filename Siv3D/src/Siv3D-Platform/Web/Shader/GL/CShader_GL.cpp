@@ -201,13 +201,13 @@ namespace s3d
 		m_pixelShaders[handleID]->setPSSamplerUniform();
 	}
 	
-	void CShader_GL::setVSParameters(const VertexShaderID handleID)
+	void CShader_GL::bindUniformBlocks(const VertexShaderID handleID)
 	{
-		m_vertexShaders[handleID]->setVSParameters();
+		m_vertexShaders[handleID]->bindUniformBlocks();
 	}
 
-	void CShader_GL::setPSParameters(const PixelShaderID handleID)
+	void CShader_GL::bindUniformBlocks(const PixelShaderID handleID)
 	{
-		m_pixelShaders[handleID]->setPSParameters();
+		m_pixelShaders[handleID]->bindUniformBlocks();
 	}
 }

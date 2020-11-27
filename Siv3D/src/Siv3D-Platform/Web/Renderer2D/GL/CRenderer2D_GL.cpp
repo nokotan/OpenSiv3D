@@ -176,8 +176,8 @@ namespace s3d
 		// m_pipeline.setPS(pShader->getPSProgram(m_standardPS->shape.id()));
 		m_pipeline.use();
 
-		pShader->setVSParameters(m_standardVS->sprite.id());
-		pShader->setPSParameters(m_standardPS->shape.id());
+		pShader->bindUniformBlocks(m_standardVS->sprite.id());
+		pShader->bindUniformBlocks(m_standardPS->shape.id());
 		pShader->setPSSamplerUniform(m_standardPS->shape.id());
 		
 		Size currentRenderTargetSize = pGraphics->getSceneSize();
@@ -296,8 +296,8 @@ namespace s3d
 					{
 						m_pipeline.setPS(pShader->getPS(psID));
 						m_pipeline.use();
-						pShader->setVSParameters(m_standardVS->sprite.id());
-						pShader->setPSParameters(psID);
+						pShader->bindUniformBlocks(m_standardVS->sprite.id());
+						pShader->bindUniformBlocks(psID);
 						pShader->setPSSamplerUniform(psID);
 					}
 					

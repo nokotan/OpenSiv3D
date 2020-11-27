@@ -42,7 +42,7 @@ namespace s3d
 		
 		GLint getShader() const;
 
-		void setVSParameters();
+		void bindUniformBlocks();
 
 		void setUniformBlockBinding(const String& name, GLuint index);
 		

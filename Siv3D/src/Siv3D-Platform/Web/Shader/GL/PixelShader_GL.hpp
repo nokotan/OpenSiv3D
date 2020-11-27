@@ -46,7 +46,7 @@ namespace s3d
 		
 		void setPSSamplerUniform();
 
-		void setPSParameters();
+		void bindUniformBlocks();
 
 		void setUniformBlockBinding(const String& name, GLuint index);
 		
