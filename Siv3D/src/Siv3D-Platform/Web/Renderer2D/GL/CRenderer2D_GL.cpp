@@ -172,12 +172,13 @@ namespace s3d
 			pShader->getVS(m_standardVS->sprite.id()),
 			pShader->getPS(m_standardPS->shape.id())
 		);
-		// m_pipeline.setVS(pShader->getVSProgram(m_standardVS->sprite.id()));
-		// m_pipeline.setPS(pShader->getPSProgram(m_standardPS->shape.id()));
-		m_pipeline.use();
 
-		pShader->bindUniformBlocks(m_standardVS->sprite.id());
-		pShader->bindUniformBlocks(m_standardPS->shape.id());
+		if (m_pipeline.use() == ShaderPipeline::ProgramState::Created)
+		{
+			pShader->bindUniformBlocks(m_standardVS->sprite.id());
+			pShader->bindUniformBlocks(m_standardPS->shape.id());
+		}
+
 		pShader->setPSSamplerUniform(m_standardPS->shape.id());
 		
 		Size currentRenderTargetSize = pGraphics->getSceneSize();
@@ -295,9 +296,13 @@ namespace s3d
 					else
 					{
 						m_pipeline.setPS(pShader->getPS(psID));
-						m_pipeline.use();
-						pShader->bindUniformBlocks(m_standardVS->sprite.id());
-						pShader->bindUniformBlocks(psID);
+
+						if (m_pipeline.use() == ShaderPipeline::ProgramState::Created)
+						{
+							pShader->bindUniformBlocks(m_standardVS->sprite.id());
+							pShader->bindUniformBlocks(m_standardPS->shape.id());
+						}
+
 						pShader->setPSSamplerUniform(psID);
 					}
 					

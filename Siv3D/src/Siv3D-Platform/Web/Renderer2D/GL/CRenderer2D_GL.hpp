@@ -28,6 +28,13 @@ namespace s3d
 {
 	class ShaderPipeline
 	{
+	public:
+		enum class ProgramState
+		{
+			Created,
+			Cached,
+			Invalid
+		};
 	private:
 		
 		HashTable<Vec2, GLuint> m_programs;
@@ -55,18 +62,28 @@ namespace s3d
 			return program;
 		}
 
-		void setCurrentProgram()
+		ProgramState setCurrentProgram()
 		{
 			Vec2 shaderSet { m_currentVS, m_currentPS };
 
 			if (m_programs.contains(shaderSet))
 			{
 				m_currentProgram = m_programs[shaderSet];
+				return ProgramState::Cached;
 			} 
 			else 
 			{
 				m_currentProgram = linkShaders();
-				m_programs.emplace(shaderSet, m_currentProgram);
+
+				if (m_currentProgram != 0)
+				{
+					m_programs.emplace(shaderSet, m_currentProgram);
+					return ProgramState::Created;
+				}
+				else
+				{
+					return ProgramState::Invalid;
+				}
 			}
 		}
 
@@ -87,35 +104,26 @@ namespace s3d
 		
 		void setVS(GLuint vsProgramHandle)
 		{	
-			if (m_currentVS != vsProgramHandle)
-			{
-				m_currentVS = vsProgramHandle;
-				setCurrentProgram();
-			}
+			m_currentVS = vsProgramHandle;
 		}
 		
 		void setPS(GLuint psProgramHandle)
 		{
-			if (m_currentPS != psProgramHandle) 
-			{
-				m_currentPS = psProgramHandle;
-				setCurrentProgram();
-			}
+			m_currentPS = psProgramHandle;
 		}
 
 		void setShaders(GLuint vsProgramHandle, GLuint psProgramHandle)
 		{
-			if (m_currentVS != vsProgramHandle || m_currentPS != psProgramHandle)
-			{
-				m_currentVS = vsProgramHandle;
-				m_currentPS = psProgramHandle;
-				setCurrentProgram();
-			}
+			m_currentVS = vsProgramHandle;
+			m_currentPS = psProgramHandle;
 		}
 		
-		void use()
+		ProgramState use()
 		{
+			auto programState = setCurrentProgram();
 			::glUseProgram(m_currentProgram);
+
+			return programState;
 		}
 	};
 	
