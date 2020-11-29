@@ -1,4 +1,7 @@
 mergeInto(LibraryManager.library, {
+    //
+    // GLFW Extensions
+    //
     glfwGetKeysSiv3D: function (windowid) {
         const window = GLFW.WindowFromId(windowid);
         if (!window) return 0;
@@ -32,6 +35,28 @@ mergeInto(LibraryManager.library, {
     },
     glfwGetMonitorRect_Siv3D__sig: "viiiii",
 
+    //
+    // 
+    //
+    s3dShowMessageBox: function(messagePtr, type) {
+        const message = UTF8ToString(messagePtr);
+
+        if (type === 0) {
+            /* MessageBoxButtons.OK */
+            window.alert(message);
+            return 0; /* MessageBoxSelection.OK */
+        } else if (type === 1) {
+            /* MessageBoxButtons.OKCancel */
+            return window.confirm(message) ? 0 /* MessageBoxSelection.OK */ : 1 /* MessageBoxSelection.Cancel */;
+        }
+
+        return 4; /* MessageBoxSelection.None */
+    },
+    s3dShowMessageBox__sig: "iii",
+
+    //
+    // WebCamera Support
+    //
     $videoElements: [],
 
     s3dOpenVideo: function(callback, callbackArg) {
@@ -93,6 +118,9 @@ mergeInto(LibraryManager.library, {
     s3dStopVideo__sig: "vi",
     s3dStopVideo__deps: ["$videoElements"],
 
+    //
+    // MultiTouch Support
+    //
     $activeTouches: [],
     
     $s3dOnTouchMove: function(e) {
@@ -131,6 +159,10 @@ mergeInto(LibraryManager.library, {
         }
     },
     s3dGetPrimaryTouchPoint__sig: "iii",
+
+    //
+    // AngelScript Support
+    //
     s3dCallIndirect: function(funcPtr, funcTypes, retPtr, argsPtr) {
         let args = [];
         let funcTypeIndex = funcTypes;
