@@ -81,9 +81,9 @@ jobs:
         run: |
           if [ -z "${EM_DATA}" ]; then
           . emsdk_env.sh
-          echo "::set-env name=EM_CACHE::${EM_CACHE}";
+          echo "EM_CACHE=${EM_CACHE}" >> $GITHUB_ENV;
           else
-          echo "::set-env name=EM_CACHE::${EM_DATA}";
+          echo "EM_CACHE=${EM_DATA}" >> $GITHUB_ENV;
           fi
 
       - name: Cache emscripten ports
@@ -164,9 +164,9 @@ jobs:
         run: |
           if [ -z "${EM_DATA}" ]; then
           . emsdk_env.sh
-          echo "::set-env name=EM_CACHE::${EM_CACHE}";
+          echo "EM_CACHE=${EM_CACHE}" >> $GITHUB_ENV;
           else
-          echo "::set-env name=EM_CACHE::${EM_DATA}";
+          echo "EM_CACHE=${EM_DATA}" >> $GITHUB_ENV;
           fi
 
       - name: Restore emscripten ports
