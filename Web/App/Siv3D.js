@@ -123,17 +123,28 @@ mergeInto(LibraryManager.library, {
     //
     $activeTouches: [],
     
+    $s3dOnTouchStart: function(e) {
+        activeTouches = Array.from(e.touches);
+        e.preventDefault();
+    },
+    $s3dOnTouchEnd: function(e) {
+        activeTouches = Array.from(e.touches);
+        e.preventDefault();
+    },
     $s3dOnTouchMove: function(e) {
         activeTouches = Array.from(e.touches);
+        e.preventDefault();
     },
     s3dRegisterTouchCallback: function() {
+        Module["canvas"].addEventListener("touchstart", s3dOnTouchStart);
         Module["canvas"].addEventListener("touchmove", s3dOnTouchMove);
     },
-    s3dRegisterTouchCallback__deps: [ "$s3dOnTouchMove", "$activeTouches" ],
+    s3dRegisterTouchCallback__deps: [ "$s3dOnTouchMove", "$s3dOnTouchStart", "$activeTouches" ],
     s3dUnregisterTouchCallback: function() {
+        Module["canvas"].removeEventListener("touchstart", s3dOnTouchStart);
         Module["canvas"].removeEventListener("touchmove", s3dOnTouchMove);
     },
-    s3dUnregisterTouchCallback__deps: [ "$s3dOnTouchMove" ],
+    s3dUnregisterTouchCallback__deps: [ "$s3dOnTouchMove", "$s3dOnTouchStart" ],
     s3dGetPrimaryTouchPoint: function(pX, pY) {
         if (activeTouches.length > 0) {
             const touch = activeTouches[0];
