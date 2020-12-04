@@ -15,7 +15,7 @@ mergeInto(LibraryManager.library, {
 
     glfwGetMonitorInfo_Siv3D: function(handle, displayID, name, xpos, ypos, w, h, wx, wy, ww, wh) {
         setValue(displayID, 1, 'i32');
-        setValue(name, allocate(intArrayFromString("HTML5 WebGL Canvas"), 'i8', ALLOC_NORMAL), 'i32');
+        setValue(name, allocate(intArrayFromString("HTML5 WebGL Canvas"), ALLOC_NORMAL), 'i32');
         setValue(xpos, 0, 'i32');
         setValue(ypos, 0, 'i32');
         setValue(w, 0, 'i32');
@@ -34,6 +34,11 @@ mergeInto(LibraryManager.library, {
         setValue(h, 0, 'i32');
     },
     glfwGetMonitorRect_Siv3D__sig: "viiiii",
+
+    glGetBufferSubData: function(target, srcOffset, length, offset) {
+        Module.ctx.getBufferSubData(target, srcOffset, Module.HEAPU8, offset, length)
+    },
+    glGetBufferSubData__sig: "viiii",
 
     //
     // 
@@ -59,9 +64,9 @@ mergeInto(LibraryManager.library, {
     //
     $videoElements: [],
 
-    s3dOpenVideo: function(callback, callbackArg) {
+    s3dOpenVideo: function(width, height, callback, callbackArg) {
         const constraint = {
-            video: true,
+            video: { width, height },
             audio: false
         };
 
@@ -69,22 +74,22 @@ mergeInto(LibraryManager.library, {
             stream => {
                 const video = document.createElement("video");
 
-                video.addEventListener('loadedmetadata', function() {
+                video.addEventListener('loadedmetadata', function onLoaded() {
                     const idx = GL.getNewId(videoElements);
 
-                    video.removeEventListener('loadedmetadata', arguments.callee);
+                    video.removeEventListener('loadedmetadata', onLoaded);
                     videoElements[idx] = video;
 
-                    if (callback) dynCall_vii(callback, callbackArg, idx);
+                    if (callback) {{{ makeDynCall('vii', 'callback') }}}(callbackArg, idx);
                 });
 
                 video.srcObject = stream;                      
             }
         ).catch(_ => {
-            if (callback) dynCall_vii(callback, callbackArg, 0);
+            if (callback) {{{ makeDynCall('vii', 'callback') }}}(callbackArg, 0);
         })
     },
-    s3dOpenVideo__sig: "vii",
+    s3dOpenVideo__sig: "viiii",
     s3dOpenVideo__deps: ["$videoElements"],
 
     s3dBindVideo: function(target, level, internalFormat, width, height, border, format, type, idx) {
@@ -94,11 +99,18 @@ mergeInto(LibraryManager.library, {
     s3dBindVideo__sig: "viiiiiiiii",
     s3dBindVideo__deps: ["$videoElements"],
 
+    s3dQueryCurrentTime: function(idx) {
+        const video = videoElements[idx];
+        return video.currentTime;
+    },
+    s3dQueryCurrentTime__sig: "di",
+    s3dQueryCurrentTime__deps: ["$videoElements"],
+
     s3dPlayVideo: function(idx, callback, callbackArg) {
         const video = videoElements[idx];
         video.play().then(
             () => {
-                if (callback) dynCall_vii(callback, callbackArg, 1);
+                if (callback) {{{ makeDynCall('vii', 'callback') }}}(callbackArg, 1);
             }
         ); 
     },

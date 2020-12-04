@@ -41,19 +41,25 @@ namespace s3d
 		int32 m_index = 0;
 
 		GLuint m_videoBufferTexture;
+		GLuint m_videoPixelBuffer[2];
 		GLuint m_videoBufferFrameBuffer[2];
 		GLuint m_videoElementID;
 
-		Size m_currentResolution = Size(0, 0);
+		Size m_currentResolution = Size(640, 480);
 
 		std::atomic<WebcamState> m_state = WebcamState::None;
 
 		std::atomic<int32> m_newFrameCount = 0;
+		int32 m_totalFrameCount = 0;
+		double m_lastFrameGetTime = 0.0;
+		GLsync m_pixelReadSync[2];
 
 		void open();
+		void resize(Size);
 
 		static void OnOpened(void* data, int succeeded);
 		static void OnStart(void* data, int succeeded);
+		static int OnUpdate(double, void* data);
 
 	public:
 
