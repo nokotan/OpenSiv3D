@@ -271,4 +271,60 @@ mergeInto(LibraryManager.library, {
         HEAP32[retPtr >> 2] = retValPtr;
     },
     s3dCallIndirectReturnInMemory__sig: "viiii",
+
+    //
+    // Dialog Support
+    //
+    $s3dInputElement: 0,
+    $s3dFileReader: 0,
+    $s3dIsPindingDialog: false,
+
+    s3dOpenDialog: function(callback, futurePtr) {
+        if (!s3dInputElement) {
+            s3dInputElement = document.createElement("input");
+            s3dInputElement.type = "file";
+
+            s3dFileReader = new FileReader();
+
+            function OpenDialogHelper() {
+                setTimeout(function() {
+                    if (s3dIsPindingDialog) {
+                        s3dInputElement.click();
+                        s3dIsPindingDialog = false;
+                    }
+                }, 50);
+            }
+
+            Module["canvas"].addEventListener('touchstart', OpenDialogHelper);
+            Module["canvas"].addEventListener('mousedown', OpenDialogHelper);
+        }
+
+        s3dInputElement.addEventListener("change", function onChange(e) {
+            const files = e.target.files;
+
+            if (files.length < 1) {
+                {{{ makeDynCall('vii', 'callback') }}}(futurePtr, 0);
+                return;
+            }
+
+            const file = files[0];
+            const filePath = `/tmp/${file.name}`;
+
+            s3dFileReader.addEventListener("load", function onLoaded() {
+                FS.writeFile(filePath, new Uint8Array(s3dFileReader.result));
+
+                const namePtr = allocate(intArrayFromString(filePath), 'i8', ALLOC_NORMAL);
+                {{{ makeDynCall('vii', 'callback') }}}(futurePtr, namePtr);
+
+                s3dFileReader.removeEventListener("load", onLoaded);
+            });
+
+            s3dFileReader.readAsArrayBuffer(file);
+            s3dInputElement.removeEventListener("change", onChange);            
+        })
+
+        s3dIsPindingDialog = true;
+    },
+    s3dOpenDialog__sig: "vii",
+    s3dOpenDialog__deps: [ "$s3dInputElement", "$s3dFileReader", "$s3dIsPindingDialog", "$FS" ],
 });

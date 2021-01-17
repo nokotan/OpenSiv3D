@@ -192,3 +192,13 @@ namespace s3d::Platform
 # error Unimplemented
 
 # endif
+
+//////////////////////////////////////////////////
+//
+// Platform-Dependent Includes
+//
+//////////////////////////////////////////////////
+
+# if SIV3D_PLATFORM(WEB)
+#	include "PlatformDetail_Web.hpp"
+# endif
