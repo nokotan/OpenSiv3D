@@ -6,13 +6,13 @@ enable_language(C)
 set(CMAKE_CXX_FLAGS "-std=c++17 -Wall -Wextra -Wno-unknown-pragmas -D_GLFW_X11")
 set(CMAKE_CXX_FLAGS_DEBUG "-g3 -O0 -pg -DDEBUG")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-g3 -Og -pg")
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-g3 -O2 -pg")
 set(CMAKE_CXX_FLAGS_MINSIZEREL "-Os -DNDEBUG")
 
 set(CMAKE_C_FLAGS "-Wall -Wextra -Wno-unknown-pragmas -D_GLFW_X11")
 set(CMAKE_C_FLAGS_DEBUG "-g3 -O0 -pg -DDEBUG")
 set(CMAKE_C_FLAGS_RELEASE "-O2 -DNDEBUG")
-set(CMAKE_C_FLAGS_RELWITHDEBINFO "-g3 -Og -pg")
+set(CMAKE_C_FLAGS_RELWITHDEBINFO "-g3 -O2 -pg")
 set(CMAKE_C_FLAGS_MINSIZEREL "-Os -DNDEBUG")
 
 if (SIV3D_BUILD_SHARED_WASM)
@@ -432,6 +432,7 @@ set(SOURCE_FILES
 	"../Siv3D/src/Siv3D-Platform/Web/Audio/AudioFactory.cpp"
 	"../Siv3D/src/Siv3D-Platform/Web/AudioFormat/AAC/AudioFormat_AAC.cpp"
 	"../Siv3D/src/Siv3D-Platform/Web/AudioFormat/MP3/AudioFormat_MP3.cpp"
+	"../Siv3D/src/Siv3D-Platform/Web/AudioFormat/AudioFormat.cpp"
 	"../Siv3D/src/Siv3D-Platform/Web/BinaryReader/BinaryReaderDetail.cpp"
 	"../Siv3D/src/Siv3D-Platform/Web/BinaryWriter/BinaryWriterDetail.cpp"
 	"../Siv3D/src/Siv3D-Platform/Web/ByteArray/ByteArrayDetail_Platform.cpp"

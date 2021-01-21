@@ -19,7 +19,8 @@
 
 namespace s3d::Platform::Web
 {
-    namespace Dialog {
+    namespace Dialog 
+	{
 
         std::future<Optional<FilePath>> OpenFile(const Array<FileFilter>& filters = {}, const FilePath& defaultPath = U"", const String& title = U"");
 
@@ -38,4 +39,10 @@ namespace s3d::Platform::Web
 
 		std::future<Audio> OpenAudio(Arg::loop_<bool> loop, const FilePath& defaultPath = U"", const String& title = U"");
     }
+
+	namespace AudioProcessing
+	{
+
+		std::future<Audio> DecodeAudioFromFile(const FilePath& path);
+	}
 }

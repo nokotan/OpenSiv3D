@@ -297,9 +297,10 @@ mergeInto(LibraryManager.library, {
 
             Module["canvas"].addEventListener('touchstart', OpenDialogHelper);
             Module["canvas"].addEventListener('mousedown', OpenDialogHelper);
+            return;
         }
 
-        s3dInputElement.addEventListener("change", function onChange(e) {
+        s3dInputElement.oninput = function onChange(e) {
             const files = e.target.files;
 
             if (files.length < 1) {
@@ -321,10 +322,43 @@ mergeInto(LibraryManager.library, {
 
             s3dFileReader.readAsArrayBuffer(file);
             s3dInputElement.removeEventListener("change", onChange);            
-        })
+        };
 
         s3dIsPindingDialog = true;
     },
     s3dOpenDialog__sig: "vii",
     s3dOpenDialog__deps: [ "$s3dInputElement", "$s3dFileReader", "$s3dIsPindingDialog", "$FS" ],
+
+    //
+    // Audio Support
+    //
+    s3dDecodeAudioFromFile: function(filePath, callbackPtr, arg) {
+        const path = UTF8ToString(filePath, 1024);
+        const fileBytes = FS.readFile(path);
+
+        const callBack = function(decoded) {
+            const leftDataBuffer = Module["_malloc"](decoded.length);
+            HEAPF32.set(decoded.getChannelData(0), leftDataBuffer>>2);
+
+            let rightDataBuffer;
+            
+            if (decoded.numberOfChannels >= 2) {
+                rightDataBuffer = Module["_malloc"](decoded.length);
+                HEAPF32.set(decoded.getChannelData(1), rightDataBuffer>>2);
+            } else {
+                rightDataBuffer = leftDataBuffer;
+            }
+
+            HEAP32[(arg>>2)+0] = leftDataBuffer;
+            HEAP32[(arg>>2)+1] = rightDataBuffer;
+            HEAPU32[(arg>>2)+2] = decoded.sampleRate;
+            HEAPU32[(arg>>2)+3] = decoded.length;
+
+            {{{ makeDynCall('vi', 'callbackPtr') }}}(arg);
+        };
+
+        AL.currentCtx.audioCtx.decodeAudioData(fileBytes.buffer, callBack);   
+    },
+    s3dDecodeAudioFromFile__sig: "vii",
+    s3dDecodeAudioFromFile__deps: [ "$AL", "$FS" ],
 });
