@@ -17,6 +17,11 @@
 
 extern "C"
 {
+	extern void s3dRegisterDragEnter(void(*callback)(bool));
+	extern void s3dRegisterDragUpdate(void(*callback)());
+	extern void s3dRegisterDragExit(void(*callback)());
+	extern void s3dRegisterDragDrop(void(*callback)(const char*));
+
 	using namespace s3d;
 
 	CDragDrop* pDragDrop = nullptr;
@@ -71,6 +76,11 @@ namespace s3d
 	void CDragDrop::init()
 	{
 		LOG_TRACE(U"CDragDrop::init()");
+
+		::s3dRegisterDragEnter(&::s3d_DraggingEntered);
+		::s3dRegisterDragUpdate(&::s3d_DraggingUpdated);
+		::s3dRegisterDragExit(&::s3d_DraggingExited);
+		::s3dRegisterDragDrop(&::s3d_DataDropped);
 
 		LOG_INFO(U"ℹ️ CDragDrop initialized");
 	}
@@ -210,9 +220,13 @@ namespace s3d
 				{
 					itr = paths.erase(itr);
 				}
-				else
+				else if ((*itr).starts_with(U"file://"))
 				{
 					(*itr).erase(0, 7); // erase "file://"
+					itr++;
+				}
+				else
+				{
 					itr++;
 				}
 			}

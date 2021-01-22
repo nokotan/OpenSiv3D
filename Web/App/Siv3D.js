@@ -41,7 +41,7 @@ mergeInto(LibraryManager.library, {
     glGetBufferSubData__sig: "viiii",
 
     //
-    // 
+    // MessageBox
     //
     s3dShowMessageBox: function(messagePtr, type) {
         const message = UTF8ToString(messagePtr);
@@ -275,28 +275,42 @@ mergeInto(LibraryManager.library, {
     //
     // Dialog Support
     //
-    $s3dInputElement: 0,
-    $s3dFileReader: 0,
+    $s3dInputElement: null,
+    $s3dDialogFileReader: null,
     $s3dIsPindingDialog: false,
+    $s3dMayOpenDialog: false,
 
-    s3dOpenDialog: function(callback, futurePtr) {
-        if (!s3dInputElement) {
-            s3dInputElement = document.createElement("input");
-            s3dInputElement.type = "file";
+    $s3dInitDialog: function() {
+        s3dInputElement = document.createElement("input");
+        s3dInputElement.type = "file";
 
-            s3dFileReader = new FileReader();
+        s3dDialogFileReader = new FileReader();
 
-            function OpenDialogHelper() {
+        function OpenDialogHelper() {
+            if (!s3dMayOpenDialog) {
                 setTimeout(function() {
                     if (s3dIsPindingDialog) {
                         s3dInputElement.click();
                         s3dIsPindingDialog = false;
                     }
                 }, 50);
-            }
+                s3dMayOpenDialog = true;
+            }     
+        }
 
-            Module["canvas"].addEventListener('touchstart', OpenDialogHelper);
-            Module["canvas"].addEventListener('mousedown', OpenDialogHelper);
+        Module["canvas"].addEventListener('touchstart', OpenDialogHelper);
+        Module["canvas"].addEventListener('mousedown', OpenDialogHelper);
+        Module["canvas"].addEventListener('keydown', OpenDialogHelper);
+
+        Module['postMainLoop'] = function() {
+            s3dMayOpenDialog = false;
+        }
+    },
+    $s3dInitDialog__deps: [ "$s3dMayOpenDialog" ],
+
+    s3dOpenDialog: function(callback, futurePtr) {
+        if (!s3dInputElement) {
+            s3dInitDialog();
             return;
         }
 
@@ -311,23 +325,22 @@ mergeInto(LibraryManager.library, {
             const file = files[0];
             const filePath = `/tmp/${file.name}`;
 
-            s3dFileReader.addEventListener("load", function onLoaded() {
-                FS.writeFile(filePath, new Uint8Array(s3dFileReader.result));
+            s3dDialogFileReader.addEventListener("load", function onLoaded() {
+                FS.writeFile(filePath, new Uint8Array(s3dDialogFileReader.result));
 
                 const namePtr = allocate(intArrayFromString(filePath), 'i8', ALLOC_NORMAL);
                 {{{ makeDynCall('vii', 'callback') }}}(futurePtr, namePtr);
 
-                s3dFileReader.removeEventListener("load", onLoaded);
+                s3dDialogFileReader.removeEventListener("load", onLoaded);
             });
 
-            s3dFileReader.readAsArrayBuffer(file);
-            s3dInputElement.removeEventListener("change", onChange);            
+            s3dDialogFileReader.readAsArrayBuffer(file);         
         };
 
         s3dIsPindingDialog = true;
     },
     s3dOpenDialog__sig: "vii",
-    s3dOpenDialog__deps: [ "$s3dInputElement", "$s3dFileReader", "$s3dIsPindingDialog", "$FS" ],
+    s3dOpenDialog__deps: [ "$s3dInputElement", "$s3dDialogFileReader", "$s3dIsPindingDialog", "$s3dInitDialog", "$FS" ],
 
     //
     // Audio Support
@@ -337,13 +350,13 @@ mergeInto(LibraryManager.library, {
         const fileBytes = FS.readFile(path);
 
         const callBack = function(decoded) {
-            const leftDataBuffer = Module["_malloc"](decoded.length);
+            const leftDataBuffer = Module["_malloc"](decoded.length * 4);
             HEAPF32.set(decoded.getChannelData(0), leftDataBuffer>>2);
 
             let rightDataBuffer;
             
             if (decoded.numberOfChannels >= 2) {
-                rightDataBuffer = Module["_malloc"](decoded.length);
+                rightDataBuffer = Module["_malloc"](decoded.length * 4);
                 HEAPF32.set(decoded.getChannelData(1), rightDataBuffer>>2);
             } else {
                 rightDataBuffer = leftDataBuffer;
@@ -361,4 +374,79 @@ mergeInto(LibraryManager.library, {
     },
     s3dDecodeAudioFromFile__sig: "vii",
     s3dDecodeAudioFromFile__deps: [ "$AL", "$FS" ],
+
+    //
+    // DragDrop Support
+    //
+    s3dRegisterDragEnter: function(ptr) {
+        Module["canvas"].ondragenter = function (e) {
+            e.preventDefault();
+
+            const types = e.dataTransfer.types;
+
+            if (types.length > 0) {
+                {{{ makeDynCall('vi', 'ptr') }}}(types[0] === 'Files' ? 1 : 0);
+            }        
+        };
+    },
+    s3dRegisterDragEnter__sig: "vi",
+
+    s3dRegisterDragUpdate: function(ptr) {
+        Module["canvas"].ondragover = function (e) {
+            e.preventDefault();
+            {{{ makeDynCall('v', 'ptr') }}}();
+        };
+    },
+    s3dRegisterDragUpdate__sig: "vi",
+
+    s3dRegisterDragExit: function(ptr) {
+        Module["canvas"].ondragexit = function (e) {
+            e.preventDefault();
+            {{{ makeDynCall('v', 'ptr') }}}();
+        };
+    },
+    s3dRegisterDragExit__sig: "vi",
+
+    $s3dDragDropFileReader: null,
+    s3dRegisterDragDrop: function(ptr) {
+        Module["canvas"].ondrop = function (e) {
+            e.preventDefault();
+
+            const items = e.dataTransfer.items;
+
+            if (items.length == 0) {
+                return;
+            }
+
+            if (items[0].kind === 'text') {
+                items[0].getAsString(function(str) {
+                    const strPtr = allocate(intArrayFromString(str), 'i8', ALLOC_NORMAL);
+                    {{{ makeDynCall('vi', 'ptr') }}}(strPtr);
+                    Module["_free"](strPtr);
+                })            
+            } else if (items[0].kind === 'file') {
+                const file = items[0].getAsFile();
+
+                if (!s3dDragDropFileReader) {
+                    s3dDragDropFileReader = new FileReader();
+                }
+
+                const filePath = `/tmp/${file.name}`;
+
+                s3dDragDropFileReader.addEventListener("load", function onLoaded() {
+                    FS.writeFile(filePath, new Uint8Array(s3dDragDropFileReader.result));
+
+                    const namePtr = allocate(intArrayFromString(filePath), 'i8', ALLOC_NORMAL);
+                    {{{ makeDynCall('vi', 'ptr') }}}(namePtr);
+
+                    s3dDragDropFileReader.removeEventListener("load", onLoaded);
+                });
+
+                s3dDragDropFileReader.readAsArrayBuffer(file);              
+            }
+        };
+    },
+    s3dRegisterDragDrop__sig: "vi",
+    s3dRegisterDragDrop__deps: [ "$s3dDragDropFileReader" ],
+
 });
