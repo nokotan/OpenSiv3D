@@ -12,6 +12,7 @@
 # include <Siv3D/PointVector.hpp>
 # include <Siv3D/EngineLog.hpp>
 # include "CGamepad.hpp"
+# include <GLFW/glfw3.h>
 
 namespace s3d
 {
@@ -44,7 +45,6 @@ namespace s3d
 
 	void CGamepad::update(const bool)
 	{
-		/*
 		for (uint32 userIndex = 0; userIndex < Gamepad.MaxUserCount; ++userIndex)
 		{
 			auto& state = m_states[userIndex];
@@ -54,22 +54,22 @@ namespace s3d
 				if (!state.connected)
 				{
 					unsigned vendorID = 0, productID = 0, version = 0;
-					const char* name = siv3dGetJoystickInfo(userIndex, &vendorID, &productID, &version);
+					// const char* name = siv3dGetJoystickInfo(userIndex, &vendorID, &productID, &version);
 					
-					if (!name)
-					{
-						continue;
-					}
+					// if (!name)
+					// {
+					// 	continue;
+					// }
 					
 					state.info.index = userIndex;
 					state.info.vendorID = vendorID;
 					state.info.productID = productID;
-					state.info.name = Unicode::Widen(name);
+					// state.info.name = Unicode::Widen(name);
 					
 					// has connected
 					state.connected = true;
 					
-					LOG_INFO(U"🎮 Gamepad({}) `{}` connected"_fmt(userIndex, state.info.name));
+					LOG_INFO(U"🎮 Gamepad({}) connected"_fmt(userIndex));
 				}
 				
 				state.axes.clear();
@@ -105,26 +105,26 @@ namespace s3d
 					state.buttons.clear();
 				}
 				
-				const int32 d = siv3dGetJoystickHat(userIndex);
+				// const int32 d = siv3dGetJoystickHat(userIndex);
 				
-				if (d == -1)
-				{
-					state.povDegree = none;
-				}
-				else
-				{
-					state.povDegree = d * 45;
+				// if (d == -1)
+				// {
+				// 	state.povDegree = none;
+				// }
+				// else
+				// {
+				// 	state.povDegree = d * 45;
 					
-					const bool up = (d == 0) || (d == 1) || (d == 7);
-					const bool right = (d == 3) || (d == 2) || (d == 1);
-					const bool down = (d == 5) || (d == 4) || (d == 3);
-					const bool left = (d == 7) || (d == 6) || (d == 5);
+				// 	const bool up = (d == 0) || (d == 1) || (d == 7);
+				// 	const bool right = (d == 3) || (d == 2) || (d == 1);
+				// 	const bool down = (d == 5) || (d == 4) || (d == 3);
+				// 	const bool left = (d == 7) || (d == 6) || (d == 5);
 					
-					state.povs[0].update(up);
-					state.povs[1].update(right);
-					state.povs[2].update(down);
-					state.povs[3].update(left);
-				}
+				// 	state.povs[0].update(up);
+				// 	state.povs[1].update(right);
+				// 	state.povs[2].update(down);
+				// 	state.povs[3].update(left);
+				// }
 			}
 			else
 			{
@@ -151,7 +151,6 @@ namespace s3d
 				dst.buttons << Key(InputDevice::Gamepad, static_cast<uint8>(i), userIndex);
 			}
 		}
-		 */
 	}
 
 	bool CGamepad::isConnected(const size_t userIndex) const

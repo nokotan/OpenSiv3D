@@ -71,7 +71,7 @@ namespace s3d
 		Siv3DEngine::Get<ISiv3DCursor>()->init();
 		Siv3DEngine::Get<ISiv3DKeyboard>()->init();
 		Siv3DEngine::Get<ISiv3DMouse>()->init();
-		// Siv3DEngine::Get<ISiv3DGamepad>()->init();
+		Siv3DEngine::Get<ISiv3DGamepad>()->init();
 		// Siv3DEngine::Get<ISiv3DXInput>()->init();
 		Siv3DEngine::Get<ISiv3DTextInput>()->init();
 		Siv3DEngine::Get<ISiv3DTextToSpeech>()->init();
@@ -92,7 +92,7 @@ namespace s3d
 		Siv3DEngine::Get<ISiv3DEffect>()->init();
 		Siv3DEngine::Get<ISiv3DPrint>()->init();
 		Siv3DEngine::Get<ISiv3DAsset>()->init();
-		Siv3DEngine::Get<ISiv3DScript>()->init();
+		// Siv3DEngine::Get<ISiv3DScript>()->init();
 
 		Siv3DEngine::Get<ISiv3DCursor>()->update();
 
@@ -149,7 +149,7 @@ namespace s3d
 		*/Siv3DEngine::Get<ISiv3DAsset>()->update();
 
 		Siv3DEngine::Get<ISiv3DCursor>()->update();
-		// Siv3DEngine::Get<ISiv3DGamepad>()->update(onDeviceChange);
+		Siv3DEngine::Get<ISiv3DGamepad>()->update(onDeviceChange);
 		// Siv3DEngine::Get<ISiv3DXInput>()->update(onDeviceChange);
 		Siv3DEngine::Get<ISiv3DKeyboard>()->update();
 		Siv3DEngine::Get<ISiv3DMouse>()->update();
