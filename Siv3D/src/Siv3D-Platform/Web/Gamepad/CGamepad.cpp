@@ -54,17 +54,18 @@ namespace s3d
 				if (!state.connected)
 				{
 					unsigned vendorID = 0, productID = 0, version = 0;
-					// const char* name = siv3dGetJoystickInfo(userIndex, &vendorID, &productID, &version);
 					
-					// if (!name)
-					// {
-					// 	continue;
-					// }
+					const char* name = ::glfwGetJoystickName(userIndex);
+					
+					if (!name)
+					{
+						continue;
+					}
 					
 					state.info.index = userIndex;
 					state.info.vendorID = vendorID;
 					state.info.productID = productID;
-					// state.info.name = Unicode::Widen(name);
+					state.info.name = Unicode::Widen(name);
 					
 					// has connected
 					state.connected = true;
