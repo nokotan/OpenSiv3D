@@ -13,6 +13,10 @@
 # include "Fwd.hpp"
 # include "Duration.hpp"
 
+# if SIV3D_PLATFORM(WEB)
+# 	include <functional>
+# endif
+
 namespace s3d
 {
 	namespace System
@@ -69,4 +73,14 @@ namespace s3d
 		/// </summary>
 		bool LaunchBrowser(const FilePath& url);
 	}
+
+# if SIV3D_PLATFORM(WEB)
+
+	namespace Platform::Web::System
+	{
+		[[noreturn]] void SetMainLoop(std::function<void()> mainLoop);
+	}
+
+# endif
+
 }

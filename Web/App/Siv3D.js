@@ -280,7 +280,7 @@ mergeInto(LibraryManager.library, {
     $s3dIsPindingDialog: false,
     $s3dMayOpenDialog: false,
 
-    $s3dInitDialog: function() {
+    s3dInitDialog: function() {
         s3dInputElement = document.createElement("input");
         s3dInputElement.type = "file";
 
@@ -309,11 +309,6 @@ mergeInto(LibraryManager.library, {
     $s3dInitDialog__deps: [ "$s3dMayOpenDialog" ],
 
     s3dOpenDialog: function(callback, futurePtr) {
-        if (!s3dInputElement) {
-            s3dInitDialog();
-            return;
-        }
-
         s3dInputElement.oninput = function onChange(e) {
             const files = e.target.files;
 
@@ -340,7 +335,7 @@ mergeInto(LibraryManager.library, {
         s3dIsPindingDialog = true;
     },
     s3dOpenDialog__sig: "vii",
-    s3dOpenDialog__deps: [ "$s3dInputElement", "$s3dDialogFileReader", "$s3dIsPindingDialog", "$s3dInitDialog", "$FS" ],
+    s3dOpenDialog__deps: [ "$s3dInputElement", "$s3dDialogFileReader", "$s3dIsPindingDialog", "$FS" ],
 
     //
     // Audio Support

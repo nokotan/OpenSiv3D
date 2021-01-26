@@ -45,6 +45,11 @@
 # include <System/CSystem.hpp>
 # include <System/SystemLog.hpp>
 
+extern "C"
+{
+	void s3dInitDialog();
+} 
+
 namespace s3d
 {
 	CSystem::CSystem()
@@ -67,6 +72,8 @@ namespace s3d
 		Siv3DEngine::Get<ISiv3DImageFormat>()->init();
 		Siv3DEngine::Get<ISiv3DObjectDetection>()->init();
 		Siv3DEngine::Get<ISiv3DWindow>()->init();
+
+		s3dInitDialog();
 
 		Siv3DEngine::Get<ISiv3DCursor>()->init();
 		Siv3DEngine::Get<ISiv3DKeyboard>()->init();
