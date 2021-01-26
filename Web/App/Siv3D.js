@@ -306,7 +306,8 @@ mergeInto(LibraryManager.library, {
             s3dMayOpenDialog = false;
         }
     },
-    $s3dInitDialog__deps: [ "$s3dMayOpenDialog" ],
+    s3dInitDialog__sig: "v",
+    s3dInitDialog__deps: [ "$s3dInputElement", "$s3dDialogFileReader", "$s3dMayOpenDialog", "$s3dIsPindingDialog" ],
 
     s3dOpenDialog: function(callback, futurePtr) {
         s3dInputElement.oninput = function onChange(e) {
@@ -451,6 +452,6 @@ mergeInto(LibraryManager.library, {
         };
     },
     s3dRegisterDragDrop__sig: "vi",
-    s3dRegisterDragDrop__deps: [ "$s3dDragDropFileReader" ],
+    s3dRegisterDragDrop__deps: [ "$s3dDragDropFileReader", "$FS" ],
 
 });
