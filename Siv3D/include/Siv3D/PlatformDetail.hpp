@@ -19,6 +19,7 @@
 
 # if SIV3D_PLATFORM(WEB)
 #	include <emscripten.h>
+#	include <future>
 # endif
 
 namespace s3d::Platform
@@ -191,14 +192,4 @@ namespace s3d::Platform
 
 # error Unimplemented
 
-# endif
-
-//////////////////////////////////////////////////
-//
-// Platform-Dependent Includes
-//
-//////////////////////////////////////////////////
-
-# if SIV3D_PLATFORM(WEB)
-#	include "PlatformDetail_Web.hpp"
 # endif

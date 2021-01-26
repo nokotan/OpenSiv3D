@@ -13,6 +13,10 @@
 # include "Fwd.hpp"
 # include "Array.hpp"
 
+# if SIV3D_PLATFORM(WEB)
+#	include <future>
+# endif
+
 namespace s3d
 {
 	/// <summary>
@@ -108,4 +112,13 @@ namespace s3d
 
 		[[nodiscard]] AudioFormat GetFormatFromFilePath(const FilePath& path);
 	}
+
+# if SIV3D_PLATFORM(WEB)
+
+ 	namespace Platform::Web::AudioProcessing
+	{
+		std::future<Audio> DecodeAudioFromFile(const FilePath& path);
+	}
+
+# endif
 }

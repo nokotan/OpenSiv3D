@@ -16,6 +16,10 @@
 # include "Texture.hpp"
 # include "FileFilter.hpp"
 
+# if SIV3D_PLATFORM(WEB)
+#	include <future>
+# endif
+
 namespace s3d
 {
 	namespace Dialog
@@ -46,4 +50,28 @@ namespace s3d
 
 		Optional<FilePath> SaveWave(const FilePath& defaultPath = U"", const String& title = U"");
 	}
+
+# if SIV3D_PLATFORM(WEB)
+
+ 	namespace Platform::Web::Dialog 
+	{
+        std::future<Optional<FilePath>> OpenFile(const Array<FileFilter>& filters = {}, const FilePath& defaultPath = U"", const String& title = U"");
+
+		std::future<Array<FilePath>> OpenFiles(const Array<FileFilter>& filters = {}, const FilePath& defaultPath = U"", const String& title = U"");
+
+
+		std::future<Image> OpenImage(const FilePath& defaultPath = U"", const String& title = U"");
+
+		std::future<Texture> OpenTexture(const FilePath& defaultPath = U"", const String& title = U"");
+
+		std::future<Texture> OpenTexture(TextureDesc desc, const FilePath& defaultPath = U"", const String& title = U"");
+
+		std::future<Wave> OpenWave(const FilePath& defaultPath = U"", const String& title = U"");
+
+		std::future<Audio> OpenAudio(const FilePath& defaultPath = U"", const String& title = U"");
+
+		std::future<Audio> OpenAudio(Arg::loop_<bool> loop, const FilePath& defaultPath = U"", const String& title = U"");
+    }
+
+# endif
 }
