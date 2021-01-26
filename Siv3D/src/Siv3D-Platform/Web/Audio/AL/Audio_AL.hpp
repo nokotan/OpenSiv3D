@@ -42,6 +42,7 @@ namespace s3d
 		
 
 		// std::thread m_thread;
+		long m_intervalID = 0;
 		
 		std::atomic<bool> m_abort = false;
 		
@@ -157,9 +158,16 @@ namespace s3d
 			return true;
 		}
 
-		static void onUpdateHelper(void *userData) {
-			if (static_cast<SimpleVoice_AL*>(userData)->onUpdate()) {
-				::emscripten_set_timeout(&SimpleVoice_AL::onUpdateHelper, 10.0, userData);
+		static void onUpdateHelper(void *userData) 
+		{
+			auto audio = static_cast<SimpleVoice_AL*>(userData);
+
+			if (!audio->onUpdate()) 
+			{
+				::emscripten_clear_interval(audio->m_intervalID);
+				audio->m_intervalID = 0;
+
+				LOG_TRACE(U"Clear Interval ID (in CallBack): {}"_fmt(audio->m_intervalID));
 			}
 		}
 		
@@ -184,7 +192,8 @@ namespace s3d
 			feed();
 
 			// m_thread = std::thread(&SimpleVoice_AL::onUpdate, this);
-			::emscripten_set_timeout(&SimpleVoice_AL::onUpdateHelper, 10.0, this);
+			m_intervalID = ::emscripten_set_interval(&SimpleVoice_AL::onUpdateHelper, 20.0, this);
+			LOG_TRACE(U"Start Interval ID: {}"_fmt(m_intervalID));
 
 			::alSourcePlay(m_source);
 			
@@ -203,6 +212,11 @@ namespace s3d
 			// {
 			// 	m_thread.join();
 			// }
+
+			if (m_intervalID)
+			{
+				::emscripten_clear_interval(m_intervalID);
+			}	
 			
 			if (m_source)
 			{
@@ -240,10 +254,9 @@ namespace s3d
 		
 		bool m_isEnd = false;
 		
+		long m_intervalID = 0;
 		
-		std::thread m_thread;
-		
-		bool m_hasThread = false;
+		// std::thread m_thread;
 		
 		std::atomic<bool> m_abort = false;
 		
@@ -462,9 +475,15 @@ namespace s3d
 			::alSourcef(m_source, AL_PITCH, static_cast<float>(m_speed));
 		}
 
-		static void onUpdateHelper(void *userData) {
-			if (static_cast<VoiceStream_AL*>(userData)->onUpdate()) {
-				::emscripten_set_timeout(&VoiceStream_AL::onUpdateHelper, 10.0, userData);
+		static void onUpdateHelper(void *userData) 
+		{
+			auto audio = static_cast<VoiceStream_AL*>(userData);
+
+			if (!audio->onUpdate())
+			{
+				::emscripten_clear_interval(audio->m_intervalID);
+				LOG_TRACE(U"Clear Interval ID: {}"_fmt(audio->m_intervalID));
+				audio->m_intervalID = 0;
 			}
 		}
 		
@@ -498,6 +517,11 @@ namespace s3d
 			// {
 			// 	m_thread.join();
 			// }
+			if (m_intervalID)
+			{
+				::emscripten_clear_interval(m_intervalID);
+				LOG_TRACE(U"Clear Interval ID: {}"_fmt(m_intervalID));
+			}
 			
 			if (m_source)
 			{
@@ -603,12 +627,15 @@ namespace s3d
 			
 			feed();
 			
-			if (!m_hasThread)
+			// m_thread = std::thread(&VoiceStream_AL::onUpdate, this);
+			if (m_intervalID != 0)
 			{
-				// m_thread = std::thread(&VoiceStream_AL::onUpdate, this);
-				::emscripten_set_timeout(&VoiceStream_AL::onUpdateHelper, 10.0, this);
-				m_hasThread = true;
+				::emscripten_clear_interval(m_intervalID);
+				LOG_TRACE(U"Clear Interval ID: {}"_fmt(m_intervalID));
 			}
+			
+			m_intervalID = ::emscripten_set_interval(&VoiceStream_AL::onUpdateHelper, 20.0, this);	
+			LOG_TRACE(U"Start Interval ID: {}"_fmt(m_intervalID));
 
 			::alSourcePlay(m_source);
 			
