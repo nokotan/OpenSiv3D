@@ -36,22 +36,29 @@ namespace s3d::Platform::Web::AudioProcessing
 
         void DecodeAudioFromFileCallback(CallbackData* data)
         {
-            Wave wave { data->dataLength, Arg::samplingRate(data->samplingRate) };
-
-            for (uint32 i = 0; i < data->dataLength; i++)
+            if (data->dataLength > 0)
             {
-                wave[i].set(data->leftChannelData[i], data->rightChannelData[i]);
+                Wave wave { data->dataLength, Arg::samplingRate(data->samplingRate) };
+
+                for (uint32 i = 0; i < data->dataLength; i++)
+                {
+                    wave[i].set(data->leftChannelData[i], data->rightChannelData[i]);
+                }
+
+                data->wavePromise.set_value(Audio(std::move(wave)));
+
+                if (data->leftChannelData != data->rightChannelData) 
+                {
+                    ::free(data->rightChannelData);
+                }
+
+                ::free(data->leftChannelData);
             }
-
-            data->wavePromise.set_value(Audio(std::move(wave)));
-
-            if (data->leftChannelData != data->rightChannelData) 
+            else
             {
-                ::free(data->rightChannelData);
+                data->wavePromise.set_value(Audio());
             }
-
-            ::free(data->leftChannelData);
-            
+                  
             delete data;
         }
     }
