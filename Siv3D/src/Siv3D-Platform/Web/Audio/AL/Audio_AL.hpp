@@ -124,7 +124,7 @@ namespace s3d
 			
 			m_readPos  = 0;
 			
-			//LOG_TEST(U"End of Stream");
+			//LOG_TRACE(U"End of Stream");
 		}
 		
 		bool onUpdate()
@@ -192,7 +192,7 @@ namespace s3d
 			feed();
 
 			// m_thread = std::thread(&SimpleVoice_AL::onUpdate, this);
-			m_intervalID = ::emscripten_set_interval(&SimpleVoice_AL::onUpdateHelper, 20.0, this);
+			m_intervalID = ::emscripten_set_interval(&SimpleVoice_AL::onUpdateHelper, 25.0, this);
 			LOG_TRACE(U"Start Interval ID: {}"_fmt(m_intervalID));
 
 			::alSourcePlay(m_source);
@@ -270,7 +270,7 @@ namespace s3d
 		Array<size_t> m_samplesQueued;
 		
 		
-		static constexpr size_t BufferSamples = 2048;
+		static constexpr size_t BufferSamples = 2048 * 2;
 		
 		Array<WaveSampleS16> m_tmpBuffer;
 		
@@ -410,7 +410,7 @@ namespace s3d
 				}
 			}
 			
-			//LOG_TEST(U"#{}+{}"_fmt(m_posSmaplesAccumulated, m_posSampleCurrentStream));
+			//LOG_DEBUG(U"#{}+{}"_fmt(m_posSmaplesAccumulated, m_posSampleCurrentStream));
 		}
 		
 		void onStreamEnd()
@@ -427,7 +427,7 @@ namespace s3d
 			m_volume = { 1.0, 1.0 };
 			m_speed = 1.0;
 			
-			//LOG_TEST(U"End of Stream");
+			LOG_TRACE(U"End of Stream");
 		}
 		
 		bool onUpdate()
@@ -634,7 +634,7 @@ namespace s3d
 				LOG_TRACE(U"Clear Interval ID: {}"_fmt(m_intervalID));
 			}
 			
-			m_intervalID = ::emscripten_set_interval(&VoiceStream_AL::onUpdateHelper, 20.0, this);	
+			m_intervalID = ::emscripten_set_interval(&VoiceStream_AL::onUpdateHelper, 25.0, this);	
 			LOG_TRACE(U"Start Interval ID: {}"_fmt(m_intervalID));
 
 			::alSourcePlay(m_source);
