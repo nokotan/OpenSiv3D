@@ -14,6 +14,11 @@
 # include <Siv3D/Wave.hpp>
 # include <Siv3D/Audio.hpp>
 
+extern "C"
+{
+	void s3dSaveDialog(const char* fileName);
+}
+
 namespace s3d
 {
 	namespace Dialog
@@ -26,8 +31,10 @@ namespace s3d
 		
 		Optional<FilePath> SaveFile(const Array<FileFilter>& filters, const FilePath& defaultPath, const String&)
 		{
-			// [Siv3D ToDo]
-			return none;
+			const auto fileName = FileSystem::FileName(defaultPath);
+			::s3dSaveDialog(fileName.narrow().c_str());
+			
+			return FilePath(U"/dev/save");
 		}
 		
 		Optional<FilePath> SelectFolder(const FilePath& defaultPath, const String&)

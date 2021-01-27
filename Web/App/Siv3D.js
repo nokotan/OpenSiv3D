@@ -325,15 +325,22 @@ mergeInto(LibraryManager.library, {
     //
     $s3dInputElement: null,
     $s3dDialogFileReader: null,
+    $s3dDownloadLink: null,
 
     s3dInitDialog: function() {
         s3dInputElement = document.createElement("input");
         s3dInputElement.type = "file";
 
         s3dDialogFileReader = new FileReader();
+
+        s3dSaveFileBuffer = new Uint8Array(16*1024 /* 16KB */)
+        s3dDownloadLink = document.createElement("a");
+
+        TTY.register(FS.makedev(20, 0), { put_char: s3dWriteSaveFileBuffer, flush: s3dFlushSaveFileBuffer });
+        FS.mkdev('/dev/save', FS.makedev(20, 0));
     },
     s3dInitDialog__sig: "v",
-    s3dInitDialog__deps: [ "$s3dInputElement", "$s3dDialogFileReader" ],
+    s3dInitDialog__deps: [ "$s3dInputElement", "$s3dDialogFileReader", "$s3dWriteSaveFileBuffer", "$s3dFlushSaveFileBuffer", "$s3dSaveFileBuffer", "$s3dDownloadLink", "$TTY", "$FS" ],
 
     s3dOpenDialog: function(filterStr, callback, futurePtr) {
         s3dInputElement.accept = UTF8ToString(filterStr);
@@ -366,6 +373,42 @@ mergeInto(LibraryManager.library, {
     },
     s3dOpenDialog__sig: "vii",
     s3dOpenDialog__deps: [ "$s3dInputElement", "$s3dDialogFileReader", "$s3dRegisterUserAction", "$FS" ],
+
+    $s3dSaveFileBuffer: null, 
+    $s3dSaveFileBufferWritePos: 0,
+    $s3dDefaultSaveFileName: null,
+
+    $s3dWriteSaveFileBuffer: function(tty, chr) {       
+        if (s3dSaveFileBufferWritePos >= s3dSaveFileBuffer.length) {
+            const newBuffer = new Uint8Array(s3dSaveFileBuffer.length * 2);
+            newBuffer.set(s3dSaveFileBuffer);
+            s3dSaveFileBuffer = newBuffer;
+        }
+
+        s3dSaveFileBuffer[s3dSaveFileBufferWritePos] = chr;
+        s3dSaveFileBufferWritePos++;
+    },
+    $s3dWriteSaveFileBuffer__deps: [ "$s3dSaveFileBuffer", "$s3dSaveFileBufferWritePos" ], 
+    $s3dFlushSaveFileBuffer: function(tty) {
+        const data = s3dSaveFileBuffer.subarray(0, s3dSaveFileBufferWritePos);
+        const blob = new Blob([ data ], { type: "application/octet-stream" });
+
+        s3dDownloadLink.href = URL.createObjectURL(blob);
+        s3dDownloadLink.download = s3dDefaultSaveFileName;
+
+        s3dRegisterUserAction(function() {
+            s3dDownloadLink.click();
+            s3dSaveFileBufferWritePos = 0;
+        });
+    },
+    $s3dWriteSaveFileBuffer__deps: [ "$s3dSaveFileBuffer", "$s3dSaveFileBufferWritePos", "$s3dRegisterUserAction", "$s3dDefaultSaveFileName", "$s3dDownloadLink" ], 
+
+    s3dSaveDialog: function(str) {
+        s3dDefaultSaveFileName = UTF8ToString(str);
+        s3dSaveFileBufferWritePos = 0;
+    },
+    s3dSaveDialog__sig: "v",
+    s3dSaveDialog__deps: [ "$s3dSaveFileBufferWritePos", "$s3dDefaultSaveFileName" ],
 
     //
     // Audio Support
