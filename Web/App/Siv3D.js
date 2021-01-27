@@ -18,20 +18,20 @@ mergeInto(LibraryManager.library, {
         setValue(name, allocate(intArrayFromString("HTML5 WebGL Canvas"), 'i8', ALLOC_NORMAL), 'i32');
         setValue(xpos, 0, 'i32');
         setValue(ypos, 0, 'i32');
-        setValue(w, 0, 'i32');
-        setValue(h, 0, 'i32');
-        setValue(wx, 0, 'i32');
-        setValue(wy, 0, 'i32');
-        setValue(ww, 0, 'i32');
-        setValue(wh, 0, 'i32');
+        setValue(w, window.screen.width, 'i32');
+        setValue(h, window.screen.height, 'i32');
+        setValue(wx, window.screenX, 'i32');
+        setValue(wy, window.screenX, 'i32');
+        setValue(ww, window.outerWidth, 'i32');
+        setValue(wh, window.outerHeight, 'i32');
     },
     glfwGetMonitorInfo_Siv3D__sig: "viiiiiiiiiii",
     
     glfwGetMonitorRect_Siv3D: function(handle, xpos, ypos, w, h) {
         setValue(xpos, 0, 'i32');
         setValue(ypos, 0, 'i32');
-        setValue(w, 0, 'i32');
-        setValue(h, 0, 'i32');
+        setValue(w, window.screen.width, 'i32');
+        setValue(h, window.screen.height, 'i32');
     },
     glfwGetMonitorRect_Siv3D__sig: "viiiii",
 
