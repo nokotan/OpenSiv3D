@@ -325,40 +325,18 @@ mergeInto(LibraryManager.library, {
     //
     $s3dInputElement: null,
     $s3dDialogFileReader: null,
-    $s3dIsPindingDialog: false,
-    $s3dMayOpenDialog: false,
 
     s3dInitDialog: function() {
         s3dInputElement = document.createElement("input");
         s3dInputElement.type = "file";
 
         s3dDialogFileReader = new FileReader();
-
-        function OpenDialogHelper() {
-            if (!s3dMayOpenDialog) {
-                setTimeout(function() {
-                    if (s3dIsPindingDialog) {
-                        s3dInputElement.click();
-                        s3dIsPindingDialog = false;
-                    }
-                }, 50);
-                s3dMayOpenDialog = true;
-            }     
-        }
-
-        Module["canvas"].addEventListener('touchstart', OpenDialogHelper);
-        Module["canvas"].addEventListener('mousedown', OpenDialogHelper);
-        Module["canvas"].addEventListener('keydown', OpenDialogHelper);
-
-        Module['postMainLoop'] = function() {
-            s3dMayOpenDialog = false;
-        }
     },
     s3dInitDialog__sig: "v",
-    s3dInitDialog__deps: [ "$s3dInputElement", "$s3dDialogFileReader", "$s3dMayOpenDialog", "$s3dIsPindingDialog" ],
+    s3dInitDialog__deps: [ "$s3dInputElement", "$s3dDialogFileReader" ],
 
     s3dOpenDialog: function(callback, futurePtr) {
-        s3dInputElement.oninput = function onChange(e) {
+        s3dInputElement.oninput = function(e) {
             const files = e.target.files;
 
             if (files.length < 1) {
@@ -381,10 +359,12 @@ mergeInto(LibraryManager.library, {
             s3dDialogFileReader.readAsArrayBuffer(file);         
         };
 
-        s3dIsPindingDialog = true;
+        s3dRegisterUserAction(function() {
+            s3dInputElement.click();
+        });
     },
     s3dOpenDialog__sig: "vii",
-    s3dOpenDialog__deps: [ "$s3dInputElement", "$s3dDialogFileReader", "$s3dIsPindingDialog", "$FS" ],
+    s3dOpenDialog__deps: [ "$s3dInputElement", "$s3dDialogFileReader", "$s3dRegisterUserAction", "$FS" ],
 
     //
     // Audio Support
