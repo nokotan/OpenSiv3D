@@ -14,6 +14,11 @@
 # include <Siv3D/System.hpp>
 # include <Siv3D/FileSystem.hpp>
 
+extern "C"
+{
+	void s3dLaunchBrowser(const char32_t* url);
+}
+
 namespace s3d
 {
 	namespace System
@@ -38,9 +43,7 @@ namespace s3d
 				return false;
 			}
 			
-			EM_ASM({
-				window.open(UTF32ToString($0), '_blank')
-			}, url.c_str());
+			::s3dLaunchBrowser(url.c_str());
 
 			return true;
 		}

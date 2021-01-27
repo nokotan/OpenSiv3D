@@ -502,4 +502,16 @@ mergeInto(LibraryManager.library, {
     s3dRegisterDragDrop__sig: "vi",
     s3dRegisterDragDrop__deps: [ "$s3dDragDropFileReader", "$FS" ],
 
+    //
+    // Misc
+    //
+    s3dLaunchBrowser: function(url) {
+        const urlString = UTF32ToString(url);
+        
+        s3dRegisterUserAction(function () {
+            window.open(urlString, '_blank')
+        });
+    },
+    s3dLaunchBrowser__sig: "vi",
+    s3dLaunchBrowser__deps: [ "$s3dRegisterUserAction" ]
 });
