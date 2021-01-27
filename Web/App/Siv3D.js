@@ -335,12 +335,13 @@ mergeInto(LibraryManager.library, {
     s3dInitDialog__sig: "v",
     s3dInitDialog__deps: [ "$s3dInputElement", "$s3dDialogFileReader" ],
 
-    s3dOpenDialog: function(callback, futurePtr) {
+    s3dOpenDialog: function(filterStr, callback, futurePtr) {
+        s3dInputElement.accept = UTF8ToString(filterStr);
         s3dInputElement.oninput = function(e) {
             const files = e.target.files;
 
             if (files.length < 1) {
-                {{{ makeDynCall('vii', 'callback') }}}(futurePtr, 0);
+                {{{ makeDynCall('vii', 'callback') }}}(0, futurePtr);
                 return;
             }
 
@@ -351,7 +352,7 @@ mergeInto(LibraryManager.library, {
                 FS.writeFile(filePath, new Uint8Array(s3dDialogFileReader.result));
 
                 const namePtr = allocate(intArrayFromString(filePath), 'i8', ALLOC_NORMAL);
-                {{{ makeDynCall('vii', 'callback') }}}(futurePtr, namePtr);
+                {{{ makeDynCall('vii', 'callback') }}}(namePtr, futurePtr);
 
                 s3dDialogFileReader.removeEventListener("load", onLoaded);
             });

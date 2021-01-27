@@ -41,15 +41,30 @@ namespace s3d
 	{
 		namespace detail
 		{
+			String TransformFileFilters(const Array<FileFilter>& filters) 
+			{
+				return filters
+					.map([](const FileFilter& f) 
+					{
+						return f.patterns
+							.map([](const String& p) 
+							{
+								return p.count(U'/') == 1 ? p : U"." + p;
+							})
+							.join(U",", U"", U"");
+					})
+					.join(U",", U"", U"");
+			}
+
 			template <class T>
-			using s3dOpenDialogCallback = void (*)(std::promise<T>*, char*);
+			using s3dOpenDialogCallback = void (*)(char*, std::promise<T>*);
 
 			template <class T>
 			EM_IMPORT(s3dOpenDialog)
-			void s3dOpenDialogImpl(s3dOpenDialogCallback<T>, std::promise<T>*);
+			void s3dOpenDialogImpl(const char*, s3dOpenDialogCallback<T>, std::promise<T>*);
 
 			template <class T>
-			void OnOpenFileDialogClosed(std::promise<T>* result, char* fileName)
+			void OnOpenFileDialogClosed(char* fileName, std::promise<T>* result)
 			{
 				if (fileName == 0)
 				{
@@ -61,16 +76,19 @@ namespace s3d
 					result->set_value(T{path});
 				}
 
+				delete fileName;
 				delete result;
 			}
 
 			template <class T>
-			std::future<T> s3dOpenDialog()
+			std::future<T> s3dOpenDialog(const Array<FileFilter>& filters)
 			{
+				const auto filter = TransformFileFilters(filters);
+
 				auto result = new std::promise<T>();
 				auto result_future = result->get_future();
 				
-				s3dOpenDialogImpl<T>(&OnOpenFileDialogClosed<T>, result);
+				s3dOpenDialogImpl<T>(filter.narrow().c_str(), &OnOpenFileDialogClosed<T>, result);
 				
 				return result_future;
 			}
@@ -78,39 +96,39 @@ namespace s3d
 
 		std::future<Optional<FilePath>> OpenFile(const Array<FileFilter>& filters, const FilePath& defaultPath, const String&)
 		{
-			return detail::s3dOpenDialog<Optional<FilePath>>();
+			return detail::s3dOpenDialog<Optional<FilePath>>(filters);
 		}
 
 
 
 		std::future<Image> OpenImage(const FilePath& defaultPath, const String& title)
 		{
-			return detail::s3dOpenDialog<Image>();
+			return detail::s3dOpenDialog<Image>({ FileFilter::AllImageFiles() });
 		}
 
 		std::future<Texture> OpenTexture(const FilePath& defaultPath, const String& title)
 		{
-			return detail::s3dOpenDialog<Texture>();
+			return detail::s3dOpenDialog<Texture>({ FileFilter::AllImageFiles() });
 		}
 
 		std::future<Texture> OpenTexture(const TextureDesc desc, const FilePath& defaultPath, const String& title)
 		{
-			return detail::s3dOpenDialog<Texture>();
+			return detail::s3dOpenDialog<Texture>({ FileFilter::AllImageFiles() });
 		}
 
 		std::future<Wave> OpenWave(const FilePath& defaultPath, const String& title)
 		{
-			return detail::s3dOpenDialog<Wave>();
+			return detail::s3dOpenDialog<Wave>({ FileFilter::AllAudioFiles() });
 		}
 
 		std::future<Audio> OpenAudio(const FilePath& defaultPath, const String& title)
 		{
-			return detail::s3dOpenDialog<Audio>();
+			return detail::s3dOpenDialog<Audio>({ FileFilter::AllAudioFiles() });
 		}
 
 		std::future<Audio> OpenAudio(const Arg::loop_<bool> loop, const FilePath& defaultPath, const String& title)
 		{
-			return detail::s3dOpenDialog<Audio>();
+			return detail::s3dOpenDialog<Audio>({ FileFilter::AllAudioFiles() });
 		}
 	}
 }
