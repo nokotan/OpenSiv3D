@@ -273,6 +273,54 @@ mergeInto(LibraryManager.library, {
     s3dCallIndirectReturnInMemory__sig: "viiii",
 
     //
+    // User Action Emulation
+    //
+    $s3dHasUserActionTriggered: false,
+    $s3dPendingUserActions: [],
+
+    $s3dTriggerUserActionEmulation: function() {
+        for (let action of s3dPendingUserActions) {
+            action();
+        }
+
+        s3dPendingUserActions.splice(0);
+    },
+    $s3dTriggerUserActionEmulation__deps: [ "$s3dPendingUserActions" ],
+
+    $s3dRegisterUserAction: function(func) {
+        s3dPendingUserActions.push(func);
+    },
+    $s3dRegisterUserAction__deps: [ "$s3dPendingUserActions" ],
+
+    $s3dUserActionHookCallBack: function() {
+        if (!s3dHasUserActionTriggered) {
+            setTimeout(s3dTriggerUserActionEmulation, 30);
+            s3dHasUserActionTriggered = true;
+        }
+    },
+    $s3dUserActionHookCallBack__deps: [ "$s3dHasUserActionTriggered", "$s3dTriggerUserActionEmulation" ],
+
+    s3dStartUserActionHook: function() {
+        Module["canvas"].addEventListener('touchstart', s3dUserActionHookCallBack);
+        Module["canvas"].addEventListener('mousedown', s3dUserActionHookCallBack);
+        Module["canvas"].addEventListener('keydown', s3dUserActionHookCallBack);
+
+        Module['postMainLoop'] = function() {
+            s3dHasUserActionTriggered = false;
+        }
+    },
+    s3dStartUserActionHook__sig: "v",
+    s3dStartUserActionHook__deps: [ "$s3dUserActionHookCallBack", "$s3dHasUserActionTriggered" ],
+
+    s3dStopUserActionHook: function() {
+        Module["canvas"].removeEventListener('touchstart', s3dUserActionHookCallBack);
+        Module["canvas"].removeEventListener('mousedown', s3dUserActionHookCallBack);
+        Module["canvas"].removeEventListener('keydown', s3dUserActionHookCallBack);
+    },
+    s3dStopUserActionHook__sig: "v",
+    s3dStopUserActionHook__deps: [ "$s3dUserActionHookCallBack" ],
+
+    //
     // Dialog Support
     //
     $s3dInputElement: null,

@@ -47,6 +47,7 @@
 
 extern "C"
 {
+	void s3dStartUserActionHook();
 	void s3dInitDialog();
 } 
 
@@ -73,7 +74,8 @@ namespace s3d
 		Siv3DEngine::Get<ISiv3DObjectDetection>()->init();
 		Siv3DEngine::Get<ISiv3DWindow>()->init();
 
-		s3dInitDialog();
+		::s3dStartUserActionHook();
+		::s3dInitDialog();
 
 		Siv3DEngine::Get<ISiv3DCursor>()->init();
 		Siv3DEngine::Get<ISiv3DKeyboard>()->init();
