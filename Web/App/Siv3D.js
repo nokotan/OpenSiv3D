@@ -390,6 +390,10 @@ mergeInto(LibraryManager.library, {
     },
     $s3dWriteSaveFileBuffer__deps: [ "$s3dSaveFileBuffer", "$s3dSaveFileBufferWritePos" ], 
     $s3dFlushSaveFileBuffer: function(tty) {
+        if (s3dSaveFileBufferWritePos == 0) {
+            return;
+        }
+
         const data = s3dSaveFileBuffer.subarray(0, s3dSaveFileBufferWritePos);
         const blob = new Blob([ data ], { type: "application/octet-stream" });
 
@@ -397,9 +401,10 @@ mergeInto(LibraryManager.library, {
         s3dDownloadLink.download = s3dDefaultSaveFileName;
 
         s3dRegisterUserAction(function() {
-            s3dDownloadLink.click();
-            s3dSaveFileBufferWritePos = 0;
+            s3dDownloadLink.click();         
         });
+
+        s3dSaveFileBufferWritePos = 0;
     },
     $s3dWriteSaveFileBuffer__deps: [ "$s3dSaveFileBuffer", "$s3dSaveFileBufferWritePos", "$s3dRegisterUserAction", "$s3dDefaultSaveFileName", "$s3dDownloadLink" ], 
 
