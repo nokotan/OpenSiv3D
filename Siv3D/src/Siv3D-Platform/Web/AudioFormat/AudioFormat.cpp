@@ -28,7 +28,11 @@ namespace s3d::Platform::Web::AudioProcessing
             float* rightChannelData;
             uint32 samplingRate;
             std::size_t dataLength;
-            std::promise<Audio> wavePromise;
+            std::promise<Audio> audioPromise;
+
+            CallbackData(std::promise<Audio>&& p) : 
+                audioPromise(std::move(p))
+            {}
         };
 
         EM_IMPORT(s3dDecodeAudioFromFile)
@@ -45,7 +49,7 @@ namespace s3d::Platform::Web::AudioProcessing
                     wave[i].set(data->leftChannelData[i], data->rightChannelData[i]);
                 }
 
-                data->wavePromise.set_value(Audio(std::move(wave)));
+                data->audioPromise.set_value(Audio(std::move(wave)));
 
                 if (data->leftChannelData != data->rightChannelData) 
                 {
@@ -56,7 +60,7 @@ namespace s3d::Platform::Web::AudioProcessing
             }
             else
             {
-                data->wavePromise.set_value(Audio());
+                data->audioPromise.set_value(Audio());
             }
                   
             delete data;
@@ -65,11 +69,20 @@ namespace s3d::Platform::Web::AudioProcessing
 
     std::future<Audio> DecodeAudioFromFile(const FilePath& path)
     {
-        auto data = new detail::CallbackData();
-        auto future = data->wavePromise.get_future();
+        std::promise<Audio> promise;
+        auto future = promise.get_future();
 
-        s3dDecodeAudioFromFile(path.toUTF8().c_str(), detail::DecodeAudioFromFileCallback, data);
-
-        return future;
+        if (Audio processedByEmbeddedCodec(path); !processedByEmbeddedCodec.isEmpty())
+        {
+            // Immediately resolve
+            promise.set_value(processedByEmbeddedCodec);
+            return future;
+        }
+        else
+        {
+            auto data = new detail::CallbackData(std::move(promise));
+            s3dDecodeAudioFromFile(path.toUTF8().c_str(), detail::DecodeAudioFromFileCallback, data);
+            return future;
+        }
     }
 }
