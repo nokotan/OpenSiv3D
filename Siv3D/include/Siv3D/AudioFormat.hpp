@@ -117,6 +117,8 @@ namespace s3d
 
  	namespace Platform::Web::AudioProcessing
 	{
+		void DecodeAudioFromFile(const FilePath& path, std::promise<Audio> p);
+		
 		std::future<Audio> DecodeAudioFromFile(const FilePath& path);
 	}
 

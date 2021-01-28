@@ -13,8 +13,7 @@
 # include <Siv3D/Audio.hpp>
 # include <Siv3D/Platform.hpp>
 # include <Siv3D/PlatformDetail.hpp>
-
-# include <future>
+# include <Siv3D/EngineLog.hpp>
 
 namespace s3d::Platform::Web::AudioProcessing
 {
@@ -67,22 +66,28 @@ namespace s3d::Platform::Web::AudioProcessing
         }
     }
 
-    std::future<Audio> DecodeAudioFromFile(const FilePath& path)
+    void DecodeAudioFromFile(const FilePath& path, std::promise<Audio> promise)
     {
-        std::promise<Audio> promise;
-        auto future = promise.get_future();
-
         if (Audio processedByEmbeddedCodec(path); !processedByEmbeddedCodec.isEmpty())
         {
             // Immediately resolve
             promise.set_value(processedByEmbeddedCodec);
-            return future;
         }
         else
         {
             auto data = new detail::CallbackData(std::move(promise));
             s3dDecodeAudioFromFile(path.toUTF8().c_str(), detail::DecodeAudioFromFileCallback, data);
-            return future;
+
+            LOG_TRACE(U"DecodeAudioFromFile: falling back to Browser-Supported Decoding");
         }
+    }
+
+    std::future<Audio> DecodeAudioFromFile(const FilePath& path)
+    {
+        std::promise<Audio> promise;
+        auto future = promise.get_future();
+
+        DecodeAudioFromFile(path, std::move(promise));
+        return future;
     }
 }
