@@ -104,26 +104,14 @@ namespace s3d
 			}
 
 			template <class T>
-			std::future<T> s3dOpenDialog(const Array<FileFilter>& filters)
+			std::future<T> s3dOpenDialog(const Array<FileFilter>& filters, s3dOpenDialogCallback<T> callback = &OnOpenFileDialogClosed<T>)
 			{
 				const auto filter = TransformFileFilters(filters);
 
 				auto result = new std::promise<T>();
 				auto result_future = result->get_future();
 				
-				s3dOpenDialogImpl<T>(filter.narrow().c_str(), &OnOpenFileDialogClosed<T>, result);
-				
-				return result_future;
-			}
-
-			std::future<Audio> s3dOpenAudio(const Array<FileFilter>& filters)
-			{
-				const auto filter = TransformFileFilters(filters);
-
-				auto result = new std::promise<Audio>();
-				auto result_future = result->get_future();
-				
-				s3dOpenDialogImpl<Audio>(filter.narrow().c_str(), &OnOpenAudioDialogClosed, result);
+				s3dOpenDialogImpl<T>(filter.narrow().c_str(), callback, result);
 				
 				return result_future;
 			}
@@ -158,12 +146,12 @@ namespace s3d
 
 		std::future<Audio> OpenAudio(const FilePath& defaultPath, const String& title)
 		{
-			return detail::s3dOpenAudio({ FileFilter::AllAudioFiles() });
+			return detail::s3dOpenDialog<Audio>({ FileFilter::AllAudioFiles() }, &detail::OnOpenAudioDialogClosed);
 		}
 
 		std::future<Audio> OpenAudio(const Arg::loop_<bool> loop, const FilePath& defaultPath, const String& title)
 		{
-			return detail::s3dOpenAudio({ FileFilter::AllAudioFiles() });
+			return detail::s3dOpenDialog<Audio>({ FileFilter::AllAudioFiles() }, &detail::OnOpenAudioDialogClosed);
 		}
 	}
 }
