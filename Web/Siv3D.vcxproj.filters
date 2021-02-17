@@ -5681,5 +5681,8 @@
     <ClCompile Include="..\Siv3D\src\Siv3D-Platform\Web\Graphics\GraphicsFactory.cpp">
       <Filter>src\Siv3D-Platform\Web\Graphics\GL</Filter>
     </ClCompile>
+    <ClCompile Include="..\Siv3D\src\Siv3D-Platform\Web\AudioFormat\AudioProcessing.cpp">
+      <Filter>src\Siv3D-Platform\Web\AudioFormat</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

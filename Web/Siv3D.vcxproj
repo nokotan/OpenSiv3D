@@ -909,6 +909,7 @@
   <ItemGroup>
     <ClCompile Include="..\Siv3D\src\Siv3D-Platform\Web\Audio\AL\CAudio_AL.cpp" />
     <ClCompile Include="..\Siv3D\src\Siv3D-Platform\Web\Audio\AudioFactory.cpp" />
+    <ClCompile Include="..\Siv3D\src\Siv3D-Platform\Web\AudioFormat\AudioProcessing.cpp" />
     <ClCompile Include="..\Siv3D\src\Siv3D-Platform\Web\AudioFormat\AAC\AudioFormat_AAC.cpp" />
     <ClCompile Include="..\Siv3D\src\Siv3D-Platform\Web\AudioFormat\MP3\AudioFormat_MP3.cpp" />
     <ClCompile Include="..\Siv3D\src\Siv3D-Platform\Web\BinaryReader\BinaryReaderDetail.cpp" />
@@ -1648,6 +1649,18 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <CompileAs>
       </CompileAs>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(DesignTimeBuild)'=='true' and '$(Configuration)|$(Platform)'=='Debug|Emscripten'">
+    <ClCompile>
+      <ForcedIncludeFiles>EmscriptenPlatform.h</ForcedIncludeFiles>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(DesignTimeBuild)'=='true' and '$(Configuration)|$(Platform)'=='Release|Emscripten'">
+    <ClCompile>
+      <ForcedIncludeFiles>EmscriptenPlatform.h</ForcedIncludeFiles>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
