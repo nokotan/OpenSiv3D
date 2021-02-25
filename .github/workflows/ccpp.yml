@@ -148,6 +148,9 @@ jobs:
           - name: wasm-pic
             container: 'emscripten/emsdk:2.0.4'
             cmake-config: '-DSIV3D_BUILD_WITH_SHARED_WASM=1'
+          - name: wasm-pic-main
+            container: 'emscripten/emsdk:2.0.4'
+            cmake-config: '-DSIV3D_BUILD_WITH_SHARED_MAIN=1'
           - name: asmjs
             container: 'trzeci/emscripten:1.39.13-fastcomp'
             cmake-config: '-DSIV3D_BUILD_WITH_FASTCOMP_SUPPORT=1'
