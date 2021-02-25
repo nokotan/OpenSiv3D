@@ -30,10 +30,13 @@ set(SOURCE_FILES
 )
 
 add_executable(Siv3D_App ${SOURCE_FILES})
-set(CMAKE_EXECUTABLE_SUFFIX ".html")
 
 if (SIV3D_BUILD_WITH_SHARED_WASM)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s MAIN_MODULE=1 -s RUNTIME_LINKED_LIBS=['Siv3D.wasm']")
+	set(CMAKE_EXECUTABLE_SUFFIX ".html")
+elseif (SIV3D_BUILD_WITH_SHARED_MAIN)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s SIDE_MODULE=1")
+	set(CMAKE_EXECUTABLE_SUFFIX ".wasm")
 elseif (SIV3D_BUILD_WITH_FASTCOMP_SUPPORT)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSIMDE_NO_VECTOR")
 
@@ -56,6 +59,8 @@ elseif (SIV3D_BUILD_WITH_FASTCOMP_SUPPORT)
 		libfreetype.a
 		libturbojpeg.a
 	)
+
+	set(CMAKE_EXECUTABLE_SUFFIX ".html")
 else ()
 	target_link_directories(Siv3D_App
 	PRIVATE
@@ -76,4 +81,6 @@ else ()
 		libfreetype.a
 		libturbojpeg.a
 	)
+
+	set(CMAKE_EXECUTABLE_SUFFIX ".html")
 endif()
