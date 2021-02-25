@@ -122,7 +122,7 @@ jobs:
         run: |
           mkdir Package
           cp -r Siv3D/include Package
-          cp -r Siv3D/lib/Web/${{ matrix.config.name }} Package
+          cp -r Siv3D/lib/Web/${{ matrix.config.external-lib-folder-name }} Package
           cp -r Web/App/resources Package
           cp -r Web/App/example Package
           mv Package/${{ matrix.config.external-lib-folder-name }} Package/lib
