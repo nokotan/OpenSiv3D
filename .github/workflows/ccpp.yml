@@ -126,8 +126,8 @@ jobs:
           cp -r Web/App/resources Package
           cp -r Web/App/example Package
           mv Package/${{ matrix.config.external-lib-folder-name }} Package/lib
-          cp Web/build/${{ matrix.config.output-file }} Package/lib
           cp Web/App/Siv3D.js Package/lib
+          cp Web/build/${{ matrix.config.output-file }} Package/lib
           zip -r OpenSiv3D.zip Package
           tar -cvzf OpenSiv3D.tgz Package/*
 
