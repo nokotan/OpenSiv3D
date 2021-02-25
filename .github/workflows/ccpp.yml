@@ -298,9 +298,7 @@ jobs:
         run: tar -xvf OpenSiv3D.tgz
 
       - name: Place Siv3D library
-        run: |
-          cp Package/lib/Siv3D.wasm Dest/lib
-          cp Package/lib/Siv3D.wasm Dest/wasm-pic-app
+        run: cp Package/lib/Siv3D.wasm Dest/wasm-pic-main-app
 
       - name: Place Siv3D Apps (wasm)
         uses: actions/download-artifact@v2
