@@ -209,7 +209,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Siv3D_App-${{ matrix.config.name }}
-          path: Web/App/build/Siv3D_App.*
+          path: |
+            Web/App/build/Siv3D.*
+            Web/App/build/Siv3D_App.*
 
   pre-deploy:
     if: ${{ contains(github.ref, 'tags/v') }}
