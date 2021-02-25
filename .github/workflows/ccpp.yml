@@ -291,14 +291,14 @@ jobs:
       - name: Restore Bundles
         uses: actions/download-artifact@v2
         with:
-          name: OpenSiv3D-Bundles-wasm-pic
+          name: OpenSiv3D-Bundles-wasm-pic-main
           path: .
 
       - name: Restore Siv3D library
         run: tar -xvf OpenSiv3D.tgz
 
       - name: Place Siv3D library
-        run: cp Package/lib/Siv3D.wasm Dest/wasm-pic-main-app
+        run: cp Package/lib/Siv3D.* Dest/lib
 
       - name: Place Siv3D Apps (wasm)
         uses: actions/download-artifact@v2
