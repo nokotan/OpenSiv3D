@@ -283,6 +283,7 @@ jobs:
           mkdir Dest/lib
           mkdir Dest/wasm-app
           mkdir Dest/wasm-pic-app
+          mkdir Dest/wasm-pic-main-app
           mkdir Dest/asmjs-app
 
       - name: Restore Bundles
@@ -310,6 +311,12 @@ jobs:
         with:
           name: Siv3D_App-wasm-pic
           path: Dest/wasm-pic-app
+
+      - name: Place Siv3D Apps (wasm-pic-main)
+        uses: actions/download-artifact@v2
+        with:
+          name: Siv3D_App-wasm-pic-main
+          path: Dest/wasm-pic-main-app
 
       - name: Place Siv3D Apps (asmjs)
         uses: actions/download-artifact@v2
