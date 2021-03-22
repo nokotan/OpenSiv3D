@@ -542,5 +542,12 @@ mergeInto(LibraryManager.library, {
         });
     },
     s3dLaunchBrowser__sig: "vi",
-    s3dLaunchBrowser__deps: [ "$s3dRegisterUserAction" ]
+    s3dLaunchBrowser__deps: [ "$s3dRegisterUserAction" ],
+
+    s3dSetCursorStyle: function(style) {
+        const styleText = UTF8ToString(style);
+        Module["canvas"].style.cursor = styleText;
+    },
+
+    s3dSetCursorStyle__sig: "vi"
 });

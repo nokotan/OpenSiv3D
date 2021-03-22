@@ -27,6 +27,8 @@ extern "C"
 	extern void s3dRegisterTouchCallback();
 	extern void s3dUnregisterTouchCallback();
 	extern int s3dGetPrimaryTouchPoint(double* posX, double* posY);
+
+	extern void s3dSetCursorStyle(const char* style);
 }
 
 namespace s3d
@@ -48,6 +50,15 @@ namespace s3d
 
 		m_window = static_cast<GLFWwindow*>(Siv3DEngine::Get<ISiv3DWindow>()->getHandle());
 		::s3dRegisterTouchCallback();
+
+		m_cursorStyles[FromEnum(CursorStyle::Arrow)] = U"default";
+		m_cursorStyles[FromEnum(CursorStyle::IBeam)] = U"text";
+		m_cursorStyles[FromEnum(CursorStyle::Cross)] = U"crosshair";
+		m_cursorStyles[FromEnum(CursorStyle::Hand)] = U"grab";
+		m_cursorStyles[FromEnum(CursorStyle::NotAllowed)] = U"not-allowed";
+		m_cursorStyles[FromEnum(CursorStyle::ResizeUpDown)]	= U"ns-resize";
+		m_cursorStyles[FromEnum(CursorStyle::ResizeLeftRight)] = U"ew-resize";
+		m_cursorStyles[FromEnum(CursorStyle::Hidden)] = U"none";
 
 		LOG_INFO(U"ℹ️ CCursor initialized");
 	}
@@ -252,17 +263,19 @@ namespace s3d
 
 	void CCursor::requestStyle(const CursorStyle style)
 	{
-		// [Siv3D ToDo]
+		m_requestedCursorStyle = style;
 	}
 
 	void CCursor::setDefaultStyle(const CursorStyle style)
 	{
-		// [Siv3D ToDo]
+		m_defaultCursorStyle = style;
 	}
 
 	void CCursor::applyStyleImmediately(const CursorStyle style)
 	{
-		// [Siv3D ToDo]
+		m_curerntCursorStyle = style;
+
+		::s3dSetCursorStyle(m_cursorStyles[FromEnum(style)].narrow().c_str());
 	}
 
 	CursorStyle CCursor::getRequestedStyle() const
@@ -277,6 +290,12 @@ namespace s3d
 
 	void CCursor::updateCursorStyle()
 	{
-		// [Siv3D ToDo]
+		if (m_curerntCursorStyle != m_requestedCursorStyle)
+		{
+			m_curerntCursorStyle = m_requestedCursorStyle;
+			::s3dSetCursorStyle(m_cursorStyles[FromEnum(m_curerntCursorStyle)].narrow().c_str());
+		}
+
+		m_requestedCursorStyle = m_defaultCursorStyle;
 	}
 }

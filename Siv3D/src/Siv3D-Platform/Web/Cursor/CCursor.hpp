@@ -45,6 +45,7 @@ namespace s3d
 
 		bool m_clipToWindow = false;
 
+		std::array<String, 8> m_cursorStyles;
 		CursorStyle m_curerntCursorStyle = CursorStyle::Default;
 		CursorStyle m_defaultCursorStyle = CursorStyle::Default;
 		CursorStyle m_requestedCursorStyle = CursorStyle::Default;
