@@ -14,6 +14,10 @@
 # include "String.hpp"
 # include "Array.hpp"
 
+# if SIV3D_PLATFORM(WEB)
+#	include <future>
+# endif
+
 namespace s3d
 {
 	/// <summary>
@@ -38,4 +42,11 @@ namespace s3d
 
 		void Clear();
 	}
+
+# if SIV3D_PLATFORM(WEB)
+	namespace Platform::Web::Clipboard 
+	{
+		std::future<String> GetText();
+	}
+# endif
 }

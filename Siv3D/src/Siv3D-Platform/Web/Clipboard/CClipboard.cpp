@@ -14,6 +14,16 @@
 # include <Window/IWindow.hpp>
 # include "CClipboard.hpp"
 
+# include <future>
+
+using s3dGetClipboardTextCallBack = void(*)(char* text, std::promise<s3d::String>* promise);
+
+extern "C" {
+
+	void s3dGetClipboardText(s3dGetClipboardTextCallBack, std::promise<s3d::String>*);
+	void s3dSetClipboardText(const char* text);
+}
+
 namespace s3d
 {
 	CClipboard::CClipboard()
@@ -59,7 +69,7 @@ namespace s3d
 
 	void CClipboard::setText(const String& text)
 	{
-		glfwSetClipboardString(m_window, Unicode::Narrow(text).c_str());
+		s3dSetClipboardText(Unicode::Narrow(text).c_str());
 	}
 
 	void CClipboard::setImage(const Image& image)
@@ -68,5 +78,35 @@ namespace s3d
 
 	void CClipboard::clear()
 	{
+	}
+
+	namespace Platform::Web::Clipboard 
+	{
+		namespace detail
+		{
+			void OnGetClipboardText(char* text, std::promise<s3d::String>* promise)
+			{
+				if (text)
+				{
+					promise->set_value(Unicode::Widen(text));
+				}
+				else
+				{
+					promise->set_value(U"");
+				}
+				
+				delete promise;
+			}
+		}
+
+		std::future<String> GetText()
+		{
+			auto p = new std::promise<s3d::String>();
+			auto result_future = p->get_future();
+
+			::s3dGetClipboardText(&detail::OnGetClipboardText, p);
+
+			return result_future;
+		}
 	}
 }

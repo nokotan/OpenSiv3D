@@ -548,6 +548,31 @@ mergeInto(LibraryManager.library, {
         const styleText = UTF8ToString(style);
         Module["canvas"].style.cursor = styleText;
     },
+    s3dSetCursorStyle__sig: "vi",
 
-    s3dSetCursorStyle__sig: "vi"
+    s3dSetClipboardText: function(ctext) {
+        const text = UTF8ToString(ctext);
+        
+        s3dRegisterUserAction(function () {
+            navigator.clipboard.writeText(text);
+        });
+    },
+    s3dSetClipboardText__sig: "vi",
+    s3dSetClipboardText__deps: [ "$s3dRegisterUserAction" ],
+
+    s3dGetClipboardText: function(callback, promise) {
+        s3dRegisterUserAction(function () {
+            navigator.clipboard.readText()
+            .then(str => {
+                const strPtr = allocate(intArrayFromString(str), 'i8', ALLOC_NORMAL);       
+                {{{ makeDynCall('vii', 'callback') }}}(strPtr, promise);
+                Module["_free"](strPtr);
+            })
+            .catch(e => {
+                {{{ makeDynCall('vii', 'callback') }}}(0, promise);
+            })
+        });
+        
+    },
+    s3dGetClipboardText__sig: "vii"
 });
