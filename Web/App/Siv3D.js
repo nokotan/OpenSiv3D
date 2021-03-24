@@ -534,24 +534,17 @@ mergeInto(LibraryManager.library, {
     s3dRegisterDragDrop__deps: [ "$s3dDragDropFileReader", "$FS" ],
 
     //
-    // Misc
+    // Cursor
     //
-    s3dLaunchBrowser: function(url) {
-        const urlString = UTF32ToString(url);
-        
-        s3dRegisterUserAction(function () {
-            window.open(urlString, '_blank')
-        });
-    },
-    s3dLaunchBrowser__sig: "vi",
-    s3dLaunchBrowser__deps: [ "$s3dRegisterUserAction" ],
-
     s3dSetCursorStyle: function(style) {
         const styleText = UTF8ToString(style);
         Module["canvas"].style.cursor = styleText;
     },
     s3dSetCursorStyle__sig: "vi",
 
+    //
+    // Clipboard
+    //
     s3dSetClipboardText: function(ctext) {
         const text = UTF8ToString(ctext);
         
@@ -576,5 +569,7 @@ mergeInto(LibraryManager.library, {
         });
         
     },
-    s3dGetClipboardText__sig: "vii"
+    s3dGetClipboardText__sig: "vii",
+    s3dGetClipboardText__deps: [ "$s3dRegisterUserAction" ],
+
 });
