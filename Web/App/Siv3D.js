@@ -304,13 +304,15 @@ mergeInto(LibraryManager.library, {
         Module["canvas"].addEventListener('touchstart', s3dUserActionHookCallBack);
         Module["canvas"].addEventListener('mousedown', s3dUserActionHookCallBack);
         Module["canvas"].addEventListener('keydown', s3dUserActionHookCallBack);
-
-        Module['postMainLoop'] = function() {
-            s3dHasUserActionTriggered = false;
-        }
     },
     s3dStartUserActionHook__sig: "v",
     s3dStartUserActionHook__deps: [ "$s3dUserActionHookCallBack", "$s3dHasUserActionTriggered" ],
+
+    s3dResetUserActionFlag: function() {
+        s3dHasUserActionTriggered = false;
+    },
+    s3dResetUserActionFlag__sig: "v",
+    s3dResetUserActionFlag__deps: [ "$s3dHasUserActionTriggered" ],
 
     s3dStopUserActionHook: function() {
         Module["canvas"].removeEventListener('touchstart', s3dUserActionHookCallBack);

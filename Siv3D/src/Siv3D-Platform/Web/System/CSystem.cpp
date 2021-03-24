@@ -48,6 +48,7 @@
 extern "C"
 {
 	void s3dStartUserActionHook();
+	void s3dResetUserActionFlag();
 	void s3dInitDialog();
 } 
 
@@ -152,6 +153,8 @@ namespace s3d
 		++m_frameCounter;
 		m_frameDelta.update();
 		const bool onDeviceChange = m_onDeviceChange.exchange(false);
+
+		::s3dResetUserActionFlag();
 
 		Siv3DEngine::Get<ISiv3DWindow>()->update();
 		Siv3DEngine::Get<ISiv3DGraphics>()->clear();/*
