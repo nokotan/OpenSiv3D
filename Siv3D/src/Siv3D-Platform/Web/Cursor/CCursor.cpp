@@ -54,7 +54,7 @@ namespace s3d
 		m_cursorStyles[FromEnum(CursorStyle::Arrow)] = U"default";
 		m_cursorStyles[FromEnum(CursorStyle::IBeam)] = U"text";
 		m_cursorStyles[FromEnum(CursorStyle::Cross)] = U"crosshair";
-		m_cursorStyles[FromEnum(CursorStyle::Hand)] = U"grab";
+		m_cursorStyles[FromEnum(CursorStyle::Hand)] = U"pointer";
 		m_cursorStyles[FromEnum(CursorStyle::NotAllowed)] = U"not-allowed";
 		m_cursorStyles[FromEnum(CursorStyle::ResizeUpDown)]	= U"ns-resize";
 		m_cursorStyles[FromEnum(CursorStyle::ResizeLeftRight)] = U"ew-resize";
