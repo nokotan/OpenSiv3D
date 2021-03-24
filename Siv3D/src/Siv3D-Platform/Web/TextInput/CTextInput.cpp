@@ -103,6 +103,14 @@ namespace s3d
 				m_backSpacePress.restart();
 			}
 		}
+
+		if (m_requestedDisablingIME && not m_requestedEnblingIME)
+		{
+			::s3dRequestTextInputFocus(false);
+		}
+
+		m_requestedDisablingIME = false;
+		m_requestedEnblingIME = false;
 	}
 	
 	void CTextInput::pushChar(const uint32 ch)
@@ -124,7 +132,15 @@ namespace s3d
 	
 	void CTextInput::enableIME(bool enabled)
 	{
-		::s3dRequestTextInputFocus(enabled);
+		if (enabled) 
+		{
+			::s3dRequestTextInputFocus(enabled);
+			m_requestedEnblingIME = true;
+		}
+		else
+		{
+			m_requestedDisablingIME = true;
+		}	
 	}
 	
 	std::pair<int32, int32> CTextInput::getCursorIndex() const

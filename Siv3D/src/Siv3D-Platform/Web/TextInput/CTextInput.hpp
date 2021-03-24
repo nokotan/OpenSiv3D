@@ -45,6 +45,9 @@ namespace s3d
 		Stopwatch m_tabPress;
 		
 		Stopwatch m_backSpacePress;
+
+		bool m_requestedEnblingIME = false;
+		bool m_requestedDisablingIME = false;
 		
 	public:
 
