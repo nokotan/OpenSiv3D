@@ -614,9 +614,13 @@ mergeInto(LibraryManager.library, {
     s3dRegisterTextInputCallback: function(callback) {
         s3dTextInputElement.addEventListener('input', function (e) {
             if (e.inputType == "insertText") {
-                const codePoint = e.data && e.data.charCodeAt(0);
-                {{{ makeDynCall('vi', 'callback') }}}(codePoint);
-            }   
+                if (e.data) {
+                    for (let i = 0; i < e.data.length; i++) {
+                        const codePoint = e.data.charCodeAt(i);
+                        {{{ makeDynCall('vi', 'callback') }}}(codePoint);
+                    }
+                }
+            }    
         });
         s3dTextInputElement.addEventListener('compositionend', function (e) {
             for (let i = 0; i < e.data.length; i++) {

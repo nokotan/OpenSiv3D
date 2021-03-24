@@ -169,7 +169,7 @@ namespace s3d
 		LOG_TRACE(U"CKeyboard::init()");
 
 		m_glfwWindow = static_cast<GLFWwindow*>(Siv3DEngine::Get<ISiv3DWindow>()->getHandle());
-
+		::glfwSetKeyCallback(m_glfwWindow, keyEventCallBack);
 		LOG_INFO(U"ℹ️ CKeyboard initialized");
 	}
 
@@ -182,8 +182,10 @@ namespace s3d
 		for (const auto& keyPair : detail::KeyConversionTable)
 		{
 			const bool pressed = (keys[keyPair.second] == GLFW_PRESS);
+			const bool pressedLog = (m_statesLog[keyPair.second] == GLFW_PRESS);
 			
-			m_states[keyPair.first].update(pressed);
+			m_states[keyPair.first].update(pressed || pressedLog);
+			m_statesLog[keyPair.second] = GLFW_RELEASE;
 			
 			anyKeyDown |= m_states[keyPair.first].down;
 		}
@@ -232,5 +234,19 @@ namespace s3d
 	Duration CKeyboard::pressedDuration(const uint32 index) const
 	{
 		return m_states[index]._pressedDuration;
+	}
+
+	void CKeyboard::keyEventCallBack(GLFWwindow* window, int key, int scancode, int action, int mod)
+	{
+		if (action == GLFW_PRESS) 
+		{
+			auto keyboardComponent = static_cast<CKeyboard*>(Siv3DEngine::Get<ISiv3DKeyboard>());
+			keyboardComponent->updateKeyDownLog(key);
+		}
+	}
+
+	void CKeyboard::updateKeyDownLog(int key)
+	{
+		m_statesLog[key] = GLFW_PRESS;
 	}
 }

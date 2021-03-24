@@ -24,6 +24,11 @@ namespace s3d
 		GLFWwindow* m_glfwWindow = nullptr;
 		
 		std::array<InputState, KeyboardButtonCount> m_states;
+		std::array<int, GLFW_KEY_LAST + 1> m_statesLog;
+
+		void updateKeyDownLog(int);
+
+		static void keyEventCallBack(GLFWwindow*, int, int, int, int);
 
 	public:
 
