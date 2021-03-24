@@ -572,4 +572,103 @@ mergeInto(LibraryManager.library, {
     s3dGetClipboardText__sig: "vii",
     s3dGetClipboardText__deps: [ "$s3dRegisterUserAction" ],
 
+    //
+    // TextInput
+    //
+    $s3dTextInputElement: null,
+    $s3dHasFocusOnTextInputElement: false,
+
+    s3dInitTextInput: function() {
+        const textInput = document.createElement("input");
+        textInput.type = "text";
+        textInput.style.position = "absolute";
+        textInput.style.zIndex = -2;
+
+        textInput.addEventListener("focus", function(){
+            s3dHasFocusOnTextInputElement = true;
+        });
+        textInput.addEventListener("blur", function(){
+            s3dHasFocusOnTextInputElement = false;
+        });
+
+        const maskDiv = document.createElement("div");
+        maskDiv.style.background = "white";
+        maskDiv.style.position = "absolute";
+        maskDiv.style.width = "100%";
+        maskDiv.style.height = "100%";
+        maskDiv.style.zIndex = -1;
+
+        /**
+         * @type { HTMLCanvasElement }
+         */
+        const canvas = Module["canvas"];
+
+        canvas.parentNode.prepend(textInput);
+        canvas.parentNode.prepend(maskDiv);
+
+        s3dTextInputElement = textInput;
+    },
+    s3dInitTextInput__sig: "v",
+    s3dInitTextInput__deps: [ "$s3dTextInputElement", "$s3dHasFocusOnTextInputElement" ],
+
+    s3dRegisterTextInputCallback: function(callback) {
+        s3dTextInputElement.addEventListener('input', function (e) {
+            if (e.inputType == "insertText") {
+                const codePoint = e.data && e.data.charCodeAt(0);
+                {{{ makeDynCall('vi', 'callback') }}}(codePoint);
+            }   
+        });
+        s3dTextInputElement.addEventListener('compositionend', function (e) {
+            for (let i = 0; i < e.data.length; i++) {
+                const codePoint = e.data.charCodeAt(i);
+                {{{ makeDynCall('vi', 'callback') }}}(codePoint);
+            }
+        });
+    },
+    s3dRegisterTextInputCallback__sig: "vi",
+    s3dRegisterTextInputCallback__deps: [ "$s3dTextInputElement" ],
+
+    s3dRegisterTextInputMarkedCallback: function(callback) {
+        s3dTextInputElement.addEventListener('compositionupdate', function (e) {
+            const strPtr = allocate(intArrayFromString(e.data), 'i8', ALLOC_NORMAL);
+            {{{ makeDynCall('vi', 'callback') }}}(strPtr);
+            Module["_free"](strPtr);
+        })
+        s3dTextInputElement.addEventListener('compositionend', function (e) {
+            {{{ makeDynCall('vi', 'callback') }}}(0);
+        });
+    },
+    s3dRegisterTextInputMarkedCallback__sig: "vi",
+    s3dRegisterTextInputMarkedCallback__deps: [ "$s3dTextInputElement" ],
+
+    s3dRequestTextInputFocus: function(isFocusRequired) {
+        const isFocusRequiredBool = isFocusRequired != 0;
+
+        if (isFocusRequiredBool && !s3dHasFocusOnTextInputElement) {
+            s3dRegisterUserAction(function () {
+                s3dTextInputElement.focus();
+            });
+        }
+
+        if (!isFocusRequiredBool && s3dHasFocusOnTextInputElement) {
+            s3dRegisterUserAction(function () {
+                s3dTextInputElement.blur();
+            });
+        }
+    },
+    s3dRequestTextInputFocus__sig: "vi",
+    s3dRequestTextInputFocus__deps: [ "$s3dRegisterUserAction", "$s3dHasFocusOnTextInputElement", "$s3dTextInputElement" ],
+
+    //
+    // Misc
+    //
+    s3dLaunchBrowser: function(url) {
+        const urlString = UTF32ToString(url);
+        
+        s3dRegisterUserAction(function () {
+            window.open(urlString, '_blank')
+        });
+    },
+    s3dLaunchBrowser__sig: "vi",
+    s3dLaunchBrowser__deps: [ "$s3dRegisterUserAction" ],
 });

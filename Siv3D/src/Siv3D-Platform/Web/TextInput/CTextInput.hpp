@@ -45,6 +45,8 @@ namespace s3d
 		Stopwatch m_tabPress;
 		
 		Stopwatch m_backSpacePress;
+
+		mutable bool m_requireFocus = false;
 		
 	public:
 
@@ -68,7 +70,7 @@ namespace s3d
 
 		const Array<String>& getCandidates() const override;
 		
-		static void OnCharacterInput(GLFWwindow*, uint32 codePoint);
+		static void OnCharacterInput(uint32 codePoint);
 		
 		void onHaveMarkedText(const char* text);
 	};

@@ -26,6 +26,11 @@ extern "C"
 	{
 		pTextInput->onHaveMarkedText(text);
 	}
+
+	extern void s3dInitTextInput();
+	extern void s3dRegisterTextInputCallback(void (*cb)(const uint32));
+	extern void s3dRegisterTextInputMarkedCallback(void (*cb)(const char* text));
+	extern void s3dRequestTextInputFocus(bool isFocusRequired);
 }
 
 namespace s3d
@@ -46,9 +51,9 @@ namespace s3d
 	{		
 		LOG_TRACE(U"CTextInput::init()");
 
-		GLFWwindow* glfwWindow = static_cast<GLFWwindow*>(Siv3DEngine::Get<ISiv3DWindow>()->getHandle());
-		
-		::glfwSetCharCallback(glfwWindow, OnCharacterInput);
+		::s3dInitTextInput();
+		::s3dRegisterTextInputCallback(OnCharacterInput);
+		::s3dRegisterTextInputMarkedCallback(s3d_OnHaveMarkedText);
 		
 		LOG_INFO(U"ℹ️ CTextInput initialized");
 	}
@@ -98,6 +103,9 @@ namespace s3d
 				m_backSpacePress.restart();
 			}
 		}
+
+		::s3dRequestTextInputFocus(m_requireFocus);
+		m_requireFocus = false;
 	}
 	
 	void CTextInput::pushChar(const uint32 ch)
@@ -109,11 +117,13 @@ namespace s3d
 	
 	const String& CTextInput::getChars() const
 	{
+		m_requireFocus = true;
 		return m_chars;
 	}
 	
 	const String& CTextInput::getEditingText() const
 	{
+		m_requireFocus = true;
 		return m_markedText;
 	}
 	
@@ -134,7 +144,7 @@ namespace s3d
 		return dummy;
 	}
 	
-	void CTextInput::OnCharacterInput(GLFWwindow*, const uint32 codePoint)
+	void CTextInput::OnCharacterInput(const uint32 codePoint)
 	{
 		Siv3DEngine::Get<ISiv3DTextInput>()->pushChar(codePoint);
 	}
