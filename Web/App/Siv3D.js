@@ -303,7 +303,7 @@ mergeInto(LibraryManager.library, {
     s3dStartUserActionHook: function() {
         Module["canvas"].addEventListener('touchstart', s3dUserActionHookCallBack);
         Module["canvas"].addEventListener('mousedown', s3dUserActionHookCallBack);
-        Module["canvas"].addEventListener('keydown', s3dUserActionHookCallBack);
+        window.addEventListener('keydown', s3dUserActionHookCallBack);
     },
     s3dStartUserActionHook__sig: "v",
     s3dStartUserActionHook__deps: [ "$s3dUserActionHookCallBack", "$s3dHasUserActionTriggered" ],
@@ -317,7 +317,7 @@ mergeInto(LibraryManager.library, {
     s3dStopUserActionHook: function() {
         Module["canvas"].removeEventListener('touchstart', s3dUserActionHookCallBack);
         Module["canvas"].removeEventListener('mousedown', s3dUserActionHookCallBack);
-        Module["canvas"].removeEventListener('keydown', s3dUserActionHookCallBack);
+        window.removeEventListener('keydown', s3dUserActionHookCallBack);
     },
     s3dStopUserActionHook__sig: "v",
     s3dStopUserActionHook__deps: [ "$s3dUserActionHookCallBack" ],
@@ -576,20 +576,13 @@ mergeInto(LibraryManager.library, {
     // TextInput
     //
     $s3dTextInputElement: null,
-    $s3dHasFocusOnTextInputElement: false,
 
     s3dInitTextInput: function() {
         const textInput = document.createElement("input");
         textInput.type = "text";
         textInput.style.position = "absolute";
         textInput.style.zIndex = -2;
-
-        textInput.addEventListener("focus", function(){
-            s3dHasFocusOnTextInputElement = true;
-        });
-        textInput.addEventListener("blur", function(){
-            s3dHasFocusOnTextInputElement = false;
-        });
+        textInput.autocomplete = false;
 
         const maskDiv = document.createElement("div");
         maskDiv.style.background = "white";
@@ -609,7 +602,7 @@ mergeInto(LibraryManager.library, {
         s3dTextInputElement = textInput;
     },
     s3dInitTextInput__sig: "v",
-    s3dInitTextInput__deps: [ "$s3dTextInputElement", "$s3dHasFocusOnTextInputElement" ],
+    s3dInitTextInput__deps: [ "$s3dTextInputElement" ],
 
     s3dRegisterTextInputCallback: function(callback) {
         s3dTextInputElement.addEventListener('input', function (e) {
@@ -648,20 +641,19 @@ mergeInto(LibraryManager.library, {
     s3dRequestTextInputFocus: function(isFocusRequired) {
         const isFocusRequiredBool = isFocusRequired != 0;
 
-        if (isFocusRequiredBool && !s3dHasFocusOnTextInputElement) {
+        if (isFocusRequiredBool) {
             s3dRegisterUserAction(function () {
+                s3dTextInputElement.value = ""
                 s3dTextInputElement.focus();
             });
-        }
-
-        if (!isFocusRequiredBool && s3dHasFocusOnTextInputElement) {
+        } else {
             s3dRegisterUserAction(function () {
                 s3dTextInputElement.blur();
             });
         }
     },
     s3dRequestTextInputFocus__sig: "vi",
-    s3dRequestTextInputFocus__deps: [ "$s3dRegisterUserAction", "$s3dHasFocusOnTextInputElement", "$s3dTextInputElement" ],
+    s3dRequestTextInputFocus__deps: [ "$s3dRegisterUserAction", "$s3dTextInputElement" ],
 
     //
     // Misc

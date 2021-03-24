@@ -103,9 +103,6 @@ namespace s3d
 				m_backSpacePress.restart();
 			}
 		}
-
-		::s3dRequestTextInputFocus(m_requireFocus);
-		m_requireFocus = false;
 	}
 	
 	void CTextInput::pushChar(const uint32 ch)
@@ -117,19 +114,17 @@ namespace s3d
 	
 	const String& CTextInput::getChars() const
 	{
-		m_requireFocus = true;
 		return m_chars;
 	}
 	
 	const String& CTextInput::getEditingText() const
 	{
-		m_requireFocus = true;
 		return m_markedText;
 	}
 	
-	void CTextInput::enableIME(bool)
+	void CTextInput::enableIME(bool enabled)
 	{
-		
+		::s3dRequestTextInputFocus(enabled);
 	}
 	
 	std::pair<int32, int32> CTextInput::getCursorIndex() const

@@ -45,8 +45,6 @@ namespace s3d
 		Stopwatch m_tabPress;
 		
 		Stopwatch m_backSpacePress;
-
-		mutable bool m_requireFocus = false;
 		
 	public:
 
