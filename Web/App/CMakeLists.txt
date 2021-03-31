@@ -70,6 +70,7 @@ else ()
 		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/freetype
 		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/turbojpeg
 		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/giflib
+		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/webp
 	)
 
 	target_link_libraries(Siv3D_App
@@ -82,6 +83,7 @@ else ()
 		libfreetype.a
 		libturbojpeg.a
 		libgif.a
+		libwebp.a
 	)
 
 	set(CMAKE_EXECUTABLE_SUFFIX ".html")
