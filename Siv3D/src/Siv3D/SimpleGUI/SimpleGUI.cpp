@@ -903,6 +903,10 @@ namespace s3d
 				else
 				{
 					text.active = false;
+
+				# if SIV3D_PLATFORM(WEB)					
+					Platform::Web::TextInput::RequestDisableIME();					
+				# endif
 				}
 			}
 
