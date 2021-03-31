@@ -69,7 +69,7 @@ namespace s3d
 		LOG_TRACE(U"CSystem::init()");
 		SystemLog::Initial();
 	
-		// Siv3DEngine::Get<ISiv3DCPU>()->init();
+		Siv3DEngine::Get<ISiv3DCPU>()->init();
 		Siv3DEngine::Get<ISiv3DProfiler>()->init();
 		Siv3DEngine::Get<ISiv3DImageFormat>()->init();
 		Siv3DEngine::Get<ISiv3DObjectDetection>()->init();
