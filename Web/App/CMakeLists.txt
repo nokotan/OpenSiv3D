@@ -47,6 +47,8 @@ elseif (SIV3D_BUILD_WITH_FASTCOMP_SUPPORT)
 		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/asmjs/harfbuzz
 		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/asmjs/freetype
 		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/asmjs/turbojpeg
+		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/giflib
+		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/webp
 	)
 
 	target_link_libraries(Siv3D_App
@@ -58,6 +60,8 @@ elseif (SIV3D_BUILD_WITH_FASTCOMP_SUPPORT)
 		libharfbuzz.a
 		libfreetype.a
 		libturbojpeg.a
+		libgif.a
+		libwebp.a
 	)
 
 	set(CMAKE_EXECUTABLE_SUFFIX ".html")
