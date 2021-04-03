@@ -47,8 +47,8 @@ elseif (SIV3D_BUILD_WITH_FASTCOMP_SUPPORT)
 		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/asmjs/harfbuzz
 		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/asmjs/freetype
 		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/asmjs/turbojpeg
-		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/giflib
-		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/webp
+		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/asmjs/giflib
+		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/asmjs/webp
 	)
 
 	target_link_libraries(Siv3D_App
