@@ -748,6 +748,8 @@ if (SIV3D_BUILD_SHARED_WASM OR SIV3D_BUILD_SHARED_MAIN)
 		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic/harfbuzz
 		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic/freetype
 		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic/turbojpeg
+		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic/giflib
+		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic/webp
 	)
 	
 	target_link_libraries(Siv3D
@@ -760,6 +762,8 @@ if (SIV3D_BUILD_SHARED_WASM OR SIV3D_BUILD_SHARED_MAIN)
 		libharfbuzz.a
 		libfreetype.a
 		libturbojpeg.a
+		libgif.a
+		libwebp.a
 	)
 else ()
 	add_library(Siv3D STATIC ${SOURCE_FILES})
