@@ -89,11 +89,12 @@ jobs:
       - name: Load EM_CACHE
         shell: bash
         run: |
-          if [ -z "${EM_DATA}" ]; then
-          . emsdk_env.sh
-          echo "EM_CACHE=${EM_CACHE}" >> $GITHUB_ENV;
+          if [ ! -z "${EM_DATA}" ]; then
+            echo "EM_CACHE=${EM_DATA}" >> $GITHUB_ENV;
+          elif source emsdk_env.sh && [ ! -z "${EM_CACHE}" ]; then
+            echo "EM_CACHE=${EM_CACHE}" >> $GITHUB_ENV;
           else
-          echo "EM_CACHE=${EM_DATA}" >> $GITHUB_ENV;
+            echo "EM_CACHE=${EMSDK}/upstream/emscripten/cache" >> $GITHUB_ENV;
           fi
 
       - name: Cache emscripten ports
