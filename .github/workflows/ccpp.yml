@@ -101,7 +101,7 @@ jobs:
         id: cache_emscripten_ports
         uses: actions/cache@v1
         env:
-          cache-name: cache-emscripten-ports-2
+          cache-name: cache-emscripten-ports
         with:
           path: ${{ env.EM_CACHE }}
           key: ${{ matrix.config.name }}-${{ runner.os }}-${{ env.cache-name }}
@@ -190,7 +190,7 @@ jobs:
         id: cache_emscripten_ports
         uses: actions/cache@v1
         env:
-          cache-name: cache-emscripten-ports-2
+          cache-name: cache-emscripten-ports
         with:
           path: ${{ env.EM_CACHE }}
           key: ${{ matrix.config.name }}-${{ runner.os }}-${{ env.cache-name }}

@@ -363,11 +363,11 @@ mergeInto(LibraryManager.library, {
 
             s3dDialogFileReader.addEventListener("load", function onLoaded() {
                 FS.writeFile(filePath, new Uint8Array(s3dDialogFileReader.result));
-            #if EMSCRIPTEN_VERSION === "2.0.4"
+#if EMSCRIPTEN_VERSION === "2.0.4"
                 const namePtr = allocate(intArrayFromString(filePath), 'i8', ALLOC_NORMAL);
-            #else
+#else
                 const namePtr = allocate(intArrayFromString(filePath), ALLOC_NORMAL);
-            #endif
+#endif
                 {{{ makeDynCall('vii', 'callback') }}}(namePtr, futurePtr);
 
                 s3dDialogFileReader.removeEventListener("load", onLoaded);
@@ -511,11 +511,11 @@ mergeInto(LibraryManager.library, {
 
             if (items[0].kind === 'text') {
                 items[0].getAsString(function(str) {
-                #if EMSCRIPTEN_VERSION === "2.0.4"
+#if EMSCRIPTEN_VERSION === "2.0.4"
                     const strPtr = allocate(intArrayFromString(str), 'i8', ALLOC_NORMAL);
-                #else
+#else
                     const strPtr = allocate(intArrayFromString(str), ALLOC_NORMAL);
-                #endif
+#endif
                     {{{ makeDynCall('vi', 'ptr') }}}(strPtr);
                     Module["_free"](strPtr);
                 })            
@@ -531,11 +531,11 @@ mergeInto(LibraryManager.library, {
                 s3dDragDropFileReader.addEventListener("load", function onLoaded() {
                     FS.writeFile(filePath, new Uint8Array(s3dDragDropFileReader.result));
                 
-                #if EMSCRIPTEN_VERSION === "2.0.22"
+#if EMSCRIPTEN_VERSION === "2.0.22"
                     const namePtr = allocate(intArrayFromString(filePath), 'i8', ALLOC_NORMAL);
-                #else
+#else
                     const namePtr = allocate(intArrayFromString(filePath), ALLOC_NORMAL);
-                #endif
+#endif
 
                     {{{ makeDynCall('vi', 'ptr') }}}(namePtr);
 
