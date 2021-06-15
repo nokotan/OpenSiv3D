@@ -15,7 +15,11 @@ mergeInto(LibraryManager.library, {
 
     glfwGetMonitorInfo_Siv3D: function(handle, displayID, name, xpos, ypos, w, h, wx, wy, ww, wh) {
         setValue(displayID, 1, 'i32');
+#if EMSCRIPTEN_VERSION === "2.0.4"
         setValue(name, allocate(intArrayFromString("HTML5 WebGL Canvas"), 'i8', ALLOC_NORMAL), 'i32');
+#else
+        setValue(name, allocate(intArrayFromString("HTML5 WebGL Canvas"), ALLOC_NORMAL), 'i32');
+#endif
         setValue(xpos, 0, 'i32');
         setValue(ypos, 0, 'i32');
         setValue(w, window.screen.width, 'i32');
@@ -359,8 +363,11 @@ mergeInto(LibraryManager.library, {
 
             s3dDialogFileReader.addEventListener("load", function onLoaded() {
                 FS.writeFile(filePath, new Uint8Array(s3dDialogFileReader.result));
-
+            #if EMSCRIPTEN_VERSION === "2.0.4"
                 const namePtr = allocate(intArrayFromString(filePath), 'i8', ALLOC_NORMAL);
+            #else
+                const namePtr = allocate(intArrayFromString(filePath), ALLOC_NORMAL);
+            #endif
                 {{{ makeDynCall('vii', 'callback') }}}(namePtr, futurePtr);
 
                 s3dDialogFileReader.removeEventListener("load", onLoaded);
@@ -504,7 +511,11 @@ mergeInto(LibraryManager.library, {
 
             if (items[0].kind === 'text') {
                 items[0].getAsString(function(str) {
+                #if EMSCRIPTEN_VERSION === "2.0.4"
                     const strPtr = allocate(intArrayFromString(str), 'i8', ALLOC_NORMAL);
+                #else
+                    const strPtr = allocate(intArrayFromString(str), ALLOC_NORMAL);
+                #endif
                     {{{ makeDynCall('vi', 'ptr') }}}(strPtr);
                     Module["_free"](strPtr);
                 })            
@@ -519,8 +530,13 @@ mergeInto(LibraryManager.library, {
 
                 s3dDragDropFileReader.addEventListener("load", function onLoaded() {
                     FS.writeFile(filePath, new Uint8Array(s3dDragDropFileReader.result));
-
+                
+                #if EMSCRIPTEN_VERSION === "2.0.22"
                     const namePtr = allocate(intArrayFromString(filePath), 'i8', ALLOC_NORMAL);
+                #else
+                    const namePtr = allocate(intArrayFromString(filePath), ALLOC_NORMAL);
+                #endif
+
                     {{{ makeDynCall('vi', 'ptr') }}}(namePtr);
 
                     s3dDragDropFileReader.removeEventListener("load", onLoaded);

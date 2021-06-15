@@ -66,16 +66,29 @@ elseif (SIV3D_BUILD_WITH_FASTCOMP_SUPPORT)
 
 	set(CMAKE_EXECUTABLE_SUFFIX ".html")
 else ()
-	target_link_directories(Siv3D_App
-	PRIVATE
-		${PROJECT_SOURCE_DIR}/../Build
-		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/opencv
-		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/harfbuzz
-		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/freetype
-		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/turbojpeg
-		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/giflib
-		${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/webp
-	)
+	if (EMSCRIPTEN_VERSION VERSION_GREATER_EQUAL "2.0.22")
+		target_link_directories(Siv3D_App
+		PRIVATE
+			${PROJECT_SOURCE_DIR}/../Build
+			${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm-2.0.22/opencv
+			${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm-2.0.22/harfbuzz
+			${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm-2.0.22/freetype
+			${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm-2.0.22/turbojpeg
+			${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm-2.0.22/giflib
+			${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm-2.0.22/webp
+		)
+	else ()
+		target_link_directories(Siv3D_App
+		PRIVATE
+			${PROJECT_SOURCE_DIR}/../Build
+			${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/opencv
+			${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/harfbuzz
+			${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/freetype
+			${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/turbojpeg
+			${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/giflib
+			${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/webp
+		)
+	endif ()
 
 	target_link_libraries(Siv3D_App
 		libSiv3D.a
