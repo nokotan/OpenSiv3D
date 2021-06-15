@@ -37,6 +37,12 @@ jobs:
             embuilder-config: ''
             output-file: 'libSiv3D.a'
             external-lib-folder-name: asmjs
+          - name: wasm-2.0.22
+            container: 'emscripten/emsdk:2.0.4'
+            cmake-config: ''
+            embuilder-config: ''
+            output-file: 'libSiv3D.a'
+            external-lib-folder-name: wasm-2.0.22
     container: 
       image: ${{ matrix.config.container }}
     runs-on: ubuntu-latest
@@ -154,6 +160,9 @@ jobs:
           - name: asmjs
             container: 'trzeci/emscripten:1.39.13-fastcomp'
             cmake-config: '-DSIV3D_BUILD_WITH_FASTCOMP_SUPPORT=1'
+          - name: wasm-2.0.22
+            container: 'emscripten/emsdk:2.0.4'
+            cmake-config: ''
     container: 
       image: ${{ matrix.config.container }}
     runs-on: ubuntu-latest
