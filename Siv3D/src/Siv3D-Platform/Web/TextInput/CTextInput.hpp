@@ -72,6 +72,8 @@ namespace s3d
 		const Array<String>& getCandidates() const override;
 		
 		static void OnCharacterInput(uint32 codePoint);
+
+		static void OnGLFWCharacterInput(GLFWwindow*, const uint32 codePoint);
 		
 		void onHaveMarkedText(const char* text);
 	};

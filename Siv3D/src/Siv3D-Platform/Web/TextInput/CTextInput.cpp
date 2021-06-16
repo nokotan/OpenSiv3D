@@ -54,6 +54,9 @@ namespace s3d
 		::s3dInitTextInput();
 		::s3dRegisterTextInputCallback(OnCharacterInput);
 		::s3dRegisterTextInputMarkedCallback(s3d_OnHaveMarkedText);
+
+		GLFWwindow* glfwWindow = static_cast<GLFWwindow*>(Siv3DEngine::Get<ISiv3DWindow>()->getHandle());
+		::glfwSetCharCallback(glfwWindow, OnGLFWCharacterInput);
 		
 		LOG_INFO(U"ℹ️ CTextInput initialized");
 	}
@@ -107,6 +110,9 @@ namespace s3d
 		if (m_requestedDisablingIME && not m_requestedEnblingIME)
 		{
 			::s3dRequestTextInputFocus(false);
+
+			GLFWwindow* glfwWindow = static_cast<GLFWwindow*>(Siv3DEngine::Get<ISiv3DWindow>()->getHandle());
+			::glfwSetCharCallback(glfwWindow, OnGLFWCharacterInput);
 		}
 
 		m_requestedDisablingIME = false;
@@ -135,6 +141,10 @@ namespace s3d
 		if (enabled) 
 		{
 			::s3dRequestTextInputFocus(enabled);
+
+			GLFWwindow* glfwWindow = static_cast<GLFWwindow*>(Siv3DEngine::Get<ISiv3DWindow>()->getHandle());
+			::glfwSetCharCallback(glfwWindow, 0);
+
 			m_requestedEnblingIME = true;
 		}
 		else
@@ -156,6 +166,11 @@ namespace s3d
 	}
 	
 	void CTextInput::OnCharacterInput(const uint32 codePoint)
+	{
+		Siv3DEngine::Get<ISiv3DTextInput>()->pushChar(codePoint);
+	}
+
+	void CTextInput::OnGLFWCharacterInput(GLFWwindow*, const uint32 codePoint)
 	{
 		Siv3DEngine::Get<ISiv3DTextInput>()->pushChar(codePoint);
 	}
