@@ -73,7 +73,7 @@ namespace s3d
 	
 	CRenderer2D_GL::CRenderer2D_GL()
 	{
-
+		m_batches.resize(2);
 	}
 
 	CRenderer2D_GL::~CRenderer2D_GL()
@@ -116,15 +116,18 @@ namespace s3d
 		}
 		
 		// Batch 管理を初期化
-		if (!m_batches.init())
+		for (auto& batch : m_batches)
 		{
-			throw EngineError(U"GLSpriteBatch::init() failed");
+			if (!batch.init())
+			{
+				throw EngineError(U"GLSpriteBatch::init() failed");
+			}
 		}
 
 		// バッファ作成関数を作成
 		m_bufferCreator = [this](IndexType vertexSize, IndexType indexSize)
 		{
-			return m_batches.getBuffer(vertexSize, indexSize, m_commands);
+			return m_batches[m_renderedFrameTotal % 2].getBuffer(vertexSize, indexSize, m_commands);
 		};
 		
 		// シャドウ画像を作成
@@ -154,11 +157,12 @@ namespace s3d
 	void CRenderer2D_GL::flush()
 	{
 		//CheckError(U"F00");
+		auto& batch = m_batches[m_renderedFrameTotal % 2];
 		
-		ScopeGuard cleanUp = [this]()
+		ScopeGuard cleanUp = [this, &batch]()
 		{
 			m_currentCustomPS.reset();
-			m_batches.reset();
+			batch.reset();
 			m_commands.reset();
 		};
 		
@@ -206,7 +210,7 @@ namespace s3d
 				}
 			case RendererCommand::UpdateBuffers:
 				{
-					batchInfo = m_batches.updateBuffers(index);
+					batchInfo = batch.updateBuffers(index);
 					
 					LOG_COMMAND(U"UpdateBuffers[{}] BatchInfo(indexCount = {}, startIndexLocation = {}, baseVertexLocation = {})"_fmt(
 																																	  index, batchInfo.indexCount, batchInfo.startIndexLocation, batchInfo.baseVertexLocation));
@@ -430,6 +434,8 @@ namespace s3d
 		LOG_COMMAND(U"--({} commands)--"_fmt(m_commands.getList().size()));
 		
 		Siv3DEngine::Get<ISiv3DProfiler>()->reportDrawcalls(profile_drawcalls, profile_vertices / 3);
+
+		++m_renderedFrameTotal;
 
 		//CheckError(U"F300");
 	}

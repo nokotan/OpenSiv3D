@@ -201,13 +201,15 @@ namespace s3d
 		ConstantBuffer<VSConstants2D> m_vsConstants2D;
 		ConstantBuffer<PSConstants2D> m_psConstants2D;
 		
-		GLSpriteBatch m_batches;
+		Array<GLSpriteBatch> m_batches;
 		
 		GLRenderer2DCommand m_commands;
 		
 		std::unique_ptr<Texture> m_boxShadowTexture;
 		
 		Optional<PixelShader> m_currentCustomPS;
+
+		uint32 m_renderedFrameTotal = 0;
 
 	public:
 
