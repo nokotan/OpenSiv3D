@@ -66,5 +66,25 @@ namespace s3d
 		}
 	}
 
+# elif SIV3D_PLATFORM(WEB)
+
+	namespace Platform::Web
+	{
+		namespace Notification
+		{
+			[[nodiscard]] bool IsAvailable();
+
+			NotificationID Show(const ToastNotificationProperty& prop);
+
+			[[nodiscard]] ToastNotificationState GetState(NotificationID id);
+
+			[[nodiscard]] Optional<size_t> GetAction(NotificationID id);
+
+			void Hide(NotificationID id);
+
+			void Clear();
+		}
+	}
+
 # endif
 }

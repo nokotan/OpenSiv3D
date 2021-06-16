@@ -672,6 +672,79 @@ mergeInto(LibraryManager.library, {
     s3dRequestTextInputFocus__deps: [ "$s3dRegisterUserAction", "$s3dTextInputElement" ],
 
     //
+    // Notification
+    //
+    $s3dNotifications: [],
+
+    s3dInitNotification: function() {
+        if (Notification.permission !== "granted") {
+            Notification.requestPermission();
+        }
+    },
+    s3dInitNotification__sig: "v",
+
+    s3dCreateNotification: function(title, body, actionsNum, actionTexts, callback, callbackArg) {
+        if (!window.Notification && Notification.permission !== "granted") {
+            {{{ makeDynCall('vii', 'callback') }}}(0, callbackArg);
+            return 0;
+        }
+
+        const idx = GL.getNewId(s3dNotifications);
+
+        const titleText = UTF8ToString(title);
+        const bodyText = UTF8ToString(body);
+        let actions = [];
+
+        for (let i = 0; i < actionsNum; i++) {
+            const textPtr = getValue(actionTexts + i * 4, "i32");
+            const actionText = UTF8ToString(textPtr);
+
+            actions.push({ title: actionText, action: actionText });
+        }
+
+        s3dRegisterUserAction(function () {
+            s3dNotifications[idx] = new Notification(titleText, { body: bodyText, actions: actions })
+            {{{ makeDynCall('vii', 'callback') }}}(idx, callbackArg);
+        }); 
+
+        return idx;
+    },
+    s3dCreateNotification__sig: "iiiiiii",
+    s3dCreateNotification__deps: [ "$s3dRegisterUserAction", "$s3dNotifications" ],
+
+    s3dRegisterNotificationCallback: function(id, callback, callbackArg) {
+        const notificattion = s3dNotifications[id];
+
+        notificattion.onclick = function() {
+            {{{ makeDynCall('viii', 'callback') }}}(id, 1 /* ToastNotificationState.Activated */, callbackArg);
+        }
+        notificattion.onshow = function() {
+            {{{ makeDynCall('viii', 'callback') }}}(id, 2 /* ToastNotificationState.Shown */, callbackArg);
+        }
+        notificattion.onclose = function() {
+            {{{ makeDynCall('viii', 'callback') }}}(id, 5 /* ToastNotificationState.TimedOut */, callbackArg);
+        }
+        notificattion.onerror = function() {
+            {{{ makeDynCall('viii', 'callback') }}}(id, 6 /* ToastNotificationState.Error */, callbackArg);
+        }
+    },
+    s3dRegisterNotificationCallback__sig: "viii",
+    s3dRegisterNotificationCallback__deps: [ "$s3dNotifications" ],
+
+    s3dCloseNotification: function(id) {
+        const notificattion = s3dNotifications[id];
+        notificattion.close();
+
+        delete s3dNotifications[id];
+    },
+    s3dCloseNotification__sig: "vi",
+    s3dCloseNotification__deps: [ "$s3dNotifications" ],
+
+    s3dQueryNotificationAvailability: function() {
+        return Notification.permission === "granted";
+    },
+    s3dQueryNotificationAvailability__sig: "iv",
+    //
     // Misc
     //
     s3dLaunchBrowser: function(url) {

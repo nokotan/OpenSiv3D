@@ -14,10 +14,29 @@
 
 namespace s3d
 {
-	CToastNotification::CToastNotification()
+	namespace detail
 	{
+		using s3dCreateNotificationCallback = void(*)(CToastNotification::Notification::IDType idx, void* userData);
+		using s3dNotificationEventCallback = void(*)(CToastNotification::Notification::IDType idx, ToastNotificationState state, void* userData);
+
+		__attribute__((import_name("s3dInitNotification")))
+		extern void s3dInitNotification();
+
+		__attribute__((import_name("s3dCreateNotification")))
+		extern CToastNotification::Notification::IDType s3dCreateNotification(const char* title, const char* body, size_t actionsNum, const char* const* actions, s3dCreateNotificationCallback callback, void* userData);
+
+		__attribute__((import_name("s3dRegisterNotificationCallback")))
+		extern void s3dRegisterNotificationCallback(CToastNotification::Notification::IDType idx, s3dNotificationEventCallback callback, void* userData);
+
+		__attribute__((import_name("s3dCloseNotification")))
+		extern void s3dCloseNotification(CToastNotification::Notification::IDType idx);
+
+		__attribute__((import_name("s3dQueryNotificationAvailability")))
+		extern bool s3dQueryNotificationAvailability();
 
 	}
+
+	CToastNotification::CToastNotification() {}
 
 	CToastNotification::~CToastNotification()
 	{
@@ -30,43 +49,88 @@ namespace s3d
 	{
 		LOG_TRACE(U"CToastNotification::init()");
 
-		LOG_INFO(U"ℹ️ ToastNotification is not available");
+		detail::s3dInitNotification();
 
 		LOG_INFO(U"ℹ️ CToastNotification initialized");
 	}
 
 	bool CToastNotification::isAvailable() const
 	{
-		return(false);
+		return detail::s3dQueryNotificationAvailability();
 	}
 
-	NotificationID CToastNotification::show(const ToastNotificationProperty&)
+	NotificationID CToastNotification::show(const ToastNotificationProperty& item)
 	{
-		return(-1);
+		const auto& title = item.title.toUTF8();
+		const auto& message = item.message.toUTF8();
+
+		const auto& actions = item.actions.map([](const auto& item) { return item.toUTF8(); });
+		const auto& actionsCptr = actions.map([](const auto& item) { return item.c_str(); });
+
+		return detail::s3dCreateNotification(
+			title.c_str(), message.c_str(), 
+			actions.size(), actionsCptr.data(), 
+			&CToastNotification::OnCreateNotification, this);
 	}
 
-	ToastNotificationState CToastNotification::getState(const NotificationID)
+	ToastNotificationState CToastNotification::getState(NotificationID idx)
 	{
-		return(ToastNotificationState::None);
+		auto it = m_notifications.find(idx);
+
+		if (it == m_notifications.end())
+		{
+			return(ToastNotificationState::None);
+		}
+
+		return it->second.state;
 	}
 
-	Optional<size_t> CToastNotification::getAction(const NotificationID)
+	Optional<size_t> CToastNotification::getAction(NotificationID)
 	{
+		// [Siv3D ToDo]
 		return(none);
 	}
 
-	void CToastNotification::hide(const NotificationID)
+	void CToastNotification::hide(NotificationID idx)
 	{
-
+		detail::s3dCloseNotification(idx);
 	}
 
 	void CToastNotification::clear()
 	{
+		for (auto [ key, state ] : m_notifications)
+		{
+			detail::s3dCloseNotification(key);
+		}
 
+		m_notifications.clear();
 	}
 
-	void CToastNotification::onStateUpdate(const size_t, const ToastNotificationState, const Optional<int32>&)
+	void CToastNotification::onStateUpdate(size_t idx, ToastNotificationState state, const Optional<int32>&)
 	{
+		auto it = m_notifications.find(idx);
 
+		if (it == m_notifications.end())
+		{
+			return;
+		}
+
+		it.value().state = state;
+	}
+
+	void CToastNotification::OnStateUpdate(Notification::IDType idx, ToastNotificationState state, void* userData)
+	{
+		auto& notification = *static_cast<CToastNotification*>(userData);
+
+		notification.onStateUpdate(static_cast<size_t>(idx), state, none);
+	}
+
+	void CToastNotification::OnCreateNotification(Notification::IDType idx, void* userData)
+	{
+		auto& notification = *static_cast<CToastNotification*>(userData);
+
+		notification.m_notifications[idx] = Notification{};
+
+		detail::s3dRegisterNotificationCallback(idx, &CToastNotification::OnStateUpdate, &notification);
 	}
 }
