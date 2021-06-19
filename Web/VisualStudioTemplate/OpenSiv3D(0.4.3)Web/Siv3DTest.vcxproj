@@ -72,11 +72,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Emscripten'">
     <IncludePath>$(SIV3D_0_4_3_WEB)\include;$(SIV3D_0_4_3_WEB)\include\ThirdParty;</IncludePath>
-    <LibraryPath>$(SIV3D_0_4_3_WEB)\lib\freetype;$(SIV3D_0_4_3_WEB)\lib\harfbuzz;$(SIV3D_0_4_3_WEB)\lib\opencv;$(SIV3D_0_4_3_WEB)\lib\turbojpeg;$(SIV3D_0_4_3_WEB)\lib</LibraryPath>
+    <LibraryPath>$(SIV3D_0_4_3_WEB)\lib\freetype;$(SIV3D_0_4_3_WEB)\lib\giflib;$(SIV3D_0_4_3_WEB)\lib\harfbuzz;$(SIV3D_0_4_3_WEB)\lib\opencv;$(SIV3D_0_4_3_WEB)\lib\turbojpeg;$(SIV3D_0_4_3_WEB)\lib\webp;$(SIV3D_0_4_3_WEB)\lib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Emscripten'">
     <IncludePath>$(SIV3D_0_4_3_WEB)\include;$(SIV3D_0_4_3_WEB)\include\ThirdParty;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SIV3D_0_4_3_WEB)\lib\freetype;$(SIV3D_0_4_3_WEB)\lib\harfbuzz;$(SIV3D_0_4_3_WEB)\lib\opencv;$(SIV3D_0_4_3_WEB)\lib\turbojpeg;$(SIV3D_0_4_3_WEB)\lib</LibraryPath>
+    <LibraryPath>$(SIV3D_0_4_3_WEB)\lib\freetype;$(SIV3D_0_4_3_WEB)\lib\giflib;$(SIV3D_0_4_3_WEB)\lib\harfbuzz;$(SIV3D_0_4_3_WEB)\lib\opencv;$(SIV3D_0_4_3_WEB)\lib\turbojpeg;$(SIV3D_0_4_3_WEB)\lib\webp;$(SIV3D_0_4_3_WEB)\lib</LibraryPath>
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -86,7 +86,7 @@
       <PreloadFile>$(SIV3D_0_4_3_WEB)\resources@/resources</PreloadFile>
       <AdditionalOptions>-s USE_ZLIB=1 -s USE_LIBPNG=1 -s USE_OGG=1 -s USE_VORBIS=1 -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s FULL_ES3=1 -s USE_GLFW=3 -s USE_WEBGL2=1 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalLinkDirectories>$(LibraryPath);%(AdditionalLinkDirectories)</AdditionalLinkDirectories>
-      <AdditionalDependencies>Siv3D;opencv_objdetect;opencv_photo;opencv_imgproc;opencv_core;harfbuzz;freetype;turbojpeg</AdditionalDependencies>
+      <AdditionalDependencies>Siv3D;opencv_objdetect;opencv_photo;opencv_imgproc;opencv_core;harfbuzz;freetype;turbojpeg;gif;webp;</AdditionalDependencies>
       <EchoCommandLines>false</EchoCommandLines>
       <JsLibrary>$(SIV3D_0_4_3_WEB)\lib\Siv3D.js;</JsLibrary>
       <EnableMemoryGrowth>true</EnableMemoryGrowth>
@@ -104,7 +104,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>-s USE_ZLIB=1 -s USE_LIBPNG=1 -s USE_OGG=1 -s USE_VORBIS=1 -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s FULL_ES3=1 -s USE_GLFW=3 -s USE_WEBGL2=1 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>Siv3D;opencv_objdetect;opencv_photo;opencv_imgproc;opencv_core;harfbuzz;freetype;turbojpeg</AdditionalDependencies>
+      <AdditionalDependencies>Siv3D;opencv_objdetect;opencv_photo;opencv_imgproc;opencv_core;harfbuzz;freetype;turbojpeg;gif;webp;</AdditionalDependencies>
       <PreloadFile>$(SIV3D_0_4_3_WEB)\resources@/resources</PreloadFile>
       <JsLibrary>$(SIV3D_0_4_3_WEB)\lib\Siv3D.js;</JsLibrary>
       <AdditionalLinkDirectories>$(LibraryPath);%(AdditionalLinkDirectories)</AdditionalLinkDirectories>
