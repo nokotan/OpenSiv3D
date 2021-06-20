@@ -10,6 +10,7 @@ VersionInfoDescription=OpenSiv3D (0.4.3) for Web Installer
 Compression=lzma2
 SolidCompression=yes
 ChangesEnvironment=yes
+PrivilegesRequired=lowest
 OutputDir=userdocs:Inno Setup Examples Output
 
 [Languages]
