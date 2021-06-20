@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Emscripten'">
-    <IncludePath>$(SIV3D_0_4_3_WEB)\include;$(SIV3D_0_4_3_WEB)\include\ThirdParty;</IncludePath>
+    <IncludePath>$(SIV3D_0_4_3_WEB)\include;$(SIV3D_0_4_3_WEB)\include\ThirdParty;$(IncludePath)</IncludePath>
     <LibraryPath>$(SIV3D_0_4_3_WEB)\lib\freetype;$(SIV3D_0_4_3_WEB)\lib\giflib;$(SIV3D_0_4_3_WEB)\lib\harfbuzz;$(SIV3D_0_4_3_WEB)\lib\opencv;$(SIV3D_0_4_3_WEB)\lib\turbojpeg;$(SIV3D_0_4_3_WEB)\lib\webp;$(SIV3D_0_4_3_WEB)\lib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Emscripten'">
