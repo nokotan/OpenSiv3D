@@ -225,6 +225,7 @@ jobs:
             Web/App/build/Siv3D_App.*
 
   build-installer:
+    needs: build
     runs-on: windows-latest
     strategy:
       matrix:
