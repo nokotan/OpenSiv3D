@@ -232,6 +232,10 @@ jobs:
         config:
           - name: wasm
             script: "Setup.iss"
+          - name: asmjs
+            script: "Setup-asmjs.iss"
+          - name: wasm-2.0.22
+            script: "Setup-2.0.22.iss"
     
     steps:
       - name: Checkout code
