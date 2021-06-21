@@ -249,6 +249,12 @@ jobs:
           mkdir Web/Build
           cp -r Package/lib/* Web/Build
           
+      - name: Compress Project Template
+        working-directory: Web/VisualStudioTemplate/OpenSiv3D(0.4.3)Web
+        run: |
+          7z a -tzip "OpenSiv3D(0.4.3)Web.zip" .
+          cp "OpenSiv3D(0.4.3)Web.zip" ..
+          
       - name: Create Installer
         working-directory: Web/WindowsInstaller
         run: |
