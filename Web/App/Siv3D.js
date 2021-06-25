@@ -676,12 +676,20 @@ mergeInto(LibraryManager.library, {
     //
     $s3dNotifications: [],
 
-    s3dInitNotification: function() {
-        if (Notification.permission !== "granted") {
-            Notification.requestPermission();
+    s3dRequestNotificationPermission: function(callback, callbackArg) {
+        if (Notification.permission === "granted") {
+            {{{ makeDynCall('vii', 'callback') }}}(1 /* NotificationPermission.Granted */, callbackArg);
+        } else {
+            Notification.requestPermission().then(function(v) {
+                if (v === "granted") {
+                    {{{ makeDynCall('vii', 'callback') }}}(1 /* NotificationPermission.Granted */, callbackArg);
+                } else {
+                    {{{ makeDynCall('vii', 'callback') }}}(2 /* NotificationPermission.Denied */, callbackArg);
+                }
+            });
         }
     },
-    s3dInitNotification__sig: "v",
+    s3dRequestNotificationPermission__sig: "vii",
 
     s3dCreateNotification: function(title, body, actionsNum, actionTexts, callback, callbackArg) {
         if (!window.Notification && Notification.permission !== "granted") {
@@ -740,10 +748,15 @@ mergeInto(LibraryManager.library, {
     s3dCloseNotification__sig: "vi",
     s3dCloseNotification__deps: [ "$s3dNotifications" ],
 
-    s3dQueryNotificationAvailability: function() {
-        return Notification.permission === "granted";
+    s3dQueryNotificationPermission: function() {
+        const status = {
+            "default": 0,
+            "granted": 1,
+            "denied": 2
+        };
+        return status[Notification.permission];
     },
-    s3dQueryNotificationAvailability__sig: "iv",
+    s3dQueryNotificationPermission__sig: "iv",
 
     //
     // TextToSpeech

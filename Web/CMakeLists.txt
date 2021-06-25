@@ -503,6 +503,7 @@ set(SOURCE_FILES
 	"../Siv3D/src/Siv3D-Platform/Web/Time/SivTime.cpp"
 	"../Siv3D/src/Siv3D-Platform/Web/ToastNotification/CToastNotification.cpp"
 	"../Siv3D/src/Siv3D-Platform/Web/ToastNotification/ToastNotificationFactory.cpp"
+	"../Siv3D/src/Siv3D-Platform/Web/ToastNotification/SivToastNotification.cpp"
 	"../Siv3D/src/Siv3D-Platform/Web/Unicode/SivUnicode_Platform.cpp"
 	"../Siv3D/src/Siv3D-Platform/Web/VideoWriter/VideoWriterDetail.cpp"
 	"../Siv3D/src/Siv3D-Platform/Web/Webcam/SivWebcam.cpp"

@@ -13,6 +13,7 @@
 # include "Fwd.hpp"
 # include "String.hpp"
 # include "Array.hpp"
+# include <future>
 
 namespace s3d
 {
@@ -73,6 +74,8 @@ namespace s3d
 		namespace Notification
 		{
 			[[nodiscard]] bool IsAvailable();
+
+			std::future<bool> RequestPermission();
 
 			NotificationID Show(const ToastNotificationProperty& prop);
 

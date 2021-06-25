@@ -28,6 +28,15 @@ namespace s3d
 			ToastNotificationState state = ToastNotificationState::None;
 		};
 
+		enum class NotificationPermission
+		{
+			Default,
+
+			Granted,
+
+			Denied
+		};
+
 	private:
 
 		static void OnStateUpdate(Notification::IDType idx, ToastNotificationState state, void* userData);
