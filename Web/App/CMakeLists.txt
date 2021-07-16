@@ -44,6 +44,14 @@ else()
     set(CMAKE_EXECUTABLE_SUFFIX ".html")
 endif()
 
+if (SIV3D_ENABLE_SHARED_LIB)
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s MAIN_MODULE=2")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s MAIN_MODULE=2")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s MAIN_MODULE=2")
+
+endif()
+
 if (NOT CMAKE_CONFIGURATION_TYPES AND 
     NOT CMAKE_NO_BUILD_TYPE AND
     NOT CMAKE_BUILD_TYPE AND
@@ -100,18 +108,18 @@ else ()
 
   target_link_libraries(Siv3DTest PRIVATE
     ${PROJECT_SOURCE_DIR}/../build/libSiv3D.a
-    ${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/opencv/libopencv_objdetect.a
-    ${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/opencv/libopencv_photo.a
-    ${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/opencv/libopencv_imgproc.a
-    ${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/opencv/libopencv_core.a
-    ${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/harfbuzz/libharfbuzz.a
-    ${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/freetype/libfreetype.a
-    ${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/turbojpeg/libturbojpeg.a
-    ${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/giflib/libgif.a
-    ${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/webp/libwebp.a
-    ${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/opus/libopusfile.a
-    ${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/opus/libopus.a
-    ${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/tiff/libtiff.a
+    #${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/opencv/libopencv_objdetect.a
+    #${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/opencv/libopencv_photo.a
+    #${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/opencv/libopencv_imgproc.a
+    #${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/opencv/libopencv_core.a
+    #${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/harfbuzz/libharfbuzz.a
+    #${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/freetype/libfreetype.a
+    #${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/turbojpeg/libturbojpeg.a
+    #${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/giflib/libgif.a
+    #${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/webp/libwebp.a
+    #${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/opus/libopusfile.a
+    #${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/opus/libopus.a
+    #${PROJECT_SOURCE_DIR}/../../Siv3D/lib/Web/wasm/tiff/libtiff.a
     )
 
 endif ()
