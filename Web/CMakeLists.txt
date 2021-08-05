@@ -796,9 +796,11 @@ if (SIV3D_BUILD_SHARED_WASM OR SIV3D_BUILD_SHARED_MAIN)
 		libwebp.a
 	)
 
-	add_dependencies(Siv3D
-        Siv3DAppData
-    )
+	if (SIV3D_BUILD_SHARED_MAIN)
+		add_dependencies(Siv3D
+			Siv3DAppData
+		)
+	endif()
 else ()
 	add_library(Siv3D STATIC ${SOURCE_FILES})
 endif ()
