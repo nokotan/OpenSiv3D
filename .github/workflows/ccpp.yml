@@ -25,12 +25,6 @@ jobs:
             embuilder-config: '--pic'
             output-file: 'Siv3D.wasm'
             external-lib-folder-name: wasm-pic
-          - name: wasm-pic-main
-            container: 'emscripten/emsdk:2.0.4'
-            cmake-config: '-DSIV3D_BUILD_SHARED_MAIN=1'
-            embuilder-config: '--pic'
-            output-file: 'Siv3D.*'
-            external-lib-folder-name: wasm-pic
           - name: asmjs
             container: 'trzeci/emscripten:1.39.13-fastcomp'
             cmake-config: '-DSIV3D_BUILD_WITH_FASTCOMP_SUPPORT=1'
@@ -43,6 +37,12 @@ jobs:
             embuilder-config: ''
             output-file: 'libSiv3D.a'
             external-lib-folder-name: wasm-2.0.22
+          - name: wasm-pic-main-2.0.22
+            container: 'emscripten/emsdk:2.0.22'
+            cmake-config: '-DSIV3D_BUILD_SHARED_MAIN=1'
+            embuilder-config: '--pic'
+            output-file: 'Siv3D*'
+            external-lib-folder-name: wasm-pic
     container: 
       image: ${{ matrix.config.container }}
     runs-on: ubuntu-latest
@@ -121,7 +121,15 @@ jobs:
           key: ${{ matrix.config.name }}-${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('Siv3D/**/*.*', 'Web/CMakeLists.txt', 'Web/build/CMakeCache.txt') }}
 
       - name: Build project
-        if: ${{ !steps.cache_siv3d_library.outputs.cache-hit }}
+        if: ${{ !steps.cache_siv3d_library.outputs.cache-hit && contains(matrix.config.name, 'pic-main') }}
+        working-directory: Web/build
+        run: |
+          cmake --build . --target Siv3DAppData
+          patch Siv3D.data.js < ../Siv3D.data.js.patch
+          cmake --build . --target Siv3D --parallel 4 
+
+      - name: Build project
+        if: ${{ !steps.cache_siv3d_library.outputs.cache-hit && !contains(matrix.config.name, 'pic-main') }}
         working-directory: Web/build
         run: cmake --build . --parallel 4 
 
@@ -155,15 +163,15 @@ jobs:
           - name: wasm-pic
             container: 'emscripten/emsdk:2.0.4'
             cmake-config: '-DSIV3D_BUILD_WITH_SHARED_WASM=1'
-          - name: wasm-pic-main
-            container: 'emscripten/emsdk:2.0.4'
-            cmake-config: '-DSIV3D_BUILD_WITH_SHARED_MAIN=1'
           - name: asmjs
             container: 'trzeci/emscripten:1.39.13-fastcomp'
             cmake-config: '-DSIV3D_BUILD_WITH_FASTCOMP_SUPPORT=1'
           - name: wasm-2.0.22
             container: 'emscripten/emsdk:2.0.22'
             cmake-config: ''
+          - name: wasm-pic-main-2.0.22
+            container: 'emscripten/emsdk:2.0.22'
+            cmake-config: '-DSIV3D_BUILD_WITH_SHARED_MAIN=1'
     container: 
       image: ${{ matrix.config.container }}
     runs-on: ubuntu-latest
@@ -349,14 +357,17 @@ jobs:
       - name: Restore Bundles
         uses: actions/download-artifact@v2
         with:
-          name: OpenSiv3D-Bundles-wasm-pic-main
+          name: OpenSiv3D-Bundles-wasm-pic-main-2.0.22
           path: .
 
       - name: Restore Siv3D library
         run: tar -xvf OpenSiv3D.tgz
 
       - name: Place Siv3D library
-        run: cp Package/lib/Siv3D.* Dest/lib
+        run: |
+          cp Package/lib/Siv3D.wasm Dest/lib
+          cp Package/lib/Siv3D.js Dest/lib
+          cp Package/lib/Siv3D.data Dest/lib
 
       - name: Place Siv3D Apps (wasm)
         uses: actions/download-artifact@v2

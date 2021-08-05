@@ -26,8 +26,25 @@ elseif (SIV3D_BUILD_SHARED_MAIN)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s MAIN_MODULE=1")
 
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s MAIN_MODULE=1 -s FULL_ES3=1 -s USE_GLFW=3 -s USE_OGG=1 -s USE_VORBIS=1")
-	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s ALLOW_MEMORY_GROWTH=1 -s ERROR_ON_UNDEFINED_SYMBOLS=0 --js-library '${CMAKE_CURRENT_SOURCE_DIR}/App/Siv3D.js' --preload-file \"${CMAKE_SOURCE_DIR}/App/resources@/resources\" -s MINIFY_HTML=0")
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s ALLOW_MEMORY_GROWTH=1 -s ERROR_ON_UNDEFINED_SYMBOLS=0")
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --js-library '${CMAKE_CURRENT_SOURCE_DIR}/App/Siv3D.js' --pre-js 'Siv3D.data.js' -s FORCE_FILESYSTEM=1 -s MINIFY_HTML=0")
 	set(CMAKE_EXECUTABLE_SUFFIX ".html")
+
+	add_custom_command(
+		OUTPUT Siv3D.data Siv3D.data.js
+		COMMAND python3 
+		ARGS
+			$ENV{EMSDK}/upstream/emscripten/tools/file_packager.py
+			Siv3D.data
+			--js-output=Siv3D.data.js
+			--preload \"${CMAKE_SOURCE_DIR}/App/resources@/resources\"
+			--from-emcc
+	)
+
+	add_custom_target(
+		Siv3DAppData
+		DEPENDS Siv3D.data Siv3D.data.js
+	)
 endif ()
 
 #set(CMAKE_BUILD_TYPE Release)
@@ -743,15 +760,27 @@ endif()
 if (SIV3D_BUILD_SHARED_WASM OR SIV3D_BUILD_SHARED_MAIN)
 	add_executable(Siv3D ${SOURCE_FILES})
 
-	target_link_directories(Siv3D
-	PRIVATE
-		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic/opencv
-		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic/harfbuzz
-		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic/freetype
-		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic/turbojpeg
-		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic/giflib
-		${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic/webp
-	)
+	if (EMSCRIPTEN_VERSION VERSION_GREATER_EQUAL "2.0.22")
+		target_link_directories(Siv3D
+		PRIVATE
+			${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic-2.0.22/opencv
+			${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic-2.0.22/harfbuzz
+			${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic-2.0.22/freetype
+			${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic-2.0.22/turbojpeg
+			${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic-2.0.22/giflib
+			${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic-2.0.22/webp
+		)
+	else ()
+		target_link_directories(Siv3D
+		PRIVATE
+			${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic/opencv
+			${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic/harfbuzz
+			${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic/freetype
+			${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic/turbojpeg
+			${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic/giflib
+			${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/wasm-pic/webp
+		)
+	endif()
 	
 	target_link_libraries(Siv3D
 		libopencv_objdetect.a
@@ -766,6 +795,10 @@ if (SIV3D_BUILD_SHARED_WASM OR SIV3D_BUILD_SHARED_MAIN)
 		libgif.a
 		libwebp.a
 	)
+
+	add_dependencies(Siv3D
+        Siv3DAppData
+    )
 else ()
 	add_library(Siv3D STATIC ${SOURCE_FILES})
 endif ()
