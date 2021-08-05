@@ -384,7 +384,7 @@ jobs:
       - name: Place Siv3D Apps (wasm-pic-main)
         uses: actions/download-artifact@v2
         with:
-          name: Siv3D_App-wasm-pic-main
+          name: Siv3D_App-wasm-pic-main-2.0.22
           path: Dest/wasm-pic-main-app
 
       - name: Place Siv3D Apps (asmjs)
