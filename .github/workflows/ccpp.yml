@@ -281,7 +281,9 @@ jobs:
         
   pre-deploy:
     if: ${{ contains(github.ref, 'tags/v') }}
-    needs: build
+    needs: 
+      - build
+      - build-installer
     runs-on: ubuntu-latest
 
     outputs: 
