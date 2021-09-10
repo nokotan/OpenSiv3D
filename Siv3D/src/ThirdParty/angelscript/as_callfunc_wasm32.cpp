@@ -84,13 +84,18 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 		         returnType.IsReference() || 
 		         returnType.IsObjectHandle() )
 		{
-			if( returnType.GetSizeOnStackDWords() == 1 )
+			if( returnType.GetSizeOnStackDWords() == 0 )
+			{
+				argsType[0] = x32VOIDARG;
+			}
+			else if( returnType.GetSizeOnStackDWords() == 1 )
 			{
 				argsType[0] = x32INTARG;
 			}
 			else
 			{
-				argsType[0] = x64INTARG;
+				argsType[0] = x32INTARG;
+				printf("Warning: Primitive may not be copied properly. : Primitive Size=%d\n", returnType.GetSizeOnStackDWords());
 			}
 		}
 		else
@@ -253,6 +258,8 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 		else if( parmType.IsDoubleType() && !parmType.IsReference() ) 
 		{
 			argsType[argIndex] = x64FLOATARG;
+
+			paramIndex += paramIndex % 2;
 			memcpy(paramBuffer + paramIndex, stack_pointer, sizeof(double));
 			argIndex++;
 			paramIndex += 2;
@@ -366,14 +373,7 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 
 	totalArgumentCount = argIndex;
 	
-	if (returnInMemory) 
-	{
-		s3dCallIndirectReturnInMemory(func, argsType, &retQW, paramBuffer);
-	}
-	else 
-	{
-		s3dCallIndirect(func, argsType, &retQW, paramBuffer);
-	}
+	s3dCallIndirect(func, argsType, &retQW, paramBuffer);
 
     return retQW;
 }

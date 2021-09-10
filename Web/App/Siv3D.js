@@ -212,6 +212,7 @@ mergeInto(LibraryManager.library, {
                     argsPtrIndex += 4;
                     break;
                 case 100: // 'd':
+                    argsPtrIndex += (8 - argsPtrIndex % 8);
                     args.push(HEAPF64[argsPtrIndex >> 3]);
                     argsPtrIndex += 8;
                     break;
@@ -239,40 +240,7 @@ mergeInto(LibraryManager.library, {
         }
     },
     s3dCallIndirect__sig: "viiii",
-    s3dCallIndirectReturnInMemory: function(funcPtr, funcTypes, retPtr, argsPtr) {
-        let args = [ retPtr ];
-        let funcTypeIndex = funcTypes;
-        let argsPtrIndex = argsPtr;
-        
-        const retType = HEAPU8[funcTypeIndex++];
-
-        while (true) {
-            const funcType = HEAPU8[funcTypeIndex++];
-
-            if (funcType === 0) break;
-
-            switch (funcType) {
-                case 105: // 'i':
-                    args.push(HEAP32[argsPtrIndex >> 2]);
-                    argsPtrIndex += 4;
-                    break;
-                case 102: // 'f':
-                    args.push(HEAPF32[argsPtrIndex >> 2]);
-                    argsPtrIndex += 4;
-                    break;
-                case 100: // 'd':
-                    args.push(HEAPF64[argsPtrIndex >> 3]);
-                    argsPtrIndex += 8;
-                    break;
-                default:
-                    err("Unrecognized Function Type");
-            }
-        }
-
-        wasmTable.get(funcPtr).apply(null, args);
-    },
-    s3dCallIndirectReturnInMemory__sig: "viiii",
-
+   
     //
     // User Action Emulation
     //
