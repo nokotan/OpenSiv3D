@@ -240,13 +240,11 @@ mergeInto(LibraryManager.library, {
     },
     s3dCallIndirect__sig: "viiii",
     s3dCallIndirectReturnInMemory: function(funcPtr, funcTypes, retPtr, argsPtr) {
-        let args = [];
+        let args = [ retPtr ];
         let funcTypeIndex = funcTypes;
         let argsPtrIndex = argsPtr;
         
         const retType = HEAPU8[funcTypeIndex++];
-        const retValPtr = HEAP32[argsPtrIndex >> 2];
-        argsPtrIndex += 4;
 
         while (true) {
             const funcType = HEAPU8[funcTypeIndex++];
@@ -272,7 +270,6 @@ mergeInto(LibraryManager.library, {
         }
 
         wasmTable.get(funcPtr).apply(null, args);
-        HEAP32[retPtr >> 2] = retValPtr;
     },
     s3dCallIndirectReturnInMemory__sig: "viiii",
 
