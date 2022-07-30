@@ -275,7 +275,12 @@ jobs:
           & ".\Output\OpenSiv3D(0.6.4)Web.exe" /SILENT /SUPPRESSMSGBOXES /LOG="InstallLog.Log"
           Wait-Process -Name "OpenSiv3D(0.6.4)Web"
           cat InstallLog.Log
-          
+
+      - name: Install VSIX
+        run: |
+          VSIXInstaller /quiet /admin Emscripten.Build.Definition.4e942135-f309-41d4-8214-c2e5bd7c7ace 
+          VSIXInstaller /quiet /admin Emscripten.Debugger.db0b9864-52e2-4c42-94d1-2c7279a2c57a
+             
       - name: Save Bundles
         uses: actions/upload-artifact@v2
         with:
