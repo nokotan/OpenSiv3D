@@ -44,6 +44,9 @@ jobs:
       image: ${{ matrix.config.container }}
     runs-on: ubuntu-latest
 
+    outputs: 
+      cache-hit: ${{ steps.cache-siv3d-library.outputs.cache-hit }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -256,14 +259,25 @@ jobs:
           tar -xvf OpenSiv3D.tgz
           mkdir Web/Build
           cp -r Package/lib/* Web/Build
+
+      - name: Cache OpenSiv3D Installer result
+        id: cache_siv3d_installer
+        uses: actions/cache@v1
+        env:
+          cache-name: cache-siv3d-library
+        with:
+          path: Web/WindowsInstaller/Output
+          key: ${{ matrix.config.name }}-${{ env.cache-name }}-${{ hashFiles('Web/WindowsInstaller/setup.iss', 'Web/Build') }}
           
       - name: Compress Project Template
+        if: ${{ !steps.cache-siv3d-library.outputs.cache-hit }}
         working-directory: Web/VisualStudioTemplate/Files
         run: |
           7z a -tzip "OpenSiv3D(0.6.4)Web.zip" .
           cp "OpenSiv3D(0.6.4)Web.zip" ..
           
       - name: Create Installer
+        if: ${{ !steps.cache-siv3d-library.outputs.cache-hit }}
         working-directory: Web/WindowsInstaller
         run: |
           mkdir Output
@@ -298,13 +312,13 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: OpenSiv3D-Installer-${{ matrix.config.name }}
-          path: Web/WindowsInstaller/OpenSiv3D-Installer-${{ matrix.config.name }}
+          path: Web/WindowsInstaller/
 
       - name: Test Installer
         working-directory: Web/WindowsInstaller
         run: |
-          & ".\OpenSiv3D-Installer-${{ matrix.config.name }}.exe" /SILENT /SUPPRESSMSGBOXES /LOG="InstallLog.Log"
-          Wait-Process -Name "OpenSiv3D-Installer-${{ matrix.config.name }}"
+          & ".\OpenSiv3D(0.6.4)Web.exe" /SILENT /SUPPRESSMSGBOXES /LOG="InstallLog.Log"
+          Wait-Process -Name "OpenSiv3D(0.6.4)Web"
           cat InstallLog.Log
 
       - name: Install VSIX
