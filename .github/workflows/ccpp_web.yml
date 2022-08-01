@@ -240,8 +240,6 @@ jobs:
             script: "Setup.iss"
           - name: wasm-simd
             script: "Setup.iss"
-    env:
-      VSIXInstaller_Path: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\IDE"
     
     steps:
       - name: Checkout code
@@ -271,11 +269,44 @@ jobs:
           mkdir Output
           iscc /O"Output" "./${{ matrix.config.script }}"
 
+      
+             
+      - name: Save Bundles
+        uses: actions/upload-artifact@v2
+        with:
+          name: OpenSiv3D-Installer-${{ matrix.config.name }}
+          path: Web/WindowsInstaller/Output/*.exe
+
+  build-installer:
+    needs: build-installer
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        config:
+          - name: wasm
+            script: "Setup.iss"
+          - name: wasm-simd
+            script: "Setup.iss"
+    env:
+      MSBuild-path: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Current\\bin"
+      VSIXInstaller_Path: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\IDE"
+      WinAppDriver_Path: "C:\\Program Files (x86)\\Windows Application Driver\\WinAppDriver.exe"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Restore Installer
+        uses: actions/download-artifact@v2
+        with:
+          name: OpenSiv3D-Installer-${{ matrix.config.name }}
+          path: .
+
       - name: Test Installer
         working-directory: Web/WindowsInstaller
         run: |
-          & ".\Output\OpenSiv3D(0.6.4)Web.exe" /SILENT /SUPPRESSMSGBOXES /LOG="InstallLog.Log"
-          Wait-Process -Name "OpenSiv3D(0.6.4)Web"
+          & ".\OpenSiv3D-Installer-${{ matrix.config.name }}.exe" /SILENT /SUPPRESSMSGBOXES /LOG="InstallLog.Log"
+          Wait-Process -Name "OpenSiv3D-Installer-${{ matrix.config.name }}"
           cat InstallLog.Log
 
       - name: Install VSIX
@@ -285,13 +316,24 @@ jobs:
           Wait-Process -Name "VSIXInstaller"
           VSIXInstaller /quiet /admin Emscripten.Debugger.db0b9864-52e2-4c42-94d1-2c7279a2c57a
           Wait-Process -Name "VSIXInstaller"
-             
-      - name: Save Bundles
-        uses: actions/upload-artifact@v2
-        with:
-          name: OpenSiv3D-Installer-${{ matrix.config.name }}
-          path: Web/WindowsInstaller/Output/*.exe
 
+      - name: Restore Nuget package
+        working-directory: Web/WindowsInstaller/Tests/UIAutomatedTest
+        run: nuget restore WinAppDriverUIRecorder.sln
+      
+      - name: Build the application
+        working-directory: Web/WindowsInstaller/Tests/UIAutomatedTest
+        run: |
+          Set-Item Env:Path "$env:MSBuild_Path;$env:Path"
+          msbuild WinAppDriverUIRecorder.sln /p:Configuration="Release"
+
+      - name: Run UI Test
+        working-directory: Web/WindowsInstaller/Tests/UIAutomatedTest
+        run: |
+          Start-Process -FilePath "$env:WinAppDriver_Path"
+          & "./bin/Release/UIRecoderTemplate.exe"
+          Stop-Process -Name WinAppDriver
+      
   pre-deploy:
     if: ${{ contains(github.ref, 'tags/v') }}
     needs: 
