@@ -264,20 +264,20 @@ jobs:
         id: cache_siv3d_installer
         uses: actions/cache@v1
         env:
-          cache-name: cache-siv3d-library
+          cache-name: cache_siv3d_installer
         with:
           path: Web/WindowsInstaller/Output
           key: ${{ matrix.config.name }}-${{ env.cache-name }}-${{ hashFiles('Web/WindowsInstaller/setup.iss', 'Web/Build') }}
           
       - name: Compress Project Template
-        if: ${{ !steps.cache-siv3d-library.outputs.cache-hit }}
+        if: ${{ !steps.cache_siv3d_installer.outputs.cache-hit }}
         working-directory: Web/VisualStudioTemplate/Files
         run: |
           7z a -tzip "OpenSiv3D(0.6.4)Web.zip" .
           cp "OpenSiv3D(0.6.4)Web.zip" ..
           
       - name: Create Installer
-        if: ${{ !steps.cache-siv3d-library.outputs.cache-hit }}
+        if: ${{ !steps.cache_siv3d_installer.outputs.cache-hit }}
         working-directory: Web/WindowsInstaller
         run: |
           mkdir Output
