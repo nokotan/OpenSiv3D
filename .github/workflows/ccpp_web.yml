@@ -343,7 +343,7 @@ jobs:
         working-directory: Web/WindowsInstaller/Tests/UIAutomatedTest
         run: |
           Start-Process -FilePath "$env:WinAppDriver_Path"
-          & "./bin/Release/UIRecoderTemplate.exe"
+          & ".\bin\Release\UIRecorderTemplate.exe"
           Stop-Process -Name WinAppDriver
       
   pre-deploy:
