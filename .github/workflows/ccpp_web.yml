@@ -268,16 +268,14 @@ jobs:
         run: |
           mkdir Output
           iscc /O"Output" "./${{ matrix.config.script }}"
-
-      
-             
+       
       - name: Save Bundles
         uses: actions/upload-artifact@v2
         with:
           name: OpenSiv3D-Installer-${{ matrix.config.name }}
           path: Web/WindowsInstaller/Output/*.exe
 
-  build-installer:
+  test-installer:
     needs: build-installer
     runs-on: windows-latest
     strategy:
