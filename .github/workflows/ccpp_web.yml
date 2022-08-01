@@ -300,7 +300,7 @@ jobs:
           - name: wasm-simd
             script: "Setup.iss"
     env:
-      MSBuild-path: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Current\\bin"
+      MSBuild_path: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Current\\bin"
       VSIXInstaller_Path: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\IDE"
       WinAppDriver_Path: "C:\\Program Files (x86)\\Windows Application Driver\\WinAppDriver.exe"
 
