@@ -302,6 +302,7 @@ jobs:
     env:
       MSBuild_path: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Current\\bin"
       VSIXInstaller_Path: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\IDE"
+      DevEnv_Path: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\IDE\\devenv.exe"
       WinAppDriver_Path: "C:\\Program Files (x86)\\Windows Application Driver\\WinAppDriver.exe"
 
     steps:
@@ -343,8 +344,10 @@ jobs:
         working-directory: Web/WindowsInstaller/Tests/UIAutomatedTest
         run: |
           Start-Process -FilePath "$env:WinAppDriver_Path"
+          Start-Process -FilePath "$env:DevEnv_Path"
           & ".\bin\Release\UIRecorderTemplate.exe"
           Stop-Process -Name WinAppDriver
+          Stop-Process -Name devenv
       
   pre-deploy:
     if: ${{ contains(github.ref, 'tags/v') }}
