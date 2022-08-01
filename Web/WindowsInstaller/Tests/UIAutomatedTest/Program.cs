@@ -89,67 +89,6 @@ namespace UIXPathLib
             try
             {
                 //Paste generated code here
-                // LeftClick on Button "スタート" at (24,47)
-                Console.WriteLine("LeftClick on Button \"スタート\" at (24,47)");
-                string xpath_LeftClickButtonスタート_24_47 = "/Pane[@ClassName=\"#32769\"][@Name=\"デスクトップ 1\"]/Pane[@ClassName=\"Shell_TrayWnd\"][@Name=\"タスク バー\"]/Button[@ClassName=\"Start\"][@Name=\"スタート\"]";
-                var winElem_LeftClickButtonスタート_24_47 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButtonスタート_24_47);
-                if (winElem_LeftClickButtonスタート_24_47 != null)
-                {
-                    winElem_LeftClickButtonスタート_24_47.Click();
-                }
-                else
-                {
-                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickButtonスタート_24_47}");
-                    return;
-                }
-
-                Thread.Sleep(1000);
-
-
-                // LeftClick on Group "C" at (18,28)
-                Console.WriteLine("LeftClick on Group \"C\" at (18,28)");
-                string xpath_LeftClickGroupC_18_28 = "/Pane[@ClassName=\"#32769\"][@Name=\"デスクトップ 1\"]/Window[@ClassName=\"Windows.UI.Core.CoreWindow\"][@Name=\"スタート\"]/Window[@AutomationId=\"SplitViewFrameXAMLWindow\"]/SemanticZoom[@Name=\"すべてのアプリ\"][@AutomationId=\"ZoomControl\"]/List[@Name=\"すべてのアプリ\"][@AutomationId=\"AppsList\"]/Group[@ClassName=\"ListViewItem\"][@Name=\"C\"]";
-                var winElem_LeftClickGroupC_18_28 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickGroupC_18_28);
-                if (winElem_LeftClickGroupC_18_28 != null)
-                {
-                    winElem_LeftClickGroupC_18_28.Click();
-                }
-                else
-                {
-                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickGroupC_18_28}");
-                    return;
-                }
-
-
-                // LeftClick on ListItem "V" at (41,35)
-                Console.WriteLine("LeftClick on ListItem \"V\" at (41,35)");
-                string xpath_LeftClickListItemV_41_35 = "/Pane[@ClassName=\"#32769\"][@Name=\"デスクトップ 1\"]/Window[@ClassName=\"Windows.UI.Core.CoreWindow\"][@Name=\"スタート\"]/Window[@AutomationId=\"SplitViewFrameXAMLWindow\"]/SemanticZoom[@Name=\"すべてのアプリ\"][@AutomationId=\"ZoomControl\"]/List[@Name=\"拡大されたすべてのアプリ\"][@AutomationId=\"ZoomAppsList\"]/ListItem[@ClassName=\"ListViewItem\"][@Name=\"V\"]";
-                var winElem_LeftClickListItemV_41_35 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickListItemV_41_35);
-                if (winElem_LeftClickListItemV_41_35 != null)
-                {
-                    winElem_LeftClickListItemV_41_35.Click();
-                }
-                else
-                {
-                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickListItemV_41_35}");
-                    return;
-                }
-
-
-                // LeftClick on ListItem "Visual Studio 2022" at (146,33)
-                Console.WriteLine("LeftClick on ListItem \"Visual Studio 2022\" at (146,33)");
-                string xpath_LeftClickListItemVisualStud_146_33 = "/Pane[@ClassName=\"#32769\"][@Name=\"デスクトップ 1\"]/Window[@ClassName=\"Windows.UI.Core.CoreWindow\"][@Name=\"スタート\"]/Window[@AutomationId=\"SplitViewFrameXAMLWindow\"]/SemanticZoom[@Name=\"すべてのアプリ\"][@AutomationId=\"ZoomControl\"]/List[@Name=\"すべてのアプリ\"][@AutomationId=\"AppsList\"]/Group[@ClassName=\"ListViewItem\"][@Name=\"V\"]/ListItem[@Name=\"Visual Studio 2022\"][@AutomationId=\"W~VisualStudio.c466a108\"]";
-                var winElem_LeftClickListItemVisualStud_146_33 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickListItemVisualStud_146_33);
-                if (winElem_LeftClickListItemVisualStud_146_33 != null)
-                {
-                    winElem_LeftClickListItemVisualStud_146_33.Click();
-                }
-                else
-                {
-                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickListItemVisualStud_146_33}");
-                    return;
-                }
-
 
                 // LeftClick on Button "新しいプロジェクトの作成" at (59,69)
                 Console.WriteLine("LeftClick on Button \"新しいプロジェクトの作成\" at (59,69)");
