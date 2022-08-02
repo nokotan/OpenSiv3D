@@ -89,12 +89,23 @@ namespace UIXPathLib
         {
             System.Threading.Thread.Sleep(10 * 1000);
             DesktopSession desktopSession = new DesktopSession();
-            System.Threading.Thread.Sleep(30 * 1000);
-
             bool bSuccess = false;
 
             try
             {
+                // Wait for Visual Studio Launched
+                var visualStudioWindowPath = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"]";
+                Console.WriteLine("Waiting for Visual Studio being ready...");
+                var visualStudioWindow = desktopSession.FindElementByAbsoluteXPath(visualStudioWindowPath, 10 * 60 / 2);
+                if (visualStudioWindow != null)
+                {
+                    Console.WriteLine("Ok");
+                }
+                else
+                {
+                    Console.WriteLine("Timeout!");
+                }
+
                 // LeftClick on Button "Create a new project" at (53,72)
                 Console.WriteLine("LeftClick on Button \"Create a new project\" at (53,72)");
                 string xpath_LeftClickButtonCreateanew_53_72 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"]/Custom/Pane/Button[@Name=\"Create a new project\"]";
@@ -115,6 +126,7 @@ namespace UIXPathLib
                 Console.WriteLine("LeftClick on Edit \"_Search for templates (Alt+S)\" at (115,10)");
                 string xpath_LeftClickEdit_Searchfor_115_10 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"]/Custom/Custom/Group[@Name=\"Search Control\"]/Edit[@Name=\"_Search for templates (Alt+S)\"]";
                 var winElem_LeftClickEdit_Searchfor_115_10 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickEdit_Searchfor_115_10);
+                desktopSession.TakeScreenShot("Search for templates.png");
                 if (winElem_LeftClickEdit_Searchfor_115_10 != null)
                 {
                     winElem_LeftClickEdit_Searchfor_115_10.Click();
@@ -136,6 +148,7 @@ namespace UIXPathLib
                 Console.WriteLine("LeftClick on ListItem \"OpenSiv3D(0.6.4)Web\" at (450,89)");
                 string xpath_LeftClickListItemOpenSiv3D0_450_89 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"]/Custom/Custom/List[@Name=\"Project Templates\"]/ListItem[@ClassName=\"ListBoxItem\"][@Name=\"OpenSiv3D(0.6.4)Web\"]";
                 var winElem_LeftClickListItemOpenSiv3D0_450_89 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickListItemOpenSiv3D0_450_89);
+                desktopSession.TakeScreenShot("OpenSiv3D(0.6.4)Web.png");
                 if (winElem_LeftClickListItemOpenSiv3D0_450_89 != null)
                 {
                     winElem_LeftClickListItemOpenSiv3D0_450_89.Click();
@@ -151,6 +164,7 @@ namespace UIXPathLib
                 Console.WriteLine("LeftClick on Button \"Next\" at (85,26)");
                 string xpath_LeftClickButtonNext_85_26 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"]/Button[@Name=\"Next\"]";
                 var winElem_LeftClickButtonNext_85_26 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButtonNext_85_26);
+                desktopSession.TakeScreenShot("Next.png");
                 if (winElem_LeftClickButtonNext_85_26 != null)
                 {
                     winElem_LeftClickButtonNext_85_26.Click();
@@ -166,6 +180,7 @@ namespace UIXPathLib
                 Console.WriteLine("LeftClick on Button \"Create\" at (103,27)");
                 string xpath_LeftClickButtonCreate_103_27 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"]/Button[@Name=\"Create\"]";
                 var winElem_LeftClickButtonCreate_103_27 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButtonCreate_103_27);
+                desktopSession.TakeScreenShot("Create.png");
                 if (winElem_LeftClickButtonCreate_103_27 != null)
                 {
                     winElem_LeftClickButtonCreate_103_27.Click();
@@ -181,6 +196,7 @@ namespace UIXPathLib
                 Console.WriteLine("LeftClick on SplitButton \"Debug Target\" at (107,17)");
                 string xpath_LeftClickSplitButtonDebugTarge_107_17 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"OpenSiv3Dv0_6ForWeb1 - Microsoft Visual Studio\"]/Pane[@Name=\"ToolBarDockTop\"]/ToolBar[@ClassName=\"ToolBar\"][@Name=\"Standard\"]/SplitButton[@Name=\"Debug Target\"]";
                 var winElem_LeftClickSplitButtonDebugTarge_107_17 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickSplitButtonDebugTarge_107_17);
+                desktopSession.TakeScreenShot("Debug Target.png");
                 if (winElem_LeftClickSplitButtonDebugTarge_107_17 != null)
                 {
                     winElem_LeftClickSplitButtonDebugTarge_107_17.Click();
