@@ -94,7 +94,7 @@ namespace UIXPathLib
             try
             {
                 // Wait for Visual Studio Launched
-                var visualStudioWindowPath = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"]";
+                var visualStudioWindowPath = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"]/Custom/Pane/Button[@Name=\"Create a new project\"]";
                 Console.WriteLine("Waiting for Visual Studio being ready...");
                 var visualStudioWindow = desktopSession.FindElementByAbsoluteXPath(visualStudioWindowPath, 10 * 60 / 2);
                 if (visualStudioWindow != null)
