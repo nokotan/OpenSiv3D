@@ -300,9 +300,9 @@ jobs:
           - name: wasm-simd
             script: "Setup.iss"
     env:
-      MSBuild_path: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\MSBuild\\Current\\bin"
-      VSIXInstaller_Path: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\Common7\\IDE"
-      DevEnv_Path: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\Common7\\IDE\\devenv.exe"
+      MSBuild_path: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Current\\bin"
+      VSIXInstaller_Path: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\IDE"
+      DevEnv_Path: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\IDE\\devenv.exe"
       WinAppDriver_Path: "C:\\Program Files (x86)\\Windows Application Driver\\WinAppDriver.exe"
 
     steps:
@@ -325,7 +325,7 @@ jobs:
       - name: Install VSIX
         run: |
           Set-Item Env:Path "$env:VSIXInstaller_Path;$env:Path"
-          VSIXInstaller /quiet /admin Emscripten.ProjectType.80c9bedd-1988-42d3-a4c8-d6be759abab6
+          VSIXInstaller /quiet /admin Emscripten.Build.Definition.4e942135-f309-41d4-8214-c2e5bd7c7ace 
           Wait-Process -Name "VSIXInstaller"
           VSIXInstaller /quiet /admin Emscripten.Debugger.db0b9864-52e2-4c42-94d1-2c7279a2c57a
           Wait-Process -Name "VSIXInstaller"
