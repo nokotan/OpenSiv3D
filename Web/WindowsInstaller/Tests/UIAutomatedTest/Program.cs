@@ -98,37 +98,36 @@ namespace UIXPathLib
                 desktopSession.TakeScreenShot("Start.png");
 
                 //Paste generated code here
-                // LeftClick on Window "" at (299,610)
-                Console.WriteLine("LeftClick on Window \"\" at (299,610)");
-                string xpath_LeftClickWindow_299_610 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@ClassName=\"Window\"][@Name=\"Microsoft Visual Studio\"]/Window[@ClassName=\"Window\"]";
-                var winElem_LeftClickWindow_299_610 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickWindow_299_610, 3 * 60 / 2);
+                // LeftClick on Hyperlink "Not now, maybe later." at (16,9)
+                Console.WriteLine("LeftClick on Hyperlink \"Not now, maybe later.\" at (16,9)");
+                string xpath_LeftClickHyperlinkNotnowmayb_16_9 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@ClassName=\"Window\"][@Name=\"Microsoft Visual Studio\"]/Custom[starts-with(@AutomationId,\"UserControl_\")]/Text[@Name=\"Not now, maybe later.\"][starts-with(@AutomationId,\"TextBlock_\")]/Hyperlink[@ClassName=\"Hyperlink\"][@Name=\"Not now, maybe later.\"]";
+                var winElem_LeftClickHyperlinkNotnowmayb_16_9 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickHyperlinkNotnowmayb_16_9, 3 * 10 / 2);
                 desktopSession.TakeScreenShot("Initial Window1.png");
-                if (winElem_LeftClickWindow_299_610 != null)
+                if (winElem_LeftClickHyperlinkNotnowmayb_16_9 != null)
                 {
-                    winElem_LeftClickWindow_299_610.Click();
+                    winElem_LeftClickHyperlinkNotnowmayb_16_9.Click();
                 }
                 else
                 {
-                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickWindow_299_610}");
+                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickHyperlinkNotnowmayb_16_9}");
                     return;
                 }
 
 
-                // LeftClick on Window "" at (401,683)
-                Console.WriteLine("LeftClick on Window \"\" at (401,683)");
-                string xpath_LeftClickWindow_401_683 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@ClassName=\"Window\"][@Name=\"Microsoft Visual Studio\"]/Window[@ClassName=\"Window\"]";
-                var winElem_LeftClickWindow_401_683 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickWindow_401_683);
+                // LeftClick on Button "Start Visual Studio" at (14,8)
+                Console.WriteLine("LeftClick on Button \"Start Visual Studio\" at (14,8)");
+                string xpath_LeftClickButtonStartVisua_14_8 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@ClassName=\"Window\"][@Name=\"Microsoft Visual Studio\"]/Button[@Name=\"Start Visual Studio\"][@AutomationId=\"FinishButton\"]";
+                var winElem_LeftClickButtonStartVisua_14_8 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButtonStartVisua_14_8);
                 desktopSession.TakeScreenShot("Initial Window2.png");
-                if (winElem_LeftClickWindow_401_683 != null)
+                if (winElem_LeftClickButtonStartVisua_14_8 != null)
                 {
-                    winElem_LeftClickWindow_401_683.Click();
+                    winElem_LeftClickButtonStartVisua_14_8.Click();
                 }
                 else
                 {
-                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickWindow_401_683}");
+                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickButtonStartVisua_14_8}");
                     return;
                 }
-
 
                 // LeftClick on Button "Create a new project" at (53,72)
                 Console.WriteLine("LeftClick on Button \"Create a new project\" at (53,72)");
