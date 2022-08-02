@@ -131,7 +131,7 @@ namespace UIXPathLib
 
                 // LeftClick on Button "Create a new project" at (53,72)
                 Console.WriteLine("LeftClick on Button \"Create a new project\" at (53,72)");
-                string xpath_LeftClickButtonCreateanew_53_72 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"\"][@AutomationId=\"WorkflowHostView\"]/Custom[starts-with(@AutomationId,\"UserControl_\")]/Pane[starts-with(@AutomationId,\"ScrollViewer_\")]/Button[@Name=\"Create a new project\"][starts-with(@AutomationId,\"Button_\")]";
+                string xpath_LeftClickButtonCreateanew_53_72 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@AutomationId=\"WorkflowHostView\"]/Custom[starts-with(@AutomationId,\"UserControl_\")]/Pane[starts-with(@AutomationId,\"ScrollViewer_\")]/Button[@Name=\"Create a new project\"][starts-with(@AutomationId,\"Button_\")]";
                 var winElem_LeftClickButtonCreateanew_53_72 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButtonCreateanew_53_72, 3 * 60 / 2);
                 desktopSession.TakeScreenShot("Create a new project.png");
                 if (winElem_LeftClickButtonCreateanew_53_72 != null)
@@ -147,7 +147,7 @@ namespace UIXPathLib
 
                 // LeftClick on Edit "_Search for templates (Alt+S)" at (115,10)
                 Console.WriteLine("LeftClick on Edit \"_Search for templates (Alt+S)\" at (115,10)");
-                string xpath_LeftClickEdit_Searchfor_115_10 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"\"][@AutomationId=\"WorkflowHostView\"]/Custom[@AutomationId=\"npdDialog\"]/Custom[starts-with(@AutomationId,\"UserControl_\")]/Group[@Name=\"Search Control\"][@AutomationId=\"SearchControl\"]/Edit[@Name=\"_Search for templates (Alt+S)\"][@AutomationId=\"PART_SearchBox\"]";
+                string xpath_LeftClickEdit_Searchfor_115_10 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@AutomationId=\"WorkflowHostView\"]/Custom[@AutomationId=\"npdDialog\"]/Custom[starts-with(@AutomationId,\"UserControl_\")]/Group[@Name=\"Search Control\"][@AutomationId=\"SearchControl\"]/Edit[@Name=\"_Search for templates (Alt+S)\"][@AutomationId=\"PART_SearchBox\"]";
                 var winElem_LeftClickEdit_Searchfor_115_10 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickEdit_Searchfor_115_10);
                 desktopSession.TakeScreenShot("Search for templates.png");
                 if (winElem_LeftClickEdit_Searchfor_115_10 != null)
@@ -169,7 +169,7 @@ namespace UIXPathLib
 
                 // LeftClick on ListItem "OpenSiv3D(0.6.4)Web" at (450,89)
                 Console.WriteLine("LeftClick on ListItem \"OpenSiv3D(0.6.4)Web\" at (450,89)");
-                string xpath_LeftClickListItemOpenSiv3D0_450_89 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"\"][@AutomationId=\"WorkflowHostView\"]/Custom[@AutomationId=\"npdDialog\"]/Custom[starts-with(@AutomationId,\"UserControl_\")]/List[@Name=\"Project Templates\"][@AutomationId=\"ListViewTemplates\"]/ListItem[@ClassName=\"ListBoxItem\"][@Name=\"OpenSiv3D(0.6.4)Web\"]";
+                string xpath_LeftClickListItemOpenSiv3D0_450_89 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@AutomationId=\"WorkflowHostView\"]/Custom[@AutomationId=\"npdDialog\"]/Custom[starts-with(@AutomationId,\"UserControl_\")]/List[@Name=\"Project Templates\"][@AutomationId=\"ListViewTemplates\"]/ListItem[@ClassName=\"ListBoxItem\"][@Name=\"OpenSiv3D(0.6.4)Web\"]";
                 var winElem_LeftClickListItemOpenSiv3D0_450_89 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickListItemOpenSiv3D0_450_89);
                 desktopSession.TakeScreenShot("OpenSiv3D(0.6.4)Web.png");
                 if (winElem_LeftClickListItemOpenSiv3D0_450_89 != null)
@@ -185,7 +185,7 @@ namespace UIXPathLib
 
                 // LeftClick on Button "Next" at (85,26)
                 Console.WriteLine("LeftClick on Button \"Next\" at (85,26)");
-                string xpath_LeftClickButtonNext_85_26 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"\"][@AutomationId=\"WorkflowHostView\"]/Button[@Name=\"Next\"][@AutomationId=\"button_Next\"]";
+                string xpath_LeftClickButtonNext_85_26 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@AutomationId=\"WorkflowHostView\"]/Button[@Name=\"Next\"][@AutomationId=\"button_Next\"]";
                 var winElem_LeftClickButtonNext_85_26 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButtonNext_85_26);
                 desktopSession.TakeScreenShot("Next.png");
                 if (winElem_LeftClickButtonNext_85_26 != null)
@@ -201,7 +201,7 @@ namespace UIXPathLib
 
                 // LeftClick on Button "Create" at (103,27)
                 Console.WriteLine("LeftClick on Button \"Create\" at (103,27)");
-                string xpath_LeftClickButtonCreate_103_27 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"\"][@AutomationId=\"WorkflowHostView\"]/Button[@Name=\"Create\"][@AutomationId=\"button_Next\"]";
+                string xpath_LeftClickButtonCreate_103_27 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@AutomationId=\"WorkflowHostView\"]/Button[@Name=\"Create\"][@AutomationId=\"button_Next\"]";
                 var winElem_LeftClickButtonCreate_103_27 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButtonCreate_103_27);
                 desktopSession.TakeScreenShot("Create.png");
                 if (winElem_LeftClickButtonCreate_103_27 != null)
