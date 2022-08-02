@@ -93,24 +93,11 @@ namespace UIXPathLib
 
             try
             {
-                // Wait for Visual Studio Launched
-                var visualStudioWindowPath = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"]/Custom/Pane/Button[@Name=\"Create a new project\"]";
-                Console.WriteLine("Waiting for Visual Studio being ready...");
-                var visualStudioWindow = desktopSession.FindElementByAbsoluteXPath(visualStudioWindowPath, 10 * 60 / 2);
-                if (visualStudioWindow != null)
-                {
-                    Console.WriteLine("Ok");
-                }
-                else
-                {
-                    Console.WriteLine("Timeout!");
-                }
-
                 //Paste generated code here
                 // LeftClick on Window "" at (299,610)
                 Console.WriteLine("LeftClick on Window \"\" at (299,610)");
                 string xpath_LeftClickWindow_299_610 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@ClassName=\"Window\"][@Name=\"Microsoft Visual Studio\"]/Window[@ClassName=\"Window\"]";
-                var winElem_LeftClickWindow_299_610 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickWindow_299_610);
+                var winElem_LeftClickWindow_299_610 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickWindow_299_610, 10 * 60 / 2);
                 if (winElem_LeftClickWindow_299_610 != null)
                 {
                     winElem_LeftClickWindow_299_610.Click();
@@ -140,7 +127,7 @@ namespace UIXPathLib
                 // LeftClick on Button "Create a new project" at (53,72)
                 Console.WriteLine("LeftClick on Button \"Create a new project\" at (53,72)");
                 string xpath_LeftClickButtonCreateanew_53_72 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"]/Custom/Pane/Button[@Name=\"Create a new project\"]";
-                var winElem_LeftClickButtonCreateanew_53_72 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButtonCreateanew_53_72);
+                var winElem_LeftClickButtonCreateanew_53_72 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButtonCreateanew_53_72, 10 * 60 / 2);
                 desktopSession.TakeScreenShot("Create a new project.png");
                 if (winElem_LeftClickButtonCreateanew_53_72 != null)
                 {
