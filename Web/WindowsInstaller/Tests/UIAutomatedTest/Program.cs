@@ -72,7 +72,7 @@ namespace UIXPathLib
                     System.Threading.Thread.Sleep(2000);
                 }
 
-                Console.WriteLine($"finding {xPath}, (retry {uiTarget})");
+                Console.WriteLine($"finding {xPath}, (retry {nTryCount})");
             }
 
             return uiTarget;
