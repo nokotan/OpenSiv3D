@@ -101,7 +101,7 @@ namespace UIXPathLib
                 // LeftClick on Window "" at (299,610)
                 Console.WriteLine("LeftClick on Window \"\" at (299,610)");
                 string xpath_LeftClickWindow_299_610 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@ClassName=\"Window\"][@Name=\"Microsoft Visual Studio\"]/Window[@ClassName=\"Window\"]";
-                var winElem_LeftClickWindow_299_610 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickWindow_299_610, 10 * 60 / 2);
+                var winElem_LeftClickWindow_299_610 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickWindow_299_610, 3 * 60 / 2);
                 desktopSession.TakeScreenShot("Initial Window1.png");
                 if (winElem_LeftClickWindow_299_610 != null)
                 {
@@ -133,7 +133,7 @@ namespace UIXPathLib
                 // LeftClick on Button "Create a new project" at (53,72)
                 Console.WriteLine("LeftClick on Button \"Create a new project\" at (53,72)");
                 string xpath_LeftClickButtonCreateanew_53_72 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"]/Custom/Pane/Button[@Name=\"Create a new project\"]";
-                var winElem_LeftClickButtonCreateanew_53_72 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButtonCreateanew_53_72, 10 * 60 / 2);
+                var winElem_LeftClickButtonCreateanew_53_72 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButtonCreateanew_53_72, 3 * 60 / 2);
                 desktopSession.TakeScreenShot("Create a new project.png");
                 if (winElem_LeftClickButtonCreateanew_53_72 != null)
                 {
