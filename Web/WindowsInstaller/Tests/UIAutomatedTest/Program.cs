@@ -89,8 +89,6 @@ namespace UIXPathLib
             try
             {
                 //Paste generated code here
-                Thread.Sleep(1000 * 10);
-
                 // LeftClick on Window "" at (299,610)
                 Console.WriteLine("LeftClick on Window \"\" at (299,610)");
                 string xpath_LeftClickWindow_299_610 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@ClassName=\"Window\"][@Name=\"Microsoft Visual Studio\"]/Window[@ClassName=\"Window\"]";
