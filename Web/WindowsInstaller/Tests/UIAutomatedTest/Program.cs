@@ -81,9 +81,9 @@ namespace UIXPathLib
     {
         static void Main(string[] args)
         {
-            System.Threading.Thread.Sleep(3000);
+            System.Threading.Thread.Sleep(10 * 1000);
             DesktopSession desktopSession = new DesktopSession();
-            System.Threading.Thread.Sleep(3000);
+            System.Threading.Thread.Sleep(5 * 1000);
 
             bool bSuccess = false;
 
