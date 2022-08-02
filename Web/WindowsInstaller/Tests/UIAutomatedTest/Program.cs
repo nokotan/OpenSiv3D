@@ -89,39 +89,6 @@ namespace UIXPathLib
 
             try
             {
-                //Paste generated code here
-                // LeftClick on Window "" at (299,610)
-                Console.WriteLine("LeftClick on Window \"\" at (299,610)");
-                string xpath_LeftClickWindow_299_610 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@ClassName=\"Window\"][@Name=\"Microsoft Visual Studio\"]/Window[@ClassName=\"Window\"]";
-                var winElem_LeftClickWindow_299_610 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickWindow_299_610);
-                if (winElem_LeftClickWindow_299_610 != null)
-                {
-                    winElem_LeftClickWindow_299_610.Click();
-                }
-                else
-                {
-                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickWindow_299_610}");
-                    return;
-                }
-
-
-                // LeftClick on Window "" at (401,683)
-                Console.WriteLine("LeftClick on Window \"\" at (401,683)");
-                string xpath_LeftClickWindow_401_683 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@ClassName=\"Window\"][@Name=\"Microsoft Visual Studio\"]/Window[@ClassName=\"Window\"]";
-                var winElem_LeftClickWindow_401_683 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickWindow_401_683);
-                if (winElem_LeftClickWindow_401_683 != null)
-                {
-                    winElem_LeftClickWindow_401_683.Click();
-                }
-                else
-                {
-                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickWindow_401_683}");
-                    return;
-                }
-
-                Thread.Sleep(1000 * 30);
-
-
                 // LeftClick on Button "Create a new project" at (53,72)
                 Console.WriteLine("LeftClick on Button \"Create a new project\" at (53,72)");
                 string xpath_LeftClickButtonCreateanew_53_72 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"][@AutomationId=\"WorkflowHostView\"]/Custom[starts-with(@AutomationId,\"UserControl_\")]/Pane[starts-with(@AutomationId,\"ScrollViewer_\")]/Button[@Name=\"Create a new project\"][starts-with(@AutomationId,\"Button_\")]";
