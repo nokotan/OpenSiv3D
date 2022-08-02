@@ -93,11 +93,14 @@ namespace UIXPathLib
 
             try
             {
+                desktopSession.TakeScreenShot("Start.png");
+
                 //Paste generated code here
                 // LeftClick on Window "" at (299,610)
                 Console.WriteLine("LeftClick on Window \"\" at (299,610)");
                 string xpath_LeftClickWindow_299_610 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@ClassName=\"Window\"][@Name=\"Microsoft Visual Studio\"]/Window[@ClassName=\"Window\"]";
                 var winElem_LeftClickWindow_299_610 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickWindow_299_610, 10 * 60 / 2);
+                desktopSession.TakeScreenShot("Initial Window1.png");
                 if (winElem_LeftClickWindow_299_610 != null)
                 {
                     winElem_LeftClickWindow_299_610.Click();
@@ -113,6 +116,7 @@ namespace UIXPathLib
                 Console.WriteLine("LeftClick on Window \"\" at (401,683)");
                 string xpath_LeftClickWindow_401_683 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@ClassName=\"Window\"][@Name=\"Microsoft Visual Studio\"]/Window[@ClassName=\"Window\"]";
                 var winElem_LeftClickWindow_401_683 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickWindow_401_683);
+                desktopSession.TakeScreenShot("Initial Window2.png");
                 if (winElem_LeftClickWindow_401_683 != null)
                 {
                     winElem_LeftClickWindow_401_683.Click();
@@ -224,9 +228,6 @@ namespace UIXPathLib
                     Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickSplitButtonDebugTarge_107_17}");
                     return;
                 }
-
-
-
 
 
                 //test complete
