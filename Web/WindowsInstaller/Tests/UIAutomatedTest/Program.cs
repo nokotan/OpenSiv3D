@@ -91,7 +91,7 @@ namespace UIXPathLib
             {
                 // LeftClick on Button "Create a new project" at (53,72)
                 Console.WriteLine("LeftClick on Button \"Create a new project\" at (53,72)");
-                string xpath_LeftClickButtonCreateanew_53_72 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"][@AutomationId=\"WorkflowHostView\"]/Custom[starts-with(@AutomationId,\"UserControl_\")]/Pane[starts-with(@AutomationId,\"ScrollViewer_\")]/Button[@Name=\"Create a new project\"][starts-with(@AutomationId,\"Button_\")]";
+                string xpath_LeftClickButtonCreateanew_53_72 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"]/Custom/Pane/Button[@Name=\"Create a new project\"]";
                 var winElem_LeftClickButtonCreateanew_53_72 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButtonCreateanew_53_72);
                 if (winElem_LeftClickButtonCreateanew_53_72 != null)
                 {
@@ -106,7 +106,7 @@ namespace UIXPathLib
 
                 // LeftClick on Edit "_Search for templates (Alt+S)" at (115,10)
                 Console.WriteLine("LeftClick on Edit \"_Search for templates (Alt+S)\" at (115,10)");
-                string xpath_LeftClickEdit_Searchfor_115_10 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"][@AutomationId=\"WorkflowHostView\"]/Custom[@AutomationId=\"npdDialog\"]/Custom[starts-with(@AutomationId,\"UserControl_\")]/Group[@Name=\"Search Control\"][@AutomationId=\"SearchControl\"]/Edit[@Name=\"_Search for templates (Alt+S)\"][@AutomationId=\"PART_SearchBox\"]";
+                string xpath_LeftClickEdit_Searchfor_115_10 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"]/Custom/Custom/Group[@Name=\"Search Control\"]/Edit[@Name=\"_Search for templates (Alt+S)\"]";
                 var winElem_LeftClickEdit_Searchfor_115_10 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickEdit_Searchfor_115_10);
                 if (winElem_LeftClickEdit_Searchfor_115_10 != null)
                 {
@@ -127,7 +127,7 @@ namespace UIXPathLib
 
                 // LeftClick on ListItem "OpenSiv3D(0.6.4)Web" at (450,89)
                 Console.WriteLine("LeftClick on ListItem \"OpenSiv3D(0.6.4)Web\" at (450,89)");
-                string xpath_LeftClickListItemOpenSiv3D0_450_89 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"][@AutomationId=\"WorkflowHostView\"]/Custom[@AutomationId=\"npdDialog\"]/Custom[starts-with(@AutomationId,\"UserControl_\")]/List[@Name=\"Project Templates\"][@AutomationId=\"ListViewTemplates\"]/ListItem[@ClassName=\"ListBoxItem\"][@Name=\"OpenSiv3D(0.6.4)Web\"]";
+                string xpath_LeftClickListItemOpenSiv3D0_450_89 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"]/Custom/Custom/List[@Name=\"Project Templates\"]/ListItem[@ClassName=\"ListBoxItem\"][@Name=\"OpenSiv3D(0.6.4)Web\"]";
                 var winElem_LeftClickListItemOpenSiv3D0_450_89 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickListItemOpenSiv3D0_450_89);
                 if (winElem_LeftClickListItemOpenSiv3D0_450_89 != null)
                 {
@@ -142,7 +142,7 @@ namespace UIXPathLib
 
                 // LeftClick on Button "Next" at (85,26)
                 Console.WriteLine("LeftClick on Button \"Next\" at (85,26)");
-                string xpath_LeftClickButtonNext_85_26 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"][@AutomationId=\"WorkflowHostView\"]/Button[@Name=\"Next\"][@AutomationId=\"button_Next\"]";
+                string xpath_LeftClickButtonNext_85_26 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"]/Button[@Name=\"Next\"]";
                 var winElem_LeftClickButtonNext_85_26 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButtonNext_85_26);
                 if (winElem_LeftClickButtonNext_85_26 != null)
                 {
@@ -157,7 +157,7 @@ namespace UIXPathLib
 
                 // LeftClick on Button "Create" at (103,27)
                 Console.WriteLine("LeftClick on Button \"Create\" at (103,27)");
-                string xpath_LeftClickButtonCreate_103_27 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"][@AutomationId=\"WorkflowHostView\"]/Button[@Name=\"Create\"][@AutomationId=\"button_Next\"]";
+                string xpath_LeftClickButtonCreate_103_27 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"]/Button[@Name=\"Create\"]";
                 var winElem_LeftClickButtonCreate_103_27 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButtonCreate_103_27);
                 if (winElem_LeftClickButtonCreate_103_27 != null)
                 {
@@ -172,7 +172,7 @@ namespace UIXPathLib
 
                 // LeftClick on SplitButton "Debug Target" at (107,17)
                 Console.WriteLine("LeftClick on SplitButton \"Debug Target\" at (107,17)");
-                string xpath_LeftClickSplitButtonDebugTarge_107_17 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"OpenSiv3Dv0_6ForWeb2 - Microsoft Visual Studio\"][@AutomationId=\"VisualStudioMainWindow\"]/Pane[@Name=\"ToolBarDockTop\"]/ToolBar[@ClassName=\"ToolBar\"][@Name=\"Standard\"]/SplitButton[@Name=\"Debug Target\"][@AutomationId=\"PART_FocusTarget\"]";
+                string xpath_LeftClickSplitButtonDebugTarge_107_17 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"OpenSiv3Dv0_6ForWeb1 - Microsoft Visual Studio\"]/Pane[@Name=\"ToolBarDockTop\"]/ToolBar[@ClassName=\"ToolBar\"][@Name=\"Standard\"]/SplitButton[@Name=\"Debug Target\"]";
                 var winElem_LeftClickSplitButtonDebugTarge_107_17 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickSplitButtonDebugTarge_107_17);
                 if (winElem_LeftClickSplitButtonDebugTarge_107_17 != null)
                 {
