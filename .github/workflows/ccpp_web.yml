@@ -343,7 +343,7 @@ jobs:
       - name: Run UI Test
         working-directory: Web/WindowsInstaller/Tests/UIAutomatedTest
         run: |
-          Start-Process -FilePath "$env:WinAppDriver_Path"
+          Start-Process -FilePath "$env:WinAppDriver_Path" -ArgumentList "127.0.0.1","34723"
           Start-Process -FilePath "$env:DevEnv_Path"
           & ".\bin\Release\UIRecorderTemplate.exe"
           Stop-Process -Name WinAppDriver
