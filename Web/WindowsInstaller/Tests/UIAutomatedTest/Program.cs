@@ -93,7 +93,7 @@ namespace UIXPathLib
 
                 // LeftClick on Window "" at (299,610)
                 Console.WriteLine("LeftClick on Window \"\" at (299,610)");
-                string xpath_LeftClickWindow_299_610 = "/Pane[@ClassName=\"#32769\"][@Name=\"デスクトップ 1\"]/Window[@ClassName=\"Window\"][@Name=\"Microsoft Visual Studio\"]/Window[@ClassName=\"Window\"]";
+                string xpath_LeftClickWindow_299_610 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@ClassName=\"Window\"][@Name=\"Microsoft Visual Studio\"]/Window[@ClassName=\"Window\"]";
                 var winElem_LeftClickWindow_299_610 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickWindow_299_610);
                 if (winElem_LeftClickWindow_299_610 != null)
                 {
@@ -108,7 +108,7 @@ namespace UIXPathLib
 
                 // LeftClick on Window "" at (401,683)
                 Console.WriteLine("LeftClick on Window \"\" at (401,683)");
-                string xpath_LeftClickWindow_401_683 = "/Pane[@ClassName=\"#32769\"][@Name=\"デスクトップ 1\"]/Window[@ClassName=\"Window\"][@Name=\"Microsoft Visual Studio\"]/Window[@ClassName=\"Window\"]";
+                string xpath_LeftClickWindow_401_683 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@ClassName=\"Window\"][@Name=\"Microsoft Visual Studio\"]/Window[@ClassName=\"Window\"]";
                 var winElem_LeftClickWindow_401_683 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickWindow_401_683);
                 if (winElem_LeftClickWindow_401_683 != null)
                 {
@@ -123,32 +123,32 @@ namespace UIXPathLib
                 Thread.Sleep(1000 * 30);
 
 
-                // LeftClick on Button "新しいプロジェクトの作成" at (59,69)
-                Console.WriteLine("LeftClick on Button \"新しいプロジェクトの作成\" at (59,69)");
-                string xpath_LeftClickButton新しいプロジェクトの_59_69 = "/Pane[@ClassName=\"#32769\"][@Name=\"デスクトップ 1\"]/Window[@AutomationId=\"WorkflowHostView\"]/Custom[starts-with(@AutomationId,\"UserControl_\")]/Pane[starts-with(@AutomationId,\"ScrollViewer_\")]/Button[@Name=\"新しいプロジェクトの作成\"][starts-with(@AutomationId,\"Button_\")]";
-                var winElem_LeftClickButton新しいプロジェクトの_59_69 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButton新しいプロジェクトの_59_69);
-                if (winElem_LeftClickButton新しいプロジェクトの_59_69 != null)
+                // LeftClick on Button "Create a new project" at (53,72)
+                Console.WriteLine("LeftClick on Button \"Create a new project\" at (53,72)");
+                string xpath_LeftClickButtonCreateanew_53_72 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"][@AutomationId=\"WorkflowHostView\"]/Custom[starts-with(@AutomationId,\"UserControl_\")]/Pane[starts-with(@AutomationId,\"ScrollViewer_\")]/Button[@Name=\"Create a new project\"][starts-with(@AutomationId,\"Button_\")]";
+                var winElem_LeftClickButtonCreateanew_53_72 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButtonCreateanew_53_72);
+                if (winElem_LeftClickButtonCreateanew_53_72 != null)
                 {
-                    winElem_LeftClickButton新しいプロジェクトの_59_69.Click();
+                    winElem_LeftClickButtonCreateanew_53_72.Click();
                 }
                 else
                 {
-                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickButton新しいプロジェクトの_59_69}");
+                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickButtonCreateanew_53_72}");
                     return;
                 }
 
 
-                // LeftClick on Edit "テンプレートの検索(_S) (Alt+S)" at (188,22)
-                Console.WriteLine("LeftClick on Edit \"テンプレートの検索(_S) (Alt+S)\" at (188,22)");
-                string xpath_LeftClickEditテンプレートの検索__188_22 = "/Pane[@ClassName=\"#32769\"][@Name=\"デスクトップ 1\"]/Window[@AutomationId=\"WorkflowHostView\"]/Custom[@AutomationId=\"npdDialog\"]/Custom[starts-with(@AutomationId,\"UserControl_\")]/Group[@Name=\"Search Control\"][@AutomationId=\"SearchControl\"]/Edit[@Name=\"テンプレートの検索(_S) (Alt+S)\"][@AutomationId=\"PART_SearchBox\"]";
-                var winElem_LeftClickEditテンプレートの検索__188_22 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickEditテンプレートの検索__188_22);
-                if (winElem_LeftClickEditテンプレートの検索__188_22 != null)
+                // LeftClick on Edit "_Search for templates (Alt+S)" at (115,10)
+                Console.WriteLine("LeftClick on Edit \"_Search for templates (Alt+S)\" at (115,10)");
+                string xpath_LeftClickEdit_Searchfor_115_10 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"][@AutomationId=\"WorkflowHostView\"]/Custom[@AutomationId=\"npdDialog\"]/Custom[starts-with(@AutomationId,\"UserControl_\")]/Group[@Name=\"Search Control\"][@AutomationId=\"SearchControl\"]/Edit[@Name=\"_Search for templates (Alt+S)\"][@AutomationId=\"PART_SearchBox\"]";
+                var winElem_LeftClickEdit_Searchfor_115_10 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickEdit_Searchfor_115_10);
+                if (winElem_LeftClickEdit_Searchfor_115_10 != null)
                 {
-                    winElem_LeftClickEditテンプレートの検索__188_22.Click();
+                    winElem_LeftClickEdit_Searchfor_115_10.Click();
                 }
                 else
                 {
-                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickEditテンプレートの検索__188_22}");
+                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickEdit_Searchfor_115_10}");
                     return;
                 }
 
@@ -156,69 +156,70 @@ namespace UIXPathLib
                 // KeyboardInput VirtualKeys=""siv3d"" CapsLock=False NumLock=True ScrollLock=False
                 Console.WriteLine("KeyboardInput VirtualKeys=\"\"siv3d\"\" CapsLock=False NumLock=True ScrollLock=False");
                 System.Threading.Thread.Sleep(100);
-                winElem_LeftClickEditテンプレートの検索__188_22.SendKeys("siv3d");
+                winElem_LeftClickEdit_Searchfor_115_10.SendKeys("siv3d");
 
 
-                // LeftClick on ListItem "OpenSiv3D(0.6.4)Web" at (336,34)
-                Console.WriteLine("LeftClick on ListItem \"OpenSiv3D(0.6.4)Web\" at (336,34)");
-                string xpath_LeftClickListItemOpenSiv3D0_336_34 = "/Pane[@ClassName=\"#32769\"][@Name=\"デスクトップ 1\"]/Window[@AutomationId=\"WorkflowHostView\"]/Custom[@AutomationId=\"npdDialog\"]/Custom[starts-with(@AutomationId,\"UserControl_\")]/List[@Name=\"プロジェクト テンプレート\"][@AutomationId=\"ListViewTemplates\"]/ListItem[@ClassName=\"ListBoxItem\"][@Name=\"OpenSiv3D(0.6.4)Web\"]";
-                var winElem_LeftClickListItemOpenSiv3D0_336_34 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickListItemOpenSiv3D0_336_34);
-                if (winElem_LeftClickListItemOpenSiv3D0_336_34 != null)
+                // LeftClick on ListItem "OpenSiv3D(0.6.4)Web" at (450,89)
+                Console.WriteLine("LeftClick on ListItem \"OpenSiv3D(0.6.4)Web\" at (450,89)");
+                string xpath_LeftClickListItemOpenSiv3D0_450_89 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"][@AutomationId=\"WorkflowHostView\"]/Custom[@AutomationId=\"npdDialog\"]/Custom[starts-with(@AutomationId,\"UserControl_\")]/List[@Name=\"Project Templates\"][@AutomationId=\"ListViewTemplates\"]/ListItem[@ClassName=\"ListBoxItem\"][@Name=\"OpenSiv3D(0.6.4)Web\"]";
+                var winElem_LeftClickListItemOpenSiv3D0_450_89 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickListItemOpenSiv3D0_450_89);
+                if (winElem_LeftClickListItemOpenSiv3D0_450_89 != null)
                 {
-                    winElem_LeftClickListItemOpenSiv3D0_336_34.Click();
+                    winElem_LeftClickListItemOpenSiv3D0_450_89.Click();
                 }
                 else
                 {
-                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickListItemOpenSiv3D0_336_34}");
+                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickListItemOpenSiv3D0_450_89}");
                     return;
                 }
 
 
-                // LeftClick on Text "次へ(_N)" at (9,0)
-                Console.WriteLine("LeftClick on Text \"次へ(_N)\" at (9,0)");
-                string xpath_LeftClickText次へ_N_9_0 = "/Pane[@ClassName=\"#32769\"][@Name=\"デスクトップ 1\"]/Window[@AutomationId=\"WorkflowHostView\"]/Button[@Name=\"次へ(N)\"][@AutomationId=\"button_Next\"]/Text[@ClassName=\"TextBlock\"][@Name=\"次へ(_N)\"]";
-                var winElem_LeftClickText次へ_N_9_0 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickText次へ_N_9_0);
-                if (winElem_LeftClickText次へ_N_9_0 != null)
+                // LeftClick on Button "Next" at (85,26)
+                Console.WriteLine("LeftClick on Button \"Next\" at (85,26)");
+                string xpath_LeftClickButtonNext_85_26 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"][@AutomationId=\"WorkflowHostView\"]/Button[@Name=\"Next\"][@AutomationId=\"button_Next\"]";
+                var winElem_LeftClickButtonNext_85_26 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButtonNext_85_26);
+                if (winElem_LeftClickButtonNext_85_26 != null)
                 {
-                    winElem_LeftClickText次へ_N_9_0.Click();
+                    winElem_LeftClickButtonNext_85_26.Click();
                 }
                 else
                 {
-                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickText次へ_N_9_0}");
+                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickButtonNext_85_26}");
                     return;
                 }
 
 
-                // LeftClick on Button "作成(C)" at (86,28)
-                Console.WriteLine("LeftClick on Button \"作成(C)\" at (86,28)");
-                string xpath_LeftClickButton作成C_86_28 = "/Pane[@ClassName=\"#32769\"][@Name=\"デスクトップ 1\"]/Window[@AutomationId=\"WorkflowHostView\"]/Button[@Name=\"作成(C)\"][@AutomationId=\"button_Next\"]";
-                var winElem_LeftClickButton作成C_86_28 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButton作成C_86_28);
-                if (winElem_LeftClickButton作成C_86_28 != null)
+                // LeftClick on Button "Create" at (103,27)
+                Console.WriteLine("LeftClick on Button \"Create\" at (103,27)");
+                string xpath_LeftClickButtonCreate_103_27 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"Microsoft Visual Studio\"][@AutomationId=\"WorkflowHostView\"]/Button[@Name=\"Create\"][@AutomationId=\"button_Next\"]";
+                var winElem_LeftClickButtonCreate_103_27 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButtonCreate_103_27);
+                if (winElem_LeftClickButtonCreate_103_27 != null)
                 {
-                    winElem_LeftClickButton作成C_86_28.Click();
+                    winElem_LeftClickButtonCreate_103_27.Click();
                 }
                 else
                 {
-                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickButton作成C_86_28}");
+                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickButtonCreate_103_27}");
                     return;
                 }
 
-                Thread.Sleep(5000);
 
-
-                // LeftClick on SplitButton "デバッグ ターゲット" at (117,20)
-                Console.WriteLine("LeftClick on SplitButton \"デバッグ ターゲット\" at (117,20)");
-                string xpath_LeftClickSplitButtonデバッグターゲット_117_20 = "/Pane[@ClassName=\"#32769\"][@Name=\"デスクトップ 1\"]/Window[@Name=\"OpenSiv3Dv0_6ForWeb1 - Microsoft Visual Studio\"][@AutomationId=\"VisualStudioMainWindow\"]/Pane[@Name=\"ToolBarDockTop\"]/ToolBar[@ClassName=\"ToolBar\"][@Name=\"標準\"]/SplitButton[@Name=\"デバッグ ターゲット\"][@AutomationId=\"PART_FocusTarget\"]";
-                var winElem_LeftClickSplitButtonデバッグターゲット_117_20 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickSplitButtonデバッグターゲット_117_20);
-                if (winElem_LeftClickSplitButtonデバッグターゲット_117_20 != null)
+                // LeftClick on SplitButton "Debug Target" at (107,17)
+                Console.WriteLine("LeftClick on SplitButton \"Debug Target\" at (107,17)");
+                string xpath_LeftClickSplitButtonDebugTarge_107_17 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@Name=\"OpenSiv3Dv0_6ForWeb2 - Microsoft Visual Studio\"][@AutomationId=\"VisualStudioMainWindow\"]/Pane[@Name=\"ToolBarDockTop\"]/ToolBar[@ClassName=\"ToolBar\"][@Name=\"Standard\"]/SplitButton[@Name=\"Debug Target\"][@AutomationId=\"PART_FocusTarget\"]";
+                var winElem_LeftClickSplitButtonDebugTarge_107_17 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickSplitButtonDebugTarge_107_17);
+                if (winElem_LeftClickSplitButtonDebugTarge_107_17 != null)
                 {
-                    winElem_LeftClickSplitButtonデバッグターゲット_117_20.Click();
+                    winElem_LeftClickSplitButtonDebugTarge_107_17.Click();
                 }
                 else
                 {
-                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickSplitButtonデバッグターゲット_117_20}");
+                    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickSplitButtonDebugTarge_107_17}");
                     return;
                 }
+
+
+
 
 
                 //test complete
