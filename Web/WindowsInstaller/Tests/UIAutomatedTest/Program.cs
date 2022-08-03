@@ -49,7 +49,7 @@ namespace UIXPathLib
             get { return desktopSession; }
         }
 
-        public WindowsElement FindElementByAbsoluteXPath(string xPath, int nTryCount = 10)
+        public WindowsElement FindElementByAbsoluteXPath(string xPath, int nTryCount = 10, int checkIntervalInMilliSeconds = 2000)
         {
             WindowsElement uiTarget = null;
 
@@ -69,7 +69,7 @@ namespace UIXPathLib
                 }
                 else
                 {
-                    System.Threading.Thread.Sleep(2000);
+                    System.Threading.Thread.Sleep(checkIntervalInMilliSeconds);
                 }
 
                 Console.WriteLine($"finding {xPath}, (retry {nTryCount})");
@@ -101,7 +101,7 @@ namespace UIXPathLib
                 // LeftClick on Hyperlink "Not now, maybe later." at (16,9)
                 Console.WriteLine("LeftClick on Hyperlink \"Not now, maybe later.\" at (16,9)");
                 string xpath_LeftClickHyperlinkNotnowmayb_16_9 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@ClassName=\"Window\"][@Name=\"Microsoft Visual Studio\"]/Custom[starts-with(@AutomationId,\"UserControl_\")]/Text[@Name=\"Not now, maybe later.\"][starts-with(@AutomationId,\"TextBlock_\")]/Hyperlink[@ClassName=\"Hyperlink\"][@Name=\"Not now, maybe later.\"]";
-                var winElem_LeftClickHyperlinkNotnowmayb_16_9 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickHyperlinkNotnowmayb_16_9, 3 * 60 / 2);
+                var winElem_LeftClickHyperlinkNotnowmayb_16_9 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickHyperlinkNotnowmayb_16_9, 5 * 60 / 5, 5000);
                 desktopSession.TakeScreenShot("Initial Window1.png");
                 if (winElem_LeftClickHyperlinkNotnowmayb_16_9 != null)
                 {
@@ -132,7 +132,7 @@ namespace UIXPathLib
                 // LeftClick on Button "Create a new project" at (53,72)
                 Console.WriteLine("LeftClick on Button \"Create a new project\" at (53,72)");
                 string xpath_LeftClickButtonCreateanew_53_72 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@AutomationId=\"WorkflowHostView\"]/Custom[starts-with(@AutomationId,\"UserControl_\")]/Pane[starts-with(@AutomationId,\"ScrollViewer_\")]/Button[@Name=\"Create a new project\"][starts-with(@AutomationId,\"Button_\")]";
-                var winElem_LeftClickButtonCreateanew_53_72 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButtonCreateanew_53_72, 3 * 60 / 2);
+                var winElem_LeftClickButtonCreateanew_53_72 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButtonCreateanew_53_72, 5 * 60 / 5, 5000);
                 desktopSession.TakeScreenShot("Create a new project.png");
                 if (winElem_LeftClickButtonCreateanew_53_72 != null)
                 {
@@ -170,7 +170,7 @@ namespace UIXPathLib
                 // LeftClick on ListItem "OpenSiv3D(0.6.4)Web" at (450,89)
                 Console.WriteLine("LeftClick on ListItem \"OpenSiv3D(0.6.4)Web\" at (450,89)");
                 string xpath_LeftClickListItemOpenSiv3D0_450_89 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[@AutomationId=\"WorkflowHostView\"]/Custom[@AutomationId=\"npdDialog\"]/Custom[starts-with(@AutomationId,\"UserControl_\")]/List[@Name=\"Project Templates\"][@AutomationId=\"ListViewTemplates\"]/ListItem[@ClassName=\"ListBoxItem\"][@Name=\"OpenSiv3D(0.6.4)Web\"]";
-                var winElem_LeftClickListItemOpenSiv3D0_450_89 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickListItemOpenSiv3D0_450_89, 3 * 60 / 2);
+                var winElem_LeftClickListItemOpenSiv3D0_450_89 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickListItemOpenSiv3D0_450_89, 5 * 60 / 5, 5000);
                 desktopSession.TakeScreenShot("OpenSiv3D(0.6.4)Web.png");
                 if (winElem_LeftClickListItemOpenSiv3D0_450_89 != null)
                 {
@@ -218,7 +218,7 @@ namespace UIXPathLib
                 // LeftClick on SplitButton "Debug Target" at (107,17)
                 Console.WriteLine("LeftClick on SplitButton \"Debug Target\" at (107,17)");
                 string xpath_LeftClickSplitButtonDebugTarge_107_17 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[starts-with(@Name,\"OpenSiv3Dv0_6ForWeb\")][@AutomationId=\"VisualStudioMainWindow\"]/Pane[@Name=\"ToolBarDockTop\"]/ToolBar[@ClassName=\"ToolBar\"][@Name=\"Standard\"]/SplitButton[@Name=\"Debug Target\"][@AutomationId=\"PART_FocusTarget\"]";
-                var winElem_LeftClickSplitButtonDebugTarge_107_17 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickSplitButtonDebugTarge_107_17);
+                var winElem_LeftClickSplitButtonDebugTarge_107_17 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickSplitButtonDebugTarge_107_175, 1 * 60 / 2);
                 desktopSession.TakeScreenShot("Debug Target.png");
                 if (winElem_LeftClickSplitButtonDebugTarge_107_17 != null)
                 {
