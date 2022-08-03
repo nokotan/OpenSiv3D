@@ -234,6 +234,10 @@ namespace UIXPathLib
                 //test complete
                 bSuccess = true;
             }
+            catch (Exception _) 
+            {
+                // Catch all exceptions to save screenshots
+            }
             finally
             {
                 // Assert.AreEqual(bSuccess, true);
