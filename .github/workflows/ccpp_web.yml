@@ -293,8 +293,8 @@ jobs:
     needs: build-installer
     runs-on: windows-latest
     strategy:
+      fail-fast: false
       matrix:
-        fail-fast: false
         config:
           - name: wasm
             script: "Setup.iss"
