@@ -323,7 +323,6 @@ jobs:
           Wait-Process -Name "OpenSiv3D(0.6.4)Web"
           cat InstallLog.Log
           devenv /installvstemplates
-          Wait-Process -Name "devenv"
 
       - name: Install VSIX
         run: |
