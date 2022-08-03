@@ -49,7 +49,11 @@ namespace UIXPathLib
             get { return desktopSession; }
         }
 
-        public WindowsElement FindElementByAbsoluteXPath(string xPath, TimeSpan timeOut = new TimeSpan(0, 1, 0), TimeSpan checkInterval = new TimeSpan(0, 0, 2))
+        public WindowsElement FindElementByAbsoluteXPath(string xPath) {
+            return FindElementByAbsoluteXPath(xPath, new TimeSpan(0, 1, 0), new TimeSpan(0, 0, 2));
+        }
+
+        public WindowsElement FindElementByAbsoluteXPath(string xPath, TimeSpan timeOut, TimeSpan checkInterval)
         {
             WindowsElement uiTarget = null;
 
