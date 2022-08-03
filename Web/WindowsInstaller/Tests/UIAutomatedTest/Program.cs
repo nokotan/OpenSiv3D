@@ -218,7 +218,7 @@ namespace UIXPathLib
                 // LeftClick on SplitButton "Debug Target" at (107,17)
                 Console.WriteLine("LeftClick on SplitButton \"Debug Target\" at (107,17)");
                 string xpath_LeftClickSplitButtonDebugTarge_107_17 = "/Pane[@ClassName=\"#32769\"][@Name=\"Desktop 1\"]/Window[starts-with(@Name,\"OpenSiv3Dv0_6ForWeb\")][@AutomationId=\"VisualStudioMainWindow\"]/Pane[@Name=\"ToolBarDockTop\"]/ToolBar[@ClassName=\"ToolBar\"][@Name=\"Standard\"]/SplitButton[@Name=\"Debug Target\"][@AutomationId=\"PART_FocusTarget\"]";
-                var winElem_LeftClickSplitButtonDebugTarge_107_17 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickSplitButtonDebugTarge_107_175, 1 * 60 / 2);
+                var winElem_LeftClickSplitButtonDebugTarge_107_17 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickSplitButtonDebugTarge_107_17, 1 * 60 / 2);
                 desktopSession.TakeScreenShot("Debug Target.png");
                 if (winElem_LeftClickSplitButtonDebugTarge_107_17 != null)
                 {
