@@ -294,6 +294,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
+        fail-fast: false
         config:
           - name: wasm
             script: "Setup.iss"
@@ -357,8 +358,8 @@ jobs:
 
       - name: Clean-up Process
         run: |
-          Stop-Process -Name WinAppDriver
-          Stop-Process -Name devenv
+          Get-Process | Where-Object -FilterScript {$_.Name -eq "WinAppDriver"}  | Stop-Process
+          Get-Process | Where-Object -FilterScript {$_.Name -eq "devenv"}  | Stop-Process
       
   pre-deploy:
     if: ${{ contains(github.ref, 'tags/v') }}
