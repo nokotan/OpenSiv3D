@@ -330,8 +330,6 @@ jobs:
           Set-Item Env:Path "$env:VSIXInstaller_Path;$env:Path"
           VSIXInstaller /quiet /admin Emscripten.Build.Definition.4e942135-f309-41d4-8214-c2e5bd7c7ace 
           Wait-Process -Name "VSIXInstaller"
-          VSIXInstaller /quiet /admin Emscripten.Debugger.db0b9864-52e2-4c42-94d1-2c7279a2c57a
-          Wait-Process -Name "VSIXInstaller"
 
       - name: Restore Nuget package
         working-directory: Web/WindowsInstaller/Tests/UIAutomatedTest
