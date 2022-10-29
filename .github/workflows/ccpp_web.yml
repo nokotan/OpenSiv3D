@@ -22,7 +22,7 @@ jobs:
         id: check_siv3d_update
         uses: actions/cache@v1
         env:
-          cache-name: check_siv3d_update-2
+          cache-name: check_siv3d_update-5
         with:
           path: dummy 
           key: ${{ env.cache-name }}-${{ hashFiles('Siv3D/**/*.*', 'Web/CMakeLists.txt') }}
@@ -67,7 +67,7 @@ jobs:
         id: cache_siv3d_library
         uses: actions/cache@v1
         env:
-          cache-name: cache-siv3d-library-2
+          cache-name: cache-siv3d-library-4
         with:
           path: Web/Package
           key: ${{ matrix.config.name }}-${{ env.cache-name }}-${{ hashFiles('Siv3D/**/*.*', 'Web/CMakeLists.txt') }}-${{ hashFiles('Web/*.js') }}
