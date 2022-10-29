@@ -14,7 +14,7 @@ jobs:
       has-update: ${{ !steps.check_siv3d_update.outputs.cache-hit }}
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - run: mkdir dummy
 
@@ -59,7 +59,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Create build folder
         run: mkdir Web/build
 
@@ -112,7 +112,7 @@ jobs:
           tar -cvzf OpenSiv3D.tgz Package/*
 
       - name: Save Bundles
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: OpenSiv3D-Bundles-${{ matrix.config.name }}
           path: Web/OpenSiv3D.*
@@ -132,7 +132,7 @@ jobs:
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2  
+        uses: actions/checkout@v3  
       - name: Create build folder  
         run: mkdir Web/CI/App/build
 
@@ -147,7 +147,7 @@ jobs:
 
       - name: Restore Bundles
         if: ${{ fromJSON(needs.build.outputs.did-build) || !steps.cache_siv3d_test.outputs.cache-hit }}
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: OpenSiv3D-Bundles-${{ matrix.config.name }}
           path: Web
@@ -216,7 +216,7 @@ jobs:
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Create build folder
         working-directory: Web/CI/App
         run: |
@@ -234,7 +234,7 @@ jobs:
 
       - name: Restore Bundles
         if: ${{ fromJSON(needs.build.outputs.did-build) || !steps.cache_siv3d_app.outputs.cache-hit }}
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: OpenSiv3D-Bundles-${{ matrix.config.name }}
           path: Web
@@ -257,7 +257,7 @@ jobs:
           cmake --build .
 
       - name: Save Bundles
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Siv3DApp-${{ matrix.config.app-name }}
           path: |
@@ -266,7 +266,7 @@ jobs:
 
       - name: Save Bundles (Side Module)
         if: ${{ matrix.config.name == 'wasm-side-module' }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: OpenSiv3D-Bundles-wasm-shared-main
           path: |
@@ -296,14 +296,14 @@ jobs:
           echo $env:Path >> $Env:GITHUB_PATH
 
       - name: Restore Bundles
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: Siv3DApp-${{ matrix.config.app-name }}
           path: .
 
       - name: Restore Bundles (Side Module)
         if: ${{ matrix.config.app-name == 'wasm-side-module' }}
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: OpenSiv3D-Bundles-wasm-shared-main
           path: .
@@ -329,7 +329,7 @@ jobs:
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Cache OpenSiv3D Installer result
         id: cache_siv3d_installer
@@ -342,7 +342,7 @@ jobs:
 
       - name: Restore Bundles
         if: ${{ fromJSON(needs.build.outputs.did-build) || !steps.cache_siv3d_installer.outputs.cache-hit }}
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: OpenSiv3D-Bundles-${{ matrix.config.name }}
           path: .
@@ -369,7 +369,7 @@ jobs:
           iscc /O"Output" "./${{ matrix.config.script }}"
        
       - name: Save Bundles
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: OpenSiv3D-Installer-${{ matrix.config.name }}
           path: Web/WindowsInstaller/Output/*.exe
@@ -391,10 +391,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Restore Installer
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: OpenSiv3D-Installer-${{ matrix.config.name }}
           path: Web/WindowsInstaller/
@@ -449,7 +449,7 @@ jobs:
         run: emrun --timeout 60 --timeout_returncode 0 Siv3DTest.html
 
       - name: Save Build Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: OpenSiv3D-VisualStudio-App-${{ matrix.config.name }}
           path: |
@@ -485,13 +485,13 @@ jobs:
           - name: wasm-simd
     steps:
       - name: Restore Bundles
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: OpenSiv3D-Bundles-${{ matrix.config.name }}
           path: .
       
       - name: Restore Installer
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: OpenSiv3D-Installer-${{ matrix.config.name }}
           path: .
@@ -547,37 +547,37 @@ jobs:
           mkdir -p dist/v6/dev/lib
 
       - name: Place Siv3D Apps (wasm)
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: Siv3DApp-wasm
           path: dist/v6-wasm-app
 
       - name: Place Siv3D Apps (wasm-mt)
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: Siv3DApp-wasm-simd
           path: dist/v6-wasm-simd-app
 
       - name: Place Siv3D Apps (wasm-simd)
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: Siv3DApp-wasm-simd
           path: dist/v6-wasm-simd-app
 
       - name: Place Siv3D Apps (wasm-mt-simd)
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: Siv3DApp-wasm-simd
           path: dist/v6-wasm-simd-app
           
       - name: Place Siv3D Apps (wasm-webgpu)
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: Siv3DApp-wasm-wgpu
           path: dist/v6-wasm-wgpu-app
 
       - name: Restore Bundles (wasm-side-module)
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: OpenSiv3D-Bundles-wasm-shared-main
           path: Package/lib 
@@ -599,7 +599,7 @@ jobs:
           cp -r Package/lib/example dist/v6/dev/
 
       - name: Place Siv3D Apps (wasm-side-module)
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: Siv3DApp-wasm-side-module
           path: dist/v6-wasm-side-module-app
@@ -632,7 +632,7 @@ jobs:
         env: 
           BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
           BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
-        run: echo "::set-output name=keys-found::${{ env.BROWSERSTACK_USERNAME != '' && env.BROWSERSTACK_ACCESS_KEY != '' }}"
+        run: echo "keys-found=${{ env.BROWSERSTACK_USERNAME != '' && env.BROWSERSTACK_ACCESS_KEY != '' }}" >> $GITHUB_OUTPUT
 
   e2e-test:
     needs: [ build, e2e-test-prerequisites ]
@@ -649,10 +649,10 @@ jobs:
           access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
       
       - name: Checkout the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Restore Bundles
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: OpenSiv3D-Bundles-wasm
           path: .
