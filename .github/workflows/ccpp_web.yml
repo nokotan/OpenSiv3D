@@ -191,10 +191,6 @@ jobs:
             app-name: wasm-mt
             cmake-cflags: '-pthread'
             cmake-additional-flags: ''
-          - name: wasm-simd
-            app-name: wasm-simd
-            cmake-cflags: '-msimd128 -msse4.2'
-            cmake-additional-flags: ''
           - name: wasm-mt-simd
             app-name: wasm-mt-simd
             cmake-cflags: '-pthread -msimd128 -msse4.2'
@@ -280,7 +276,9 @@ jobs:
       matrix:
         config:
           - app-name: wasm
+          - app-name: wasm-mt
           - app-name: wasm-simd
+          - app-name: wasm-mt-simd
           # - app-name: wasm-wgpu
           - app-name: wasm-side-module
     steps:
