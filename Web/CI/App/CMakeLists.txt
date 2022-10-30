@@ -125,6 +125,7 @@ set(SIV3D_LINK_LIBRARIES
 set(SIV3DAPP_EXE_LINKER_FLAGS
   --emrun
   -sMODULARIZE=1
+  -sEXPORT_NAME=Runtime
   --shell-file=${SIV3D_APP_ROOT}/Templates/Embeddable/web-player.html
   --post-js=${SIV3D_APP_ROOT}/Templates/Embeddable/web-player.js
 )
