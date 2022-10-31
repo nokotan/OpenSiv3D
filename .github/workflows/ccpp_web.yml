@@ -321,9 +321,9 @@ jobs:
       matrix:
         config:
           - name: wasm
-            script: "Setup.iss"
+          - name: wasm-mt
           - name: wasm-simd
-            script: "Setup.iss"
+          - name: wasm-mt-simd
     
     steps:
       - name: Checkout code
@@ -343,14 +343,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: OpenSiv3D-Bundles-${{ matrix.config.name }}
-          path: .
+          path: Web
 
       - name: Restore Siv3D library
         if: ${{ fromJSON(needs.build.outputs.did-build) || !steps.cache_siv3d_installer.outputs.cache-hit }}
+        working-directory: Web
         run: |
           tar -xvf OpenSiv3D.tgz
-          mkdir Web/Build
-          cp -r Package/lib/* Web/Build
           
       - name: Compress Project Template
         if: ${{ fromJSON(needs.build.outputs.did-build) || !steps.cache_siv3d_installer.outputs.cache-hit }}
@@ -364,7 +363,7 @@ jobs:
         working-directory: Web/WindowsInstaller
         run: |
           mkdir -Force Output
-          iscc /O"Output" "./${{ matrix.config.script }}"
+          iscc /O"Output" "./Setup.iss"
        
       - name: Save Bundles
         uses: actions/upload-artifact@v3
@@ -380,9 +379,9 @@ jobs:
       matrix:
         config:
           - name: wasm
-            script: "Setup.iss"
+          - name: wasm-mt
           - name: wasm-simd
-            script: "Setup.iss"
+          - name: wasm-mt-simd
     env:
       MSBuild_path: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Current\\bin"
       VSIXInstaller_Path: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\IDE"
@@ -480,7 +479,9 @@ jobs:
       matrix:
         config:
           - name: wasm
+          - name: wasm-mt
           - name: wasm-simd
+          - name: wasm-mt-simd
     steps:
       - name: Restore Bundles
         uses: actions/download-artifact@v3
