@@ -1382,7 +1382,7 @@ install(
 )
 
 install(
-  DIRECTORY ${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/${Siv3DLibraryConfig}
+  DIRECTORY ${PROJECT_SOURCE_DIR}/../Siv3D/lib/Web/${Siv3DLibraryConfig}/
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/Siv3D
 )
 install(
