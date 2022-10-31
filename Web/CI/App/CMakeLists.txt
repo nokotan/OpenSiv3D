@@ -300,6 +300,10 @@ target_compile_definitions(Siv3DSharedMainApp PRIVATE ${Siv3DCompilerDefinitions
 target_compile_features(Siv3DSharedMainApp PRIVATE cxx_std_20) 
 target_compile_options(Siv3DSharedMainApp PRIVATE ${Siv3DCompilerOptions} -sSIDE_MODULE=2)
 target_link_options(Siv3DSharedMainApp PRIVATE ${Siv3DLinkerOptions} ${SIV3D_EXE_LINKER_FLAGS} -sSIDE_MODULE=2)
+set_target_properties(Siv3DSharedMainApp PROPERTIES
+    SUFFIX .wasm
+    OUTPUT_NAME Siv3DApp
+)
 
 target_asyncify_imports(Siv3DSharedMainApp ${SIV3D_SHAREDMAIN_APP_ASYNCIFY_IMPORTS})
 target_asyncify_add(Siv3DSharedMainApp ${SIV3D_SHAREDMAIN_APP_ASYNCIFY_ADD})
@@ -353,7 +357,10 @@ target_link_libraries(Siv3DSharedMain PRIVATE Siv3DInterface)
 target_compile_options(Siv3DSharedMain PRIVATE -sMAIN_MODULE=1)
 target_compile_definitions(Siv3DSharedMain PRIVATE ZSTD_TRACE=0)
 target_compile_features(Siv3DSharedMain PRIVATE cxx_std_20) 
-target_link_options(Siv3DSharedMain PRIVATE ${SIV3D_SHAREDMAIN_APP_LINKER_OPTIONS})
+target_link_options(Siv3DSharedMain PRIVATE 
+  ${SIV3D_SHAREDMAIN_APP_LINKER_OPTIONS}
+  --shell-file=${CMAKE_SOURCE_DIR}/SharedMainEntry.html
+)
 set_target_properties(Siv3DSharedMain 
   PROPERTIES
     SUFFIX ".html"

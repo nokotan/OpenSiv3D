@@ -310,9 +310,9 @@ jobs:
         if: ${{ matrix.config.app-name != 'wasm-side-module' }}
         run: emrun --timeout 60 --timeout_returncode 0 Siv3DApp.html
 
-      # - name: Test Siv3d App (Side Module)
-      #   if: ${{ matrix.config.app-name == 'wasm-side-module' }}
-      #   run: emrun --timeout 60 --timeout_returncode 0 Siv3D.html
+      - name: Test Siv3d App (Side Module)
+        if: ${{ matrix.config.app-name == 'wasm-side-module' }}
+        run: emrun --timeout 60 --timeout_returncode 0 Siv3D.html
       
   build-installer:
     needs: build
@@ -604,7 +604,7 @@ jobs:
           path: dist/v6-wasm-side-module-app
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v3.9.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: dist
