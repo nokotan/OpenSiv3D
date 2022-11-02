@@ -107,6 +107,7 @@ namespace s3d
 		//
 		//////////////////////////////////////////////////
 		GLuint m_vertexArray		= 0;
+		GLuint m_dummyVertexBuffer	= 0;
 		GLuint m_sampler			= 0;
 
 		// VertexBuilder でのメモリアロケーションを避けるためのバッファ

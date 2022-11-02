@@ -50,6 +50,12 @@ namespace s3d
 			m_sampler = 0;
 		}
 
+		if (m_dummyVertexBuffer)
+		{
+			::glDeleteBuffers(1, &m_dummyVertexBuffer);
+			m_dummyVertexBuffer = 0;
+		}
+
 		if (m_vertexArray)
 		{
 			::glDeleteVertexArrays(1, &m_vertexArray);
@@ -135,7 +141,13 @@ namespace s3d
 		// full screen triangle
 		{
 			::glGenVertexArrays(1, &m_vertexArray);
+			::glGenBuffers(1, &m_dummyVertexBuffer);
 			::glBindVertexArray(m_vertexArray);
+
+			::glEnableVertexAttribArray(0);
+			::glBindBuffer(GL_ARRAY_BUFFER, m_dummyVertexBuffer);
+			::glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 2 * 9, nullptr, GL_STATIC_DRAW);
+			::glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0);
 
 			::glGenSamplers(1, &m_sampler);
 			::glSamplerParameteri(m_sampler, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
