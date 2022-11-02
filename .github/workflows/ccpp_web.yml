@@ -461,7 +461,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       upload_url: ${{ steps.create-release.outputs.upload_url }}
-      html_url: ${{ steps.create-release.outputs.html_url }}
+      html_url: ${{ steps.fix-url.outputs.fixed-url }}
     steps:
       - name: Create release
         id: create-release
@@ -471,6 +471,10 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
+      - id: fix-url
+        run: |
+          DownloadUrl="${{ steps.create-release.outputs.html_url }}"
+          echo "fixed-url=${DownloadUrl//tag/download}" >> $GITHUB_OUTPUT
 
   deploy:
     needs: pre-deploy
