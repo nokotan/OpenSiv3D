@@ -12,8 +12,8 @@ SolidCompression=yes
 ChangesEnvironment=yes
 PrivilegesRequired=lowest
 OutputDir=userdocs:Inno Setup Examples Output
-DisableDirPage=no
-DisableReadyPage=no
+DisableDirPage=yes
+DisableReadyPage=yes
 
 [Languages]
 Name: "en"; MessagesFile: "compiler:Default.isl"
