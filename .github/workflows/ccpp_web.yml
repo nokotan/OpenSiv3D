@@ -308,11 +308,11 @@ jobs:
       
       - name: Test Siv3d App
         if: ${{ matrix.config.app-name != 'wasm-side-module' }}
-        run: emrun --timeout 180 --timeout_returncode -1 Siv3DApp.html
+        run: emrun --timeout 300 --timeout_returncode -1 Siv3DApp.html
 
       - name: Test Siv3d App (Side Module)
         if: ${{ matrix.config.app-name == 'wasm-side-module' }}
-        run: emrun --timeout 180 --timeout_returncode -1 Siv3D.html
+        run: emrun --timeout 300 --timeout_returncode -1 Siv3D.html
       
   build-installer:
     needs: build

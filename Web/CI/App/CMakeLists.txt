@@ -416,6 +416,10 @@ target_link_options(Siv3DTest PRIVATE
   -lnodefs.js
   --pre-js=${CMAKE_SOURCE_DIR}/../../../Test/Siv3DTest.js
 )
+set_target_properties(Siv3DTest
+  PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}
+)
 
 if(SIV3D_BUILD_TESTING)
   enable_testing()
