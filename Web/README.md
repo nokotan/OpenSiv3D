@@ -109,3 +109,14 @@ Project site: <https://siv3d.kamenokosoft.com/>
   emcmake cmake -DCMAKE_BUILD_TYPE=Release ..
   make
   ```
+
+## Building Third-Party Libraries
+
+Third-Party libraries, which is stored in the `Siv3D/lib/Web` folder, are updated by the script [`UpdateWasmLib.sh`](./Utils/UpdateWasmLib.sh).
+
+The update script uses **emlib package manager (emlib.sh)**, please refer to <https://github.com/nokotan/EmscriptenLibraries> for the details.
+
+```sh
+chmod +x Utils/UpdateWasmLib.sh
+Utils/UpdateWasmLib.sh
+```
