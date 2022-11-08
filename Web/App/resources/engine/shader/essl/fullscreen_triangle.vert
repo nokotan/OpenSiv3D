@@ -13,7 +13,7 @@ layout(location = 0) in vec2 unusedInput;
 // VSOutput
 //
 out vec2 UV;
-out vec2 unusedOutput;
+out vec2 placeHolderOutput;
 				
 void main()
 {
@@ -24,5 +24,5 @@ void main()
 	UV.x = (x + 1.0) * 0.5;
 	UV.y = (-y + 1.0) * 0.5;
 
-	unusedOutput = unusedInput;
+	placeHolderOutput = unusedInput;
 }
