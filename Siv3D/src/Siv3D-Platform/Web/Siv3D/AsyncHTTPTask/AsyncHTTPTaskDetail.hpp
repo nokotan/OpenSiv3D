@@ -47,7 +47,7 @@ namespace s3d
 		[[nodiscard]]
 		const HTTPResponse& getResponse();
 
-		void resolveResponse();
+		void resolveResponse(const HTTPResponse&);
 
 		[[nodiscard]]
 		HTTPAsyncStatus getStatus();
@@ -81,6 +81,8 @@ namespace s3d
 		////
 
 		URL m_url;
+
+		AsyncTask<HTTPResponse> m_task;
 
 		HTTPResponse m_response;
 

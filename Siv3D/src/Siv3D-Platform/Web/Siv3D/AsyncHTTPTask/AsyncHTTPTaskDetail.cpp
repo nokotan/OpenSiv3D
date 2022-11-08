@@ -22,22 +22,22 @@ namespace s3d
 	{
 		static void OnLoadCallBack(unsigned requestID, void* userData, const char* locatedFileName)
 		{
+			HTTPResponse response{ std::string("HTTP/1.1 200 Ok\n") };
 			auto& httpTask = *static_cast<AsyncHTTPTaskDetail*>(userData);
 
-			httpTask.updateResponseStatus("HTTP/1.1 200 Ok\n");
-			httpTask.setStatus(HTTPAsyncStatus::Succeeded);
-			httpTask.resolveResponse();
+			httpTask.setStatus(HTTPAsyncStatus::Failed);
+			httpTask.resolveResponse(response);
 
 			EM_ASM("setTimeout(function() { _siv3dMaybeAwake(); }, 0)");
 		}
 
 		static void OnErrorCallback(unsigned requestID, void* userData, int statusCode)
 		{
+			HTTPResponse response{ std::string(U"HTTP/1.1 {} Unknown\n"_fmt(statusCode).toUTF8()) };
 			auto& httpTask = *static_cast<AsyncHTTPTaskDetail*>(userData);
 
-			httpTask.updateResponseStatus(U"HTTP/1.1 {} Unknown\n"_fmt(statusCode).toUTF8());
 			httpTask.setStatus(HTTPAsyncStatus::Failed);
-			httpTask.resolveResponse();
+			httpTask.resolveResponse(response);
 
 			EM_ASM("setTimeout(function() { _siv3dMaybeAwake(); }, 0)");
 		}
@@ -73,7 +73,7 @@ namespace s3d
 
 	bool AsyncHTTPTaskDetail::isReady() const
 	{
-		return m_progress_internal.status == HTTPAsyncStatus::Succeeded;
+		return m_task.isReady();
 	}
 
 	void AsyncHTTPTaskDetail::cancel()
@@ -89,12 +89,28 @@ namespace s3d
 
 	const HTTPResponse& AsyncHTTPTaskDetail::getResponse()
 	{
+		if (m_task.isReady())
+		{
+			m_response = m_task.get();
+		}
+
 		return m_response;
 	}
 
-	void AsyncHTTPTaskDetail::resolveResponse()
+	void AsyncHTTPTaskDetail::resolveResponse(const HTTPResponse& response)
 	{
-		m_promise.set_value(m_response);
+		// CreateAsyncTask で作成した AsyncTask を resolved 状態にする
+		{
+			m_promise.set_value(response);
+		}
+
+		// m_task を resolved 状態にする
+		{
+			std::promise<HTTPResponse> resolvedPromise;
+		
+			resolvedPromise.set_value(response);
+			m_task = resolvedPromise.get_future();
+		}
 	}
 
 	HTTPAsyncStatus AsyncHTTPTaskDetail::getStatus()
