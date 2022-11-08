@@ -12,7 +12,7 @@ SolidCompression=yes
 ChangesEnvironment=yes
 PrivilegesRequired=lowest
 OutputDir=userdocs:Inno Setup Examples Output
-DisableDirPage=yes
+DisableDirPage=no
 DisableReadyPage=yes
 
 [Languages]
