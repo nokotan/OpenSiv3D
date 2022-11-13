@@ -15,6 +15,7 @@
 # include "EngineOptions.hpp"
 # include "HashTable.hpp"
 # include "AsyncTask.hpp"
+# include "InputGroup.hpp"
 # include "Optional.hpp"
 
 namespace s3d
@@ -79,14 +80,25 @@ namespace s3d
 		[[noreturn]] 
 		void SetMainLoop(std::function<void()> mainLoop);
 
+		/// @brief 指定した AsyncTask の準備ができるまで待機します
+		template<class Type>
+		Optional<Type> WaitForFutureResolved(AsyncTask<Type>& task);
+	}
+
+	namespace Platform::Web
+	{
 		/// @brief 現在のページのクエリ文字列を取得します
 		/// @return 現在のページのクエリ文字列
 		[[nodiscard]]
 		HashTable<String, String> GetURLParameters();
 
-		/// @brief 指定した AsyncTask の準備ができるまで待機します
-		template<class Type>
-		Optional<Type> WaitForFutureResolved(AsyncTask<Type>& task);
+		/// @brief 指定したキーボード入力によるブラウザのキーボードショートカットを無効化します
+		/// @remarks タブを閉じるなど、一部のキーボードショートカットはブラウザの制約により無効化することができません
+		void EnableKeyboardEvent(const InputGroup& keyInputGroup, bool enabled);
+
+		/// @brief ブラウザ側が用意しているキーボードショートカットを可能な限り無効化します
+		/// @remarks タブを閉じるなど、一部のキーボードショートカットはブラウザの制約により無効化することができません
+		void DisbaleKeyboardShortcuts();
 	}
 
 # endif

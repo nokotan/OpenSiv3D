@@ -1339,6 +1339,71 @@ mergeInto(LibraryManager.library, {
     siv3dDeleteXMLHTTPRequest__deps: [ "$siv3dXMLHTTPRequestList" ],
 
     //
+    // Disabling Browser Shortcut
+    //
+    $siv3dDisabledKeyBindings: [],
+    siv3dInitDisableKeyBindings: function() {
+        function onKeyEvent(e) {
+            const key = {
+                keyCode: GLFW.DOMToGLFWKeyCode(e.keyCode),
+                ctrlKey: e.ctrlKey, shiftKey: e.shiftKey, altKey: e.altKey, metaKey: e.metaKey
+            };
+
+            function compareObject(obj) {
+                return JSON.stringify(obj) == JSON.stringify(key);
+            }
+    
+            const index = siv3dDisabledKeyBindings.findIndex(compareObject);
+
+            if (index !== -1) {
+                e.preventDefault();
+            }
+        }
+
+        window.addEventListener("keydown", onKeyEvent);
+    },
+    siv3dInitDisableKeyBindings__sig: "v",
+    siv3dInitDisableKeyBindings__deps: [ "$siv3dDisabledKeyBindings" ],
+
+    siv3dDisableKeyBindings: function(keyCode, ctrlKey, shiftKey, altKey, metaKey, disabled) {
+        const key = {
+            keyCode,
+            ctrlKey, shiftKey, altKey, metaKey
+        };
+
+        function compareObject(obj) {
+            return JSON.stringify(obj) == JSON.stringify(key);
+        }
+
+        const index = siv3dDisabledKeyBindings.findIndex(compareObject);
+
+        if (disabled) {
+            if (index === -1) {
+                siv3dDisabledKeyBindings.push(key);
+            }
+        } else {
+            if (index !== -1) {
+                delete siv3dDisabledKeyBindings[index];
+            }
+        }
+    },
+    siv3dDisableKeyBindings__sig: "viiiiii",
+    siv3dDisableKeyBindings__deps: [ "$siv3dDisabledKeyBindings" ],
+
+    siv3dDisableAllKeyBindings: function(disabled) {
+        function onKeyEvent(e) {
+            e.preventDefault();
+        }
+
+        if (disabled) {
+            window.addEventListener("keydown", onKeyEvent);
+        } else {
+            window.removeEventListener("keydown", onKeyEvent);
+        }
+    },
+    siv3dDisableAllKeyBindings__sig: "vi",
+
+    //
     // Asyncify Support
     //
 #if ASYNCIFY
