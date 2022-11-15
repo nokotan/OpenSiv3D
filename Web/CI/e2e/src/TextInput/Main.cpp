@@ -20,7 +20,7 @@ void Main()
 	Scene::SetResizeMode(ResizeMode::Keep);
 	TextEditState textState;
 
-	Platform::Web::DisbaleKeyboardShortcuts();
+	Platform::Web::System::DisbaleBrowserKeyboardShortcuts();
 	
 	while (System::Update())
 	{
