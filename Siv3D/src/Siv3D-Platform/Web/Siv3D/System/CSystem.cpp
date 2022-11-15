@@ -70,9 +70,6 @@ namespace s3d
 
 		__attribute__((import_name("siv3dRequestAnimationFrame")))
 		extern void siv3dRequestAnimationFrame();
-
-		__attribute__((import_name("siv3dInitDisableKeyBindings")))
-		extern void siv3dInitDisableKeyBindings();
 	}
 
 	CSystem::CSystem()
@@ -132,7 +129,6 @@ namespace s3d
 
 		detail::siv3dStartUserActionHook();
 		detail::siv3dInitDialog();
-		detail::siv3dInitDisableKeyBindings();
 	}
 
 	bool CSystem::update()

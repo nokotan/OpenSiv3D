@@ -12,8 +12,7 @@
 # include <Siv3D/System.hpp>
 # include <Siv3D/FileSystem.hpp>
 # include <Siv3D/Unicode.hpp>
-# include <Siv3D/Input.hpp>
-# include <Siv3D/InputGroup.hpp>
+# include <Siv3D/InputGroups.hpp>
 # include <emscripten.h>
 # include <GLFW/glfw3.h>
 
@@ -85,10 +84,7 @@ namespace s3d
 			static std::function<void()> g_mainLoop = mainLoop;
 			::emscripten_set_main_loop_arg(&detail::RunMainLoop, &g_mainLoop, 0, 1);
 		}
-	}
-
-	namespace Platform::Web
-	{
+	
 		namespace detail
 		{
 			static HashTable<uint8, uint16> KeyConversionTable
@@ -223,8 +219,8 @@ namespace s3d
 			__attribute__((import_name("siv3dGetURLParameters")))
 			extern char **siv3dGetURLParameters();
 
-			__attribute__((import_name("siv3dDisableKeyBindings")))
-			void siv3dDisableKeyBindings(uint16 keyCode, bool ctrlKey, bool shiftKey, bool altKey, bool metaKey, bool disabled);
+			__attribute__((import_name("siv3dAddAllowedKeyBinding")))
+			void siv3dAddAllowedKeyBinding(uint16 keyCode, bool ctrlKey, bool shiftKey, bool altKey, bool metaKey, bool allowed);
 
 			__attribute__((import_name("siv3dDisableAllKeyBindings")))
 			void siv3dDisableAllKeyBindings(bool disabled);
@@ -256,44 +252,24 @@ namespace s3d
 			return result;
 		}
 
-		void EnableKeyboardEvent(const InputGroup& keyInputGroup, bool enabled)
+		void DisbaleBrowserKeyboardShortcuts(const Array<BrowserKeyboardShorcut>& allowList)
 		{
-			for (const auto& input : keyInputGroup.inputs())
+			for (auto [ key, modifier ] : allowList)
 			{
-				if (input.deviceType() != InputDeviceType::Keyboard) 
+				if (key.deviceType() != InputDeviceType::Keyboard) 
 				{
 					continue;
 				}
 
-				if (const auto& code = detail::KeyConversionTable.find(input.code()); code != detail::KeyConversionTable.end())
+				const auto ctrlKey = static_cast<bool>(FromEnum(modifier) & FromEnum(KeyModifier::Control));
+				const auto shiftKey = static_cast<bool>(FromEnum(modifier) & FromEnum(KeyModifier::Shift));
+
+				if (const auto& code = detail::KeyConversionTable.find(key.code()); code != detail::KeyConversionTable.end())
 				{
-					detail::siv3dDisableKeyBindings(code->second, false, false, false, false, not enabled);
+					detail::siv3dAddAllowedKeyBinding(code->second, ctrlKey, shiftKey, false, false, true);
 				}
 			}
 
-			for (const auto& inputCombination : keyInputGroup.inputCombinations())
-			{
-				const auto input1 = inputCombination.input1();
-				const auto input2 = inputCombination.input2();
-
-				if (input1.deviceType() != InputDeviceType::Keyboard || input2.deviceType() != InputDeviceType::Keyboard)
-				{
-					continue;
-				}
-
-				const bool shiftKey = input1.code() == 0x10;
-				const bool ctrlKey = input1.code() == 0x11;
-				const bool altKey = input1.code() == 0x12;
-
-				if (const auto& code = detail::KeyConversionTable.find(input2.code()); code != detail::KeyConversionTable.end())
-				{
-					detail::siv3dDisableKeyBindings(code->second, ctrlKey, shiftKey, altKey, false, not enabled);
-				}
-			}
-		}
-
-		void DisbaleKeyboardShortcuts()
-		{
 			detail::siv3dDisableAllKeyBindings(true);
 		}
 	}
