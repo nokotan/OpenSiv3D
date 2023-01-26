@@ -414,14 +414,10 @@ add_executable(Siv3DTest
   ../../../Test/Siv3DTest_TextWriter.cpp
 )
 
-target_compile_options(Siv3DTest PRIVATE
-  -fwasm-exceptions
-)
 target_link_libraries(Siv3DTest PRIVATE Siv3DInterface)
 target_link_options(Siv3DTest PRIVATE 
   -lnodefs.js
   --pre-js=${CMAKE_SOURCE_DIR}/../../../Test/Siv3DTest.js
-  -fwasm-exceptions
 )
 set_target_properties(Siv3DTest
   PROPERTIES

@@ -40,6 +40,7 @@ set(SIV3D_CXX_DEFINITION
 
 # Linker flags
 set(SIV3D_EXE_LINKER_FLAGS
+  -fwasm-exceptions
   --js-library=\${_IMPORT_PREFIX}/${CMAKE_INSTALL_LIBDIR}/Siv3D/Siv3D.js
   --pre-js=\${_IMPORT_PREFIX}/${CMAKE_INSTALL_LIBDIR}/Siv3D/Siv3D.pre.js
   --post-js=\${_IMPORT_PREFIX}/${CMAKE_INSTALL_LIBDIR}/Siv3D/Siv3D.post.js
