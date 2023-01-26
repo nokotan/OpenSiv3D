@@ -168,7 +168,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
       - name: Test project
         working-directory: Web/CI/App
         run: node --experimental-wasm-simd Siv3DTest.js

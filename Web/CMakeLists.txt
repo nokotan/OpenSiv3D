@@ -12,7 +12,7 @@ option(BUILD_SHARED_LIBS "Build 3rd party libraries as shared libraries (lib*.wa
 include(GNUInstallDirs)
 
 # C flags
-set(SIV3D_C_FLAGS -Wall -Wextra -Wno-missing-field-initializers)
+set(SIV3D_C_FLAGS -Wall -Wextra -Wno-missing-field-initializers -fwasm-exceptions)
 set(SIV3D_C_FLAGS_DEBUG -g3 -O0 -pg -DDEBUG)
 set(SIV3D_C_FLAGS_RELEASE -O2 -DNDEBUG)
 set(SIV3D_C_FLAGS_RELWITHDEBINFO -g3 -Og -pg)
@@ -23,7 +23,7 @@ set(SIV3D_C_DEFINITION
 )
 
 # C++ flags
-set(SIV3D_CXX_FLAGS -Wall -Wextra -Wno-unknown-pragmas -Wno-enum-constexpr-conversion)
+set(SIV3D_CXX_FLAGS -Wall -Wextra -Wno-unknown-pragmas -Wno-enum-constexpr-conversion -fwasm-exceptions)
 set(SIV3D_CXX_FLAGS_DEBUG -g3 -O0 -pg -DDEBUG)
 set(SIV3D_CXX_FLAGS_RELEASE -O2 -DNDEBUG)
 set(SIV3D_CXX_FLAGS_RELWITHDEBINFO -g3 -Og -pg)
@@ -57,12 +57,6 @@ if (NOT CMAKE_CONFIGURATION_TYPES AND
     CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
     message(STATUS "[!] Setting build type to 'Release' as none was specified.")
     set(CMAKE_BUILD_TYPE Release)
-endif()
-
-# Use exception handling when configuration is not MINSIZEREL
-if (NOT CMAKE_BUILD_TYPE STREQUAL "MINSIZEREL")
-  list(APPEND SIV3D_C_FLAGS -sEXCEPTION_CATCHING_ALLOWED=["main","_ZN3s3d7TryMainEv"])
-  list(APPEND SIV3D_CXX_FLAGS -sEXCEPTION_CATCHING_ALLOWED=["main","_ZN3s3d7TryMainEv"])
 endif()
 
 if ("${CMAKE_C_FLAGS}" MATCHES "-msimd128" OR "${CMAKE_CXX_FLAGS}" MATCHES "-msimd128")

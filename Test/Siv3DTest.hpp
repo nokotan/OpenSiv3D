@@ -14,6 +14,7 @@
 # define CATCH_CONFIG_ENABLE_BENCHMARKING
 # include <ThirdParty/Catch2/catch.hpp>
 # include <Siv3D.hpp>
+# include "Siv3DTest_StdOut.hpp"
 using namespace s3d;
 using namespace std::literals;
 
