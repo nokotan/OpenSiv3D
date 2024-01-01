@@ -5,7 +5,7 @@ mergeInto(LibraryManager.library, {
     siv3dInitTextInput: function() {
         const textInput = document.createElement("div");
         textInput.id = "textinput";
-        textInput.contentEditable = true;
+        textInput.contentEditable = "plaintext-only";
         textInput.style.position = "absolute";
         textInput.style.width = "100px";
         textInput.style.zIndex = -2;
