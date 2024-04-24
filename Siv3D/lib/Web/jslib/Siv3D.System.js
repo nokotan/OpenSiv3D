@@ -172,13 +172,7 @@ mergeInto(LibraryManager.library, {
             let awake = siv3dAwakeFunction;
             siv3dAwakeFunction = null;
 
-            try {
-                awake();
-            } catch (e) {
-                handleException(e);
-            } finally {
-                maybeExit();
-            }
+            callUserCallback(awake);
         }
     },
     siv3dMaybeAwake__sig: "v",
@@ -187,13 +181,7 @@ mergeInto(LibraryManager.library, {
     siv3dRequestAnimationFrame: function() {
         Asyncify.handleSleep(function(wakeUp) {
             requestAnimationFrame(function() {
-                try {
-                    wakeUp();
-                } catch (e) {
-                    handleException(e);
-                } finally {
-                    maybeExit();
-                }
+                callUserCallback(wakeUp);
             });
         });
     },

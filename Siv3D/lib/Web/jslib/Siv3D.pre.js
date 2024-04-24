@@ -1,10 +1,8 @@
 (function() 
 {
-    Module["onAlert"] = Module["onAlert"] || function(text) {
-        window.alert(text);
-    };
-
-    const originalOnAbort = Module["onAbort"];
+    const onAbort = Module["onAbort"] || ((e) => {
+        window.alert(e);
+    });
 
     Module["onAbort"] = function(e) 
     {
@@ -17,27 +15,28 @@ Please refer https://webassembly.org/roadmap/ to check which webassembly feature
 \
 Original Error: " + e;
             
-            Module["onAlert"](additionalMessage);
+            onAbort(additionalMessage);
         }
         else if (e instanceof ProgressEvent)
         {
-            Module["onAlert"]("Browser seems to blocked fetch required assets. \
+            onAbort("Browser seems to blocked fetch required assets. \
 The application has been launched from explorer, which is not supported. \
 Please launch emrun or your favorite HTTP server and access this application through it.");
         }
         else if (e instanceof ReferenceError && e.message.includes("WebAssembly"))
         {
-            Module["onAlert"]("The application cannot be launched with this browser. \
+            onAbort("The application cannot be launched with this browser. \
 The application requires that this browser supports WebAssembly, which seems to be not available in this browser.\
 Please use another browser that supports WebAssembly.")
         }
-        else if (typeof e === "string" && e !== "" && e !== "native code called abort()")
+        else
         {
-            Module["siv3dSetThrowJSException"](e);
+            onAbort(e);
         }
-
-        if (originalOnAbort) {
-            originalOnAbort(e);
-        }
+        // Test stub: throw JSException instead of abort.
+        // else if (typeof e === "string" && e !== "" && e !== "native code called abort()")
+        // {
+        //     Module["siv3dSetThrowJSException"](e);
+        // }
     };
 })();

@@ -366,7 +366,9 @@
 
       let hasRaiseRuntimeError = false;
 
-      function onRuntimeError() {
+      function handleRuntimeError(e) {
+        document.querySelector(".error-text").textContent = e.toString()
+
         progressElement.classList.add('progress-error');
         progressElement.style.width = '100%';
         progressElement.hidden = false;
@@ -378,10 +380,8 @@
         preRun: [],
         postRun: [ doResize, onAudioInit ],
         onAbort: function (e) {
-          onRuntimeError();
-        },
-        onAlert: function (text) {
-          document.querySelector(".error-text").textContent = text;
+          handleRuntimeError(e);
+          Options.onRuntimeExit();
         },
         canvas: (function () {
           var canvas = document.getElementById("canvas");
@@ -392,8 +392,7 @@
           canvas.addEventListener(
             "webglcontextlost",
             function (e) {
-                alert("WebGL context lost. You will need to reload the page.");
-                onRuntimeError();
+                handleRuntimeError("WebGL context lost. You will need to reload the page.");
                 e.preventDefault();
             },
             false
