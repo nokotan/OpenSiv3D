@@ -1614,6 +1614,7 @@ target_link_options(Siv3DTest PRIVATE
   -g2
   -fexceptions
   -sASYNCIFY=1
+  --pre-js=${PROJECT_SOURCE_DIR}/../Test/Siv3DTest.js
   --preload-file=${PROJECT_SOURCE_DIR}/../Test/test@/test
   --preload-file=${PROJECT_SOURCE_DIR}/App/resources@/resources
   --preload-file=${PROJECT_SOURCE_DIR}/App/example@/example
@@ -1645,6 +1646,7 @@ target_link_options(Siv3DUnitTest PRIVATE
   --emrun
   -fexceptions
   -sASYNCIFY=1
+  --pre-js=${PROJECT_SOURCE_DIR}/../Test/Siv3DTest.js
   --preload-file=${PROJECT_SOURCE_DIR}/../Test/test@/test
   --preload-file=${PROJECT_SOURCE_DIR}/App/resources@/resources
   --preload-file=${PROJECT_SOURCE_DIR}/App/example@/example

@@ -21,6 +21,18 @@ TEST_CASE("DLL")
 		REQUIRE_THROWS_MATCHES(DLL::Load(U"libsub.so"), s3d::EngineError, EngineErrorMatcher(U"To use dlopen, you need enable dynamic linking, see https://github.com/emscripten-core/emscripten/wiki/Linking"));
 	}
 
+	SECTION("Undefined Symbol")
+	{
+		extern void NonExistentFunction();
+
+		// FIXME: -1 is thrown when unresolved function is called in emscripten 3.1.20.
+		// We should migrate to emscripten 3.1.53, in which unresolved symbol report will be thrown.
+		// 
+		// abort(-1); // emscripten 3.1.20, not user friendly abort
+		// abort("missing function: _Z19NonExistentFunctionv"); // emscripten 3.1.53
+		REQUIRE_THROWS_MATCHES(NonExistentFunction(), s3d::EngineError, EngineErrorMatcher(U"-1"));
+	}
+
 # else
 
 	SECTION("Existent Module")

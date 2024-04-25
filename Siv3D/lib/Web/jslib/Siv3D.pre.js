@@ -33,10 +33,5 @@ Please use another browser that supports WebAssembly.")
         {
             onAbort(e);
         }
-        // Test stub: throw JSException instead of abort.
-        // else if (typeof e === "string" && e !== "" && e !== "native code called abort()")
-        // {
-        //     Module["siv3dSetThrowJSException"](e);
-        // }
     };
 })();

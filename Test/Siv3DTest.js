@@ -1,67 +1,16 @@
-//
-// Mock implementation for Node.js
-//
-
-Module.preRun = [
-  function () 
+// Test stub: throw JSException instead of abort.
+Module["onAbort"] = function(e) { 
+  if ((e !== "" && e !== "native code called abort()"))
   {
-    FS.mkdir('/test');
-    FS.mount(NODEFS, { root: '../../../Test/test' }, '/test');
-
-    FS.mkdir('/resources');
-    FS.mount(NODEFS, { root: '../../App/resources' }, '/resources');
-
-    //
-    // Mock Implementations 
-    //
-    global.navigator = {
-      getGamepads() { return []; }
-    };
-
-    global.window = {
-      alert(text) { console.error(text); },
-      addEventListener() {},
-      removeEventListener() {},
-      speechSynthesis: {
-        getVoices() { return []; }
-      },
-      screen: {}
-    };
-
-    global.document = {
-      createElement() { 
-        return { 
-          style: {},
-          addEventListener() {},
-          removeEventListener() {},
-        };
-      }, 
-    };
-    
-    Module.canvas = {
-      style: {
-        removeProperty() {}
-      },
-      parentNode: {
-        prepend() {}
-      },
-      addEventListener() {},
-      removeEventListener() {},
-    };
-
-    global.FileReader = class {
-      constructor() {}
-    };
-
-    global.Notification = {
-      permission: "granted",
-      requestPermission() {}
-    };
-
-    global.XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-
-    global.requestAnimationFrame = function(callback) {
-      setTimeout(callback, 16);
-    };
+      Module["siv3dSetThrowJSException"](e);
   }
-];
+
+  if (e === -1) {
+    // FIXME: -1 is thrown when unresolved function is called in emscripten 3.1.20.
+    // We should migrate to emscripten 3.1.53, in which unresolved symbol report will be thrown.
+    // 
+    // abort(-1); // emscripten 3.1.20, not user friendly abort
+    // abort("missing function: <some function name>"); // emscripten 3.1.53
+    Module["siv3dSetThrowJSException"](e.toString());
+  }
+};
